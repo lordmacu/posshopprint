@@ -5,6 +5,8 @@ import '../AppThemeNotifier.dart';
 import '../AppTheme.dart';
 import '../utils/SizeConfig.dart';
 import 'RegisterScreen.dart';
+import '../api/client/ApiClientLogin.dart' as apiLogin;
+import '../widget/SimpleDialogWidget.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -14,7 +16,16 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   late ThemeData themeData;
-  bool _passwordVisible = false;
+  bool _isPasswordVisible = false;
+  bool _isButtonDisabled = false;
+  String email = '';
+  String password = '';
+
+  void _showDialog(String title, String message) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) => SimpleDialogWidget(title, message));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -89,6 +100,9 @@ class _LoginScreenState extends State<LoginScreen> {
                             }
                             // return null;
                           },
+                          onChanged: (value) {
+                            setState(() => email = value);
+                          },
                           keyboardType: TextInputType.emailAddress,
                           textCapitalization: TextCapitalization.sentences,
                         ),
@@ -97,7 +111,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         margin: EdgeInsets.only(top: MySize.size16!),
                         child: TextFormField(
                           autofocus: false,
-                          obscureText: _passwordVisible,
+                          obscureText: _isPasswordVisible,
                           style: AppTheme.getTextStyle(
                               themeData.textTheme.bodyText1,
                               letterSpacing: 0.1,
@@ -134,11 +148,11 @@ class _LoginScreenState extends State<LoginScreen> {
                             suffixIcon: InkWell(
                               onTap: () {
                                 setState(() {
-                                  _passwordVisible = !_passwordVisible;
+                                  _isPasswordVisible = !_isPasswordVisible;
                                 });
                               },
                               child: Icon(
-                                _passwordVisible
+                                _isPasswordVisible
                                     ? MdiIcons.eyeOutline
                                     : MdiIcons.eyeOffOutline,
                                 size: MySize.size22,
@@ -152,6 +166,9 @@ class _LoginScreenState extends State<LoginScreen> {
                               return 'El campo no puede estar en blanco';
                             }
                             // return null;
+                          },
+                          onChanged: (value) {
+                            setState(() => password = value);
                           },
                           textCapitalization: TextCapitalization.sentences,
                         ),
@@ -193,14 +210,27 @@ class _LoginScreenState extends State<LoginScreen> {
                           style: ButtonStyle(
                               padding:
                                   MaterialStateProperty.all(Spacing.xy(16, 0))),
-                          onPressed: () {
-                            if (_formKey.currentState!.validate()) {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => RegisterScreen()));
-                            }
-                          },
+                          onPressed: _isButtonDisabled
+                              ? null
+                              : () {
+                                  if (_formKey.currentState!.validate()) {
+                                    setState(() => _isButtonDisabled = true);
+                                    apiLogin
+                                        .post(email, password)
+                                        .then((response) {
+                                      debugPrint(response.token);
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  RegisterScreen()));
+                                    }).catchError((error) {
+                                      debugPrint(error.toString());
+                                      _showDialog("Error", error.toString());
+                                      setState(() => _isButtonDisabled = false);
+                                    });
+                                  }
+                                },
                           child: Text(
                             "INICIAR SESIÓN",
                             style: AppTheme.getTextStyle(
