@@ -7,6 +7,8 @@ import '../utils/SizeConfig.dart';
 import 'RegisterScreen.dart';
 import '../api/client/ApiClientLogin.dart' as apiLogin;
 import '../widget/SimpleDialogWidget.dart';
+import '../AppToken.dart';
+import 'SelectStoreScreen.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -16,6 +18,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   late ThemeData themeData;
+  AppToken appToken = AppToken();
   bool _isPasswordVisible = false;
   bool _isButtonDisabled = false;
   String email = '';
@@ -218,12 +221,14 @@ class _LoginScreenState extends State<LoginScreen> {
                                     apiLogin
                                         .post(email, password)
                                         .then((response) {
-                                      debugPrint(response.token);
+                                      appToken.set(response.token);
+                                      debugPrint('Token en AppToken: ${appToken.get()}');
                                       Navigator.push(
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) =>
-                                                  RegisterScreen()));
+                                                  SelectStoreScreen()));
+                                      setState(() => _isButtonDisabled = false);
                                     }).catchError((error) {
                                       debugPrint(error.toString());
                                       _showDialog("Error", error.toString());

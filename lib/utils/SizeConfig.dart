@@ -286,7 +286,6 @@ class Shape{
     switch(shapeTypeFor) {
       case ShapeTypeFor.container:
         return borderRadius;
-        break;
       case ShapeTypeFor.button:
         return RoundedRectangleBorder(
             borderRadius: borderRadius);

@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AppThemeNotifier extends ChangeNotifier {
-
   int _themeMode = 1;
 
   AppThemeNotifier() {
@@ -16,8 +15,8 @@ class AppThemeNotifier extends ChangeNotifier {
 
   init() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    int? data =  sharedPreferences.getInt("themeMode");
-    if(data==null)
+    int? data = sharedPreferences.getInt("themeMode");
+    if (data == null)
       _themeMode = 1;
     else
       _themeMode = data;
