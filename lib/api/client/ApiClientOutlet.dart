@@ -3,15 +3,14 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:posshop_app/model/dto/Outlet.dart';
+import 'package:posshop_app/model/dto/OutletRequest.dart';
 import 'package:posshop_app/exceptions/FetchException.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import '../../data/SPToken.dart';
 
-Future<Outlet> get() async {
-  SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-  String? token = sharedPreferences.getString("token");
+Future<OutletRequest> get() async {
+  String token = await SPToken.get();
 
-  if (token == null) {
+  if (token == '') {
     throw Exception('No autenticado');
   }
 
@@ -25,7 +24,7 @@ Future<Outlet> get() async {
   debugPrint('Bearer $token');
   debugPrint(response.body);
   if (response.statusCode == 200) {
-    return Outlet.fromJson(jsonDecode(response.body));
+    return OutletRequest.fromJson(jsonDecode(response.body));
   } else {
     throw FetchException(jsonDecode(response.body)['message']);
   }

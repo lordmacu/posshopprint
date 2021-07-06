@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:posshop_app/model/db/TokenDB.dart';
 import 'package:provider/provider.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import '../AppThemeNotifier.dart';
@@ -7,7 +8,7 @@ import '../utils/SizeConfig.dart';
 import 'RegisterScreen.dart';
 import '../api/client/ApiClientLogin.dart' as apiLogin;
 import '../widget/SimpleDialogWidget.dart';
-import '../AppToken.dart';
+import '../data/SPToken.dart';
 import 'SelectStoreScreen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -18,7 +19,6 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   late ThemeData themeData;
-  AppToken appToken = AppToken();
   bool _isPasswordVisible = false;
   bool _isButtonDisabled = false;
   String email = '';
@@ -39,6 +39,20 @@ class _LoginScreenState extends State<LoginScreen> {
           debugShowCheckedModeBanner: false,
           theme: AppTheme.getThemeFromThemeMode(value.themeMode()),
           home: Scaffold(
+            appBar: AppBar(
+              elevation: 0,
+              backgroundColor: themeData.appBarTheme.color,
+              title: Text("Iniciar Sesión",
+                  style: AppTheme.getTextStyle(themeData.textTheme.headline6,
+                      fontWeight: 600)),
+              leading: IconButton(
+                onPressed: () => Navigator.of(context).pop(),
+                icon: Icon(
+                  MdiIcons.chevronLeft,
+                  color: themeData.colorScheme.onBackground,
+                ),
+              ),
+            ),
             backgroundColor: themeData.scaffoldBackgroundColor,
             body: Form(
               key: _formKey,
@@ -48,16 +62,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: ListView(
                     shrinkWrap: true,
                     children: <Widget>[
-                      Container(
-                        child: Center(
-                          child: Text(
-                            "Iniciar Sesión",
-                            style: AppTheme.getTextStyle(
-                                themeData.textTheme.headline6,
-                                fontWeight: 600),
-                          ),
-                        ),
-                      ),
                       Container(
                         margin: EdgeInsets.only(top: MySize.size24!),
                         child: TextFormField(
@@ -221,16 +225,19 @@ class _LoginScreenState extends State<LoginScreen> {
                                     apiLogin
                                         .post(email, password)
                                         .then((response) {
-                                      appToken.set(response.token);
-                                      debugPrint('Token en AppToken: ${appToken.get()}');
+                                      SPToken.set(response.token);
+                                      TokenDB tokenDB = new TokenDB(
+                                          email: email,
+                                          password: password);
                                       Navigator.push(
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) =>
-                                                  SelectStoreScreen()));
+                                                  SelectStoreScreen(
+                                                    tokenDB: tokenDB,
+                                                  )));
                                       setState(() => _isButtonDisabled = false);
                                     }).catchError((error) {
-                                      debugPrint(error.toString());
                                       _showDialog("Error", error.toString());
                                       setState(() => _isButtonDisabled = false);
                                     });

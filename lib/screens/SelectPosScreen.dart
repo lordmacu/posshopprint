@@ -1,36 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:posshop_app/data/dao/PosDao.dart';
+import 'package:posshop_app/data/dao/TokenDao.dart';
+import 'package:posshop_app/model/db/PosDB.dart';
 import 'package:posshop_app/model/db/TokenDB.dart';
-import 'package:posshop_app/model/dto/OutletRequest.dart';
+import 'package:posshop_app/model/dto/StoreRequest.dart';
 import 'package:provider/provider.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import '../AppThemeNotifier.dart';
 import '../AppTheme.dart';
 import '../utils/SizeConfig.dart';
-import 'SelectPosScreen.dart';
-import '../model/dto/StoreRequest.dart';
-import 'package:posshop_app/api/client/ApiClientOutlet.dart' as apiOutlet;
+import 'RegisterScreen.dart';
 
-class SelectStoreScreen extends StatefulWidget {
+class SelectPosScreen extends StatefulWidget {
   final TokenDB tokenDB;
+  final StoreRequest store;
 
-  SelectStoreScreen({Key? key, required this.tokenDB}) : super(key: key);
+  SelectPosScreen({Key? key, required this.store, required this.tokenDB})
+      : super(key: key);
 
   @override
-  createState() => _SelectStoreScreen();
+  createState() => _SelectPosScreen();
 }
 
-class _SelectStoreScreen extends State<SelectStoreScreen> {
+class _SelectPosScreen extends State<SelectPosScreen> {
   final _formKey = GlobalKey<FormState>();
   late ThemeData themeData;
-  late Future<OutletRequest> futureOutlet;
   bool _isButtonDisabled = false;
-  StoreRequest? store;
-
-  @override
-  void initState() {
-    super.initState();
-    futureOutlet = apiOutlet.get();
-  }
+  int? pos;
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +40,7 @@ class _SelectStoreScreen extends State<SelectStoreScreen> {
             appBar: AppBar(
               elevation: 0,
               backgroundColor: themeData.appBarTheme.color,
-              title: Text("Elija una tienda",
+              title: Text("Seleccione el registro",
                   style: AppTheme.getTextStyle(themeData.textTheme.headline6,
                       fontWeight: 600)),
               leading: IconButton(
@@ -66,46 +62,29 @@ class _SelectStoreScreen extends State<SelectStoreScreen> {
                     children: <Widget>[
                       Container(
                         margin: EdgeInsets.only(top: MySize.size24!),
-                        child: FutureBuilder<OutletRequest>(
-                          future: futureOutlet,
-                          builder:
-                              (BuildContext context, AsyncSnapshot snapshot) {
-                            if (snapshot.hasError)
-                              return Text(snapshot.error.toString());
-
-                            return snapshot.hasData
-                                ? Container(
-                                    child: DropdownButton<StoreRequest>(
-                                      isExpanded: true,
-                                      hint: Text(
-                                          'La tienda no está seleccionada'),
-                                      items: snapshot.data.stores
-                                          .map<DropdownMenuItem<StoreRequest>>(
-                                              (item) {
-                                        return DropdownMenuItem<StoreRequest>(
-                                          value: item,
-                                          child: Text(item.name),
-                                        );
-                                      }).toList(),
-                                      onChanged: (value) {
-                                        setState(() => store = value);
-                                      },
-                                      value: store,
-                                      style: AppTheme.getTextStyle(
-                                          themeData.textTheme.bodyText1,
-                                          letterSpacing: 0.1,
-                                          color: themeData
-                                              .colorScheme.onBackground,
-                                          fontWeight: 500),
-                                    ),
-                                  )
-                                : Container(
-                                    child: Center(
-                                      child: Text('Cargando...'),
-                                    ),
+                        child: widget.store.listPos == null
+                            ? Text('No hay cajas para seleccionar')
+                            : DropdownButton<int>(
+                                isExpanded: true,
+                                hint: Text('Registro sin seleccionar'),
+                                //La caja no está seleccionada'),
+                                items: widget.store.listPos!
+                                    .map<DropdownMenuItem<int>>((item) {
+                                  return DropdownMenuItem<int>(
+                                    value: item.id,
+                                    child: Text(item.name),
                                   );
-                          },
-                        ),
+                                }).toList(),
+                                onChanged: (value) {
+                                  setState(() => pos = value);
+                                },
+                                value: pos,
+                                style: AppTheme.getTextStyle(
+                                    themeData.textTheme.bodyText1,
+                                    letterSpacing: 0.1,
+                                    color: themeData.colorScheme.onBackground,
+                                    fontWeight: 500),
+                              ),
                       ),
                       Container(
                         width: MediaQuery.of(context).size.width,
@@ -126,22 +105,41 @@ class _SelectStoreScreen extends State<SelectStoreScreen> {
                           style: ButtonStyle(
                               padding:
                                   MaterialStateProperty.all(Spacing.xy(16, 0))),
-                          onPressed: _isButtonDisabled || store == null
+                          onPressed: _isButtonDisabled ||
+                                  widget.store.listPos == null ||
+                                  pos == null
                               ? null
                               : () {
                                   if (_formKey.currentState!.validate()) {
                                     setState(() => _isButtonDisabled = true);
 
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                SelectPosScreen(
-                                                  store: this.store!,
-                                                  tokenDB: widget.tokenDB,
-                                                )));
+                                    TokenDao tokenDao = new TokenDao();
+                                    tokenDao
+                                        .insert(widget.tokenDB)
+                                        .then((value) {
 
-                                    setState(() => _isButtonDisabled = false);
+                                          debugPrint('Obteniendo listado');
+                                      tokenDao.getAll().then((value) {
+                                        value.map((e) => debugPrint(e.password));
+                                      });
+                                          debugPrint('Fin listado');
+
+                                      PosDB posDb = new PosDB(
+                                        storeId: widget.store.id,
+                                        posId: pos!,
+                                      );
+
+                                      PosDao posDao = PosDao();
+                                      posDao.insert(posDb).then((value) {
+                                        // Navigator.push(
+                                        //     context,
+                                        //     MaterialPageRoute(
+                                        //         builder: (context) =>
+                                        //             RegisterScreen()));
+
+                                        setState(() => _isButtonDisabled = false);
+                                      });
+                                    });
                                   }
                                 },
                           child: Text(

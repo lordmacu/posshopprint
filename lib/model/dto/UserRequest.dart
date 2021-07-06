@@ -1,4 +1,4 @@
-class User {
+class UserRequest {
   int id;
   int idOrg;
   String name;
@@ -8,7 +8,7 @@ class User {
   String type;
   int status;
 
-  User({
+  UserRequest({
     required this.id,
     required this.idOrg,
     required this.name,
@@ -19,8 +19,8 @@ class User {
     required this.status,
   });
 
-  factory User.fromJson(Map<String, dynamic> json) {
-    return User(
+  factory UserRequest.fromJson(Map<String, dynamic> json) {
+    return UserRequest(
       id: json['id'],
       idOrg: json['idOrg'],
       name: json['name'],

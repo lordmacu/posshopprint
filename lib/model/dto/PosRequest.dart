@@ -1,17 +1,17 @@
 import 'package:flutter/cupertino.dart';
 
-class Pos {
+class PosRequest {
   int id;
   String name;
 
-  Pos({
+  PosRequest({
     required this.id,
     required this.name,
   });
   
-  factory Pos.fromJson(Map<String, dynamic> json) {
+  factory PosRequest.fromJson(Map<String, dynamic> json) {
     debugPrint('Pos Id: ${json['id']}');
-    return Pos(
+    return PosRequest(
       id: json['id'],
       name: json['name'],
     );
