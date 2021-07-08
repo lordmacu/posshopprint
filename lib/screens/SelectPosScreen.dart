@@ -3,13 +3,14 @@ import 'package:posshop_app/data/dao/PosDao.dart';
 import 'package:posshop_app/data/dao/TokenDao.dart';
 import 'package:posshop_app/model/db/PosDB.dart';
 import 'package:posshop_app/model/db/TokenDB.dart';
+import 'package:posshop_app/model/dto/PosRequest.dart';
 import 'package:posshop_app/model/dto/StoreRequest.dart';
+import 'package:posshop_app/screens/MenuScreen.dart';
 import 'package:provider/provider.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import '../AppThemeNotifier.dart';
 import '../AppTheme.dart';
 import '../utils/SizeConfig.dart';
-import 'RegisterScreen.dart';
 
 class SelectPosScreen extends StatefulWidget {
   final TokenDB tokenDB;
@@ -26,7 +27,7 @@ class _SelectPosScreen extends State<SelectPosScreen> {
   final _formKey = GlobalKey<FormState>();
   late ThemeData themeData;
   bool _isButtonDisabled = false;
-  int? pos;
+  PosRequest? pos;
 
   @override
   Widget build(BuildContext context) {
@@ -64,14 +65,14 @@ class _SelectPosScreen extends State<SelectPosScreen> {
                         margin: EdgeInsets.only(top: MySize.size24!),
                         child: widget.store.listPos == null
                             ? Text('No hay cajas para seleccionar')
-                            : DropdownButton<int>(
+                            : DropdownButton<PosRequest>(
                                 isExpanded: true,
                                 hint: Text('Registro sin seleccionar'),
                                 //La caja no está seleccionada'),
                                 items: widget.store.listPos!
-                                    .map<DropdownMenuItem<int>>((item) {
-                                  return DropdownMenuItem<int>(
-                                    value: item.id,
+                                    .map<DropdownMenuItem<PosRequest>>((item) {
+                                  return DropdownMenuItem<PosRequest>(
+                                    value: item,
                                     child: Text(item.name),
                                   );
                                 }).toList(),
@@ -117,27 +118,30 @@ class _SelectPosScreen extends State<SelectPosScreen> {
                                     tokenDao
                                         .insert(widget.tokenDB)
                                         .then((value) {
-
-                                          debugPrint('Obteniendo listado');
+                                      debugPrint('Obteniendo listado');
                                       tokenDao.getAll().then((value) {
-                                        value.map((e) => debugPrint(e.password));
+                                        value
+                                            .map((e) => debugPrint(e.password));
                                       });
-                                          debugPrint('Fin listado');
+                                      debugPrint('Fin listado');
 
                                       PosDB posDb = new PosDB(
                                         storeId: widget.store.id,
-                                        posId: pos!,
+                                        storeName: widget.store.name,
+                                        posId: pos!.id,
+                                        posName: pos!.name,
                                       );
 
                                       PosDao posDao = PosDao();
                                       posDao.insert(posDb).then((value) {
-                                        // Navigator.push(
-                                        //     context,
-                                        //     MaterialPageRoute(
-                                        //         builder: (context) =>
-                                        //             RegisterScreen()));
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    MenuScreen()));
 
-                                        setState(() => _isButtonDisabled = false);
+                                        setState(
+                                            () => _isButtonDisabled = false);
                                       });
                                     });
                                   }

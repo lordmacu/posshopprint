@@ -227,8 +227,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                         .then((response) {
                                       SPToken.set(response.token);
                                       TokenDB tokenDB = new TokenDB(
-                                          email: email,
-                                          password: password);
+                                        email: email,
+                                        password: password,
+                                        token: response.token,
+                                      );
                                       Navigator.push(
                                           context,
                                           MaterialPageRoute(

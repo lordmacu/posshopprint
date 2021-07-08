@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:posshop_app/data/dao/TokenDao.dart';
 import 'package:provider/provider.dart';
 import 'package:posshop_app/AppTheme.dart';
 import 'package:posshop_app/AppThemeNotifier.dart';
@@ -7,30 +6,16 @@ import 'package:posshop_app/utils/SizeConfig.dart';
 import 'package:posshop_app/screens/LoginScreen.dart';
 import 'package:posshop_app/screens/RegisterScreen.dart';
 
-class PrincipalScreen extends StatefulWidget {
-  PrincipalScreen({Key? key}) : super(key: key);
+class StartupScreen extends StatefulWidget {
+  StartupScreen({Key? key}) : super(key: key);
 
   @override
-  createState() => _PrincipalScreenState();
+  createState() => _StartupScreenState();
 }
 
-class _PrincipalScreenState extends State<PrincipalScreen> {
+class _StartupScreenState extends State<StartupScreen> {
   late ThemeData themeData;
   late CustomAppTheme customAppTheme;
-
-  @override
-  void initState() {
-    debugPrint('Iniciando');
-    TokenDao tokenDao = new TokenDao();
-    tokenDao.getAll().then((value) {
-      debugPrint('Ok, termino el getAll, total ${value.length}');
-      value.forEach((e) {
-        debugPrint('Password: ${e.id}');
-      });
-    });
-    debugPrint('Finalizando');
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {

@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:posshop_app/AppTheme.dart';
 import 'package:posshop_app/AppThemeNotifier.dart';
-import 'package:posshop_app/screens/PrincipalScreen.dart';
+import 'package:posshop_app/screens/SplashScreen.dart';
 
 void main() {
   //You will need to initialize AppThemeNotifier class for theme changes.
@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
           title: 'Pos Shop',
           debugShowCheckedModeBanner: false,
           theme: AppTheme.getThemeFromThemeMode(value.themeMode()),
-          home: PrincipalScreen(),
+          home: SplashScreen(),
         );
       },
     );

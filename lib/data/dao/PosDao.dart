@@ -31,6 +31,12 @@ class PosDao {
     );
   }
 
+  Future deleteAll() async {
+    await _store.delete(
+      await _db
+    );
+  }
+
   Future<List<PosDB>> getAll() async {
     final recordSnapshots = await _store.find(
       await _db,

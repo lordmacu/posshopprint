@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/cupertino.dart';
 import 'package:posshop_app/data/AppDatabase.dart';
 import 'package:posshop_app/model/db/TokenDB.dart';
 import 'package:sembast/sembast.dart';
@@ -32,13 +31,17 @@ class TokenDao {
     );
   }
 
+  Future deleteAll() async {
+    await _store.delete(
+        await _db
+    );
+  }
+
   Future<List<TokenDB>> getAll() async {
-    debugPrint('mensaje 1 ${_db.toString()}');
     final recordSnapshots = await _store.find(
       await _db,
     );
 
-    debugPrint('mensaje 2 ${_db.toString()}');
     return recordSnapshots.map((snapshot) {
       final token = TokenDB.fromMap(snapshot.value);
       token.id = snapshot.key;

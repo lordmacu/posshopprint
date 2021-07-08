@@ -1,18 +1,19 @@
 import 'dart:async';
 
-import 'package:flutter/cupertino.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sembast/sembast.dart';
 import 'package:sembast/sembast_io.dart';
 import '../utils/EncryptCodec.dart';
 
-class AppDatabase{
+class AppDatabase {
   static const DB_NAME = 'posshop.db';
   static final AppDatabase _singleton = AppDatabase._();
+
   static AppDatabase get instance => _singleton;
   static Database? _database;
-  SembastCodec _codec = getEncryptSembastCodec(password: 'PosShop2021ByBlubinest');
+  SembastCodec _codec =
+      getEncryptSembastCodec(password: 'PosShop2021ByBlubinest');
 
   AppDatabase._();
 
@@ -25,9 +26,7 @@ class AppDatabase{
 
   Future _openDatabase() async {
     final appDir = await getApplicationDocumentsDirectory();
-    debugPrint('ruta de base de datos $appDir');
     final dbPath = join(appDir.path, DB_NAME);
-    debugPrint('ruta completa $dbPath');
     return await databaseFactoryIo.openDatabase(dbPath, codec: _codec);
   }
 }
