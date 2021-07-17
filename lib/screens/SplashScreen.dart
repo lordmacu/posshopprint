@@ -3,7 +3,6 @@ import 'package:posshop_app/data/dao/TokenDao.dart';
 import 'package:posshop_app/screens/MenuScreen.dart';
 import 'package:posshop_app/screens/StartupScreen.dart';
 
-
 class SplashScreen extends StatefulWidget {
   SplashScreen({Key? key}) : super(key: key);
 

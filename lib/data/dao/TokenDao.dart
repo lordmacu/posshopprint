@@ -1,51 +1,17 @@
-import 'dart:async';
+import 'package:posshop_app/model/entity/TokenEntity.dart';
 
-import 'package:posshop_app/data/AppDatabase.dart';
-import 'package:posshop_app/model/db/TokenDB.dart';
-import 'package:sembast/sembast.dart';
+import 'BaseDao.dart';
 
-class TokenDao {
+class TokenDao extends BaseDao<TokenEntity> {
   static const String STORE_NAME = 'token';
-  final _store = intMapStoreFactory.store(STORE_NAME);
 
-  Future<Database> get _db async => await AppDatabase.instance.database;
-
-  Future insert(TokenDB token) async {
-    await _store.add(await _db, token.toMap());
+  @override
+  String getStoreName() {
+    return STORE_NAME;
   }
 
-  Future update(TokenDB token) async {
-    final finder = Finder(filter: Filter.byKey(token.id));
-    await _store.update(
-      await _db,
-      token.toMap(),
-      finder: finder,
-    );
-  }
-
-  Future delete(TokenDB token) async {
-    final finder = Finder(filter: Filter.byKey(token.id));
-    await _store.delete(
-      await _db,
-      finder: finder,
-    );
-  }
-
-  Future deleteAll() async {
-    await _store.delete(
-        await _db
-    );
-  }
-
-  Future<List<TokenDB>> getAll() async {
-    final recordSnapshots = await _store.find(
-      await _db,
-    );
-
-    return recordSnapshots.map((snapshot) {
-      final token = TokenDB.fromMap(snapshot.value);
-      token.id = snapshot.key;
-      return token;
-    }).toList();
+  @override
+  TokenEntity fromMap(Map<String, Object?> map) {
+    return TokenEntity.fromMap(map);
   }
 }

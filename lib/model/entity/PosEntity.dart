@@ -1,17 +1,20 @@
-class PosDB {
-  int? id;
+import 'BaseEntity.dart';
+
+class PosEntity extends BaseEntity {
   int storeId;
   String storeName;
   int posId;
   String posName;
 
-  PosDB({
+  PosEntity({
+    int? id,
     required this.storeId,
     required this.storeName,
     required this.posId,
     required this.posName,
-  });
+  }) : super(id: id);
 
+  @override
   Map<String, dynamic> toMap() => {
         'storeId': storeId,
         'storeName': storeName,
@@ -19,7 +22,12 @@ class PosDB {
         'posName': posName,
       };
 
-  factory PosDB.fromMap(Map<String, dynamic> map) => PosDB(
+  @override
+  BaseEntity fromMap(Map<String, dynamic> map) {
+    return PosEntity.fromMap(map);
+  }
+
+  factory PosEntity.fromMap(Map<String, dynamic> map) => PosEntity(
         storeId: map['storeId'],
         storeName: map['storeName'],
         posId: map['posId'],

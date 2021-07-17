@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:posshop_app/model/db/TokenDB.dart';
+import 'package:posshop_app/model/entity/TokenEntity.dart';
 import 'package:posshop_app/model/dto/OutletRequest.dart';
 import 'package:provider/provider.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -11,7 +11,7 @@ import '../model/dto/StoreRequest.dart';
 import 'package:posshop_app/api/client/ApiClientOutlet.dart' as apiOutlet;
 
 class SelectStoreScreen extends StatefulWidget {
-  final TokenDB tokenDB;
+  final TokenEntity tokenDB;
 
   SelectStoreScreen({Key? key, required this.tokenDB}) : super(key: key);
 

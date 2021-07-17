@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:posshop_app/model/db/TokenDB.dart';
+import 'package:posshop_app/model/entity/TokenEntity.dart';
 import 'package:provider/provider.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import '../AppThemeNotifier.dart';
@@ -226,7 +226,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                         .post(email, password)
                                         .then((response) {
                                       SPToken.set(response.token);
-                                      TokenDB tokenDB = new TokenDB(
+                                      TokenEntity tokenDB = new TokenEntity(
                                         email: email,
                                         password: password,
                                         token: response.token,

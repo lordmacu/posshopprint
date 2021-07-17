@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:posshop_app/data/dao/PosDao.dart';
 import 'package:posshop_app/data/dao/TokenDao.dart';
-import 'package:posshop_app/model/db/PosDB.dart';
-import 'package:posshop_app/model/db/TokenDB.dart';
+import 'package:posshop_app/model/entity/PosEntity.dart';
+import 'package:posshop_app/model/entity/TokenEntity.dart';
 import 'package:posshop_app/model/dto/PosRequest.dart';
 import 'package:posshop_app/model/dto/StoreRequest.dart';
 import 'package:posshop_app/screens/MenuScreen.dart';
@@ -13,7 +13,7 @@ import '../AppTheme.dart';
 import '../utils/SizeConfig.dart';
 
 class SelectPosScreen extends StatefulWidget {
-  final TokenDB tokenDB;
+  final TokenEntity tokenDB;
   final StoreRequest store;
 
   SelectPosScreen({Key? key, required this.store, required this.tokenDB})
@@ -125,7 +125,7 @@ class _SelectPosScreen extends State<SelectPosScreen> {
                                       });
                                       debugPrint('Fin listado');
 
-                                      PosDB posDb = new PosDB(
+                                      PosEntity posDb = new PosEntity(
                                         storeId: widget.store.id,
                                         storeName: widget.store.name,
                                         posId: pos!.id,
