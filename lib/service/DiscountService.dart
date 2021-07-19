@@ -1,29 +1,39 @@
-import 'package:flutter/cupertino.dart';
 import 'package:posshop_app/data/dao/DiscountDao.dart';
 import 'package:posshop_app/api/client/ApiClientDiscount.dart' as client;
 import 'package:posshop_app/model/entity/DiscountEntity.dart';
 
 class DiscountService {
-  DiscountDao _discountDao = DiscountDao();
+  final DiscountDao _discountDao = DiscountDao();
 
-  updateAll() {
-    //TODO: Cambiar ese 2.
-    client.getAll(2).then((discountsRequest) {
+  Future<int> updateAll(int idPos) async {
+    int totalUpdated = 0;
+
+    await client.getAll(idPos).then((discountsRequest) {
       if (discountsRequest.discounts != null) {
-        discountsRequest.discounts!.forEach((discountRequest) {
-          debugPrint('Request, Nombre de descuento ${discountRequest.name}');
+        _discountDao.deleteAll().then((value) {
+          discountsRequest.discounts!.forEach((discountRequest) {
+            DiscountEntity entity = DiscountEntity(
+              id: discountRequest.id,
+              name: discountRequest.name,
+              calculationType: discountRequest.calculationType,
+              value: discountRequest.value,
+            );
+            _discountDao.insert(entity);
+          });
         });
-      }
 
-      _discountDao.getAll().then((discounts) {
-        discounts.forEach((discount) {
-          debugPrint('Dao, Nombre del descuento ${discount.name}');
-        });
-      });
-    }); //TODO: Cambiar.
+        totalUpdated = discountsRequest.discounts!.length;
+      }
+    });
+
+    return totalUpdated;
   }
 
-  insert(DiscountEntity entity) {
-    _discountDao.insert(entity);
+  Future<List<DiscountEntity>> getAll() {
+    return _discountDao.getAll();
+  }
+
+  Future<void> insert(DiscountEntity entity) {
+    return _discountDao.insert(entity);
   }
 }

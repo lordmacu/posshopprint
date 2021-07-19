@@ -9,7 +9,7 @@ class OutletRequest {
 
   factory OutletRequest.fromJson(Map<String, dynamic> json) {
     return OutletRequest(
-      stores: List<StoreRequest>.from(json['data'].map((model)=> StoreRequest.fromJson(model))),
+      stores: List<StoreRequest>.from(json['data'].map((model) => StoreRequest.fromJson(model))),
     );
   }
 }

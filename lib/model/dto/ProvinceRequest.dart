@@ -9,11 +9,9 @@ class ProvinceRequest {
     required this.name,
   });
 
-  factory ProvinceRequest.fromJson(Map<String, dynamic> json) {
-    return ProvinceRequest(
-      cutProvince: json['cut_comuna'],
-      cutRegion: json['cut_region'],
-      name: json['comuna'],
-    );
-  }
+  factory ProvinceRequest.fromJson(Map<String, dynamic> json) => ProvinceRequest(
+        cutProvince: json['cut_comuna'],
+        cutRegion: json['cut_region'],
+        name: json['comuna'],
+      );
 }

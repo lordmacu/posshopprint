@@ -5,19 +5,18 @@ import 'package:posshop_app/model/entity/PosEntity.dart';
 import 'package:posshop_app/model/entity/TokenEntity.dart';
 import 'package:posshop_app/model/dto/PosRequest.dart';
 import 'package:posshop_app/model/dto/StoreRequest.dart';
-import 'package:posshop_app/screens/MenuScreen.dart';
 import 'package:provider/provider.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import '../AppThemeNotifier.dart';
 import '../AppTheme.dart';
 import '../utils/SizeConfig.dart';
+import 'SplashScreen.dart';
 
 class SelectPosScreen extends StatefulWidget {
-  final TokenEntity tokenDB;
+  final TokenEntity tokenEntity;
   final StoreRequest store;
 
-  SelectPosScreen({Key? key, required this.store, required this.tokenDB})
-      : super(key: key);
+  SelectPosScreen({Key? key, required this.store, required this.tokenEntity}) : super(key: key);
 
   @override
   createState() => _SelectPosScreen();
@@ -41,9 +40,7 @@ class _SelectPosScreen extends State<SelectPosScreen> {
             appBar: AppBar(
               elevation: 0,
               backgroundColor: themeData.appBarTheme.color,
-              title: Text("Seleccione el registro",
-                  style: AppTheme.getTextStyle(themeData.textTheme.headline6,
-                      fontWeight: 600)),
+              title: Text("Seleccione el registro", style: AppTheme.getTextStyle(themeData.textTheme.headline6, fontWeight: 600)),
               leading: IconButton(
                 onPressed: () => Navigator.of(context).pop(),
                 icon: Icon(
@@ -69,8 +66,7 @@ class _SelectPosScreen extends State<SelectPosScreen> {
                                 isExpanded: true,
                                 hint: Text('Registro sin seleccionar'),
                                 //La caja no está seleccionada'),
-                                items: widget.store.listPos!
-                                    .map<DropdownMenuItem<PosRequest>>((item) {
+                                items: widget.store.listPos!.map<DropdownMenuItem<PosRequest>>((item) {
                                   return DropdownMenuItem<PosRequest>(
                                     value: item,
                                     child: Text(item.name),
@@ -80,52 +76,35 @@ class _SelectPosScreen extends State<SelectPosScreen> {
                                   setState(() => pos = value);
                                 },
                                 value: pos,
-                                style: AppTheme.getTextStyle(
-                                    themeData.textTheme.bodyText1,
-                                    letterSpacing: 0.1,
-                                    color: themeData.colorScheme.onBackground,
-                                    fontWeight: 500),
+                                style: AppTheme.getTextStyle(themeData.textTheme.bodyText1,
+                                    letterSpacing: 0.1, color: themeData.colorScheme.onBackground, fontWeight: 500),
                               ),
                       ),
                       Container(
                         width: MediaQuery.of(context).size.width,
                         decoration: BoxDecoration(
-                          borderRadius:
-                              BorderRadius.all(Radius.circular(MySize.size28!)),
+                          borderRadius: BorderRadius.all(Radius.circular(MySize.size28!)),
                           boxShadow: [
                             BoxShadow(
                               color: themeData.primaryColor.withAlpha(24),
                               blurRadius: 5,
-                              offset:
-                                  Offset(0, 3), // changes position of shadow
+                              offset: Offset(0, 3), // changes position of shadow
                             ),
                           ],
                         ),
                         margin: EdgeInsets.only(top: MySize.size24!),
                         child: ElevatedButton(
-                          style: ButtonStyle(
-                              padding:
-                                  MaterialStateProperty.all(Spacing.xy(16, 0))),
-                          onPressed: _isButtonDisabled ||
-                                  widget.store.listPos == null ||
-                                  pos == null
+                          style: ButtonStyle(padding: MaterialStateProperty.all(Spacing.xy(16, 0))),
+                          onPressed: _isButtonDisabled || widget.store.listPos == null || pos == null
                               ? null
                               : () {
                                   if (_formKey.currentState!.validate()) {
                                     setState(() => _isButtonDisabled = true);
 
                                     TokenDao tokenDao = new TokenDao();
-                                    tokenDao
-                                        .insert(widget.tokenDB)
-                                        .then((value) {
-                                      debugPrint('Obteniendo listado');
-                                      tokenDao.getAll().then((value) {
-                                        value
-                                            .map((e) => debugPrint(e.password));
-                                      });
-                                      debugPrint('Fin listado');
-
-                                      PosEntity posDb = new PosEntity(
+                                    tokenDao.deleteAll(); //TODO: Quitar
+                                    tokenDao.insert(widget.tokenEntity).then((value) {
+                                      PosEntity posEntity = new PosEntity(
                                         storeId: widget.store.id,
                                         storeName: widget.store.name,
                                         posId: pos!.id,
@@ -133,26 +112,19 @@ class _SelectPosScreen extends State<SelectPosScreen> {
                                       );
 
                                       PosDao posDao = PosDao();
-                                      posDao.insert(posDb).then((value) {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    MenuScreen()));
+                                      posDao.deleteAll(); //TODO: Quitar
+                                      posDao.insert(posEntity).then((idPos) {
+                                        Navigator.push(context, MaterialPageRoute(builder: (context) => SplashScreen()));
 
-                                        setState(
-                                            () => _isButtonDisabled = false);
+                                        setState(() => _isButtonDisabled = false);
                                       });
                                     });
                                   }
                                 },
                           child: Text(
                             "CONTINUAR",
-                            style: AppTheme.getTextStyle(
-                                    themeData.textTheme.bodyText2,
-                                    fontWeight: 600)
-                                .merge(TextStyle(
-                                    color: themeData.colorScheme.onPrimary)),
+                            style: AppTheme.getTextStyle(themeData.textTheme.bodyText2, fontWeight: 600)
+                                .merge(TextStyle(color: themeData.colorScheme.onPrimary)),
                           ),
                         ),
                       ),

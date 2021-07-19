@@ -226,7 +226,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                         .post(email, password)
                                         .then((response) {
                                       SPToken.set(response.token);
-                                      TokenEntity tokenDB = new TokenEntity(
+                                      TokenEntity tokenEntity = new TokenEntity(
                                         email: email,
                                         password: password,
                                         token: response.token,
@@ -236,7 +236,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                           MaterialPageRoute(
                                               builder: (context) =>
                                                   SelectStoreScreen(
-                                                    tokenDB: tokenDB,
+                                                    tokenEntity: tokenEntity,
                                                   )));
                                       setState(() => _isButtonDisabled = false);
                                     }).catchError((error) {

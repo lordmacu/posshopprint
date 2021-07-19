@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:posshop_app/model/dto/OutletRequest.dart';
 import 'package:posshop_app/exceptions/FetchException.dart';
@@ -21,8 +20,6 @@ Future<OutletRequest> get() async {
       HttpHeaders.acceptHeader: 'application/json',
     },
   );
-  debugPrint('Bearer $token');
-  debugPrint(response.body);
   if (response.statusCode == 200) {
     return OutletRequest.fromJson(jsonDecode(response.body));
   } else {

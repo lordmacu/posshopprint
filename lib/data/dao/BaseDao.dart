@@ -17,29 +17,29 @@ abstract class BaseDao<T extends BaseEntity> {
     _store = intMapStoreFactory.store(getStoreName());
   }
 
-  Future insert(T entity) async {
-    await _store.add(await _db, entity.toMap());
+  Future<int> insert(T entity) async {
+    return await _store.add(await _db, entity.toMap());
   }
 
-  Future update(T entity) async {
+  Future<int> update(T entity) async {
     final finder = Finder(filter: Filter.byKey(entity.id));
-    await _store.update(
+    return await _store.update(
       await _db,
       entity.toMap(),
       finder: finder,
     );
   }
 
-  Future delete(T entity) async {
+  Future<int> delete(T entity) async {
     final finder = Finder(filter: Filter.byKey(entity.id));
-    await _store.delete(
+    return await _store.delete(
       await _db,
       finder: finder,
     );
   }
 
-  Future deleteAll() async {
-    await _store.delete(await _db);
+  Future<int> deleteAll() async {
+    return await _store.delete(await _db);
   }
 
   Future<T?> findById(int id) async {
@@ -49,7 +49,7 @@ abstract class BaseDao<T extends BaseEntity> {
       finder: finder,
     );
 
-    return recordSnapshots.isEmpty ? null: fromMap(recordSnapshots.first.value);
+    return recordSnapshots.isEmpty ? null : fromMap(recordSnapshots.first.value);
   }
 
   Future<List<T>> getAll() async {

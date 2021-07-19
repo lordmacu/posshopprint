@@ -53,12 +53,9 @@ class _MenuScreenState extends State<MenuScreen> {
           home: Scaffold(
             key: _scaffoldKey,
             appBar: AppBar(
-              title: Text("Ticket",
-                  style: AppTheme.getTextStyle(themeData.textTheme.headline6,
-                      fontWeight: 600)),
+              title: Text("Ticket", style: AppTheme.getTextStyle(themeData.textTheme.headline6, fontWeight: 600)),
             ),
-            body: WillPopScope(
-                child: _fragmentView[_selectedPage], onWillPop: onWillPop),
+            body: WillPopScope(child: _fragmentView[_selectedPage], onWillPop: onWillPop),
             drawer: MenuDrawerWidget(themeData, _scaffoldKey, _selectedPage),
             // Drawer(
             //   child: Container(
@@ -172,7 +169,8 @@ class _MenuScreenState extends State<MenuScreen> {
             floatingActionButton: FloatingActionButton(
               onPressed: () {
                 ScaffoldMessenger.of(_scaffoldKey.currentContext!).showSnackBar(SnackBar(
-                  content: Text('Boton de prueba...'), duration: Duration(seconds: 4),
+                  content: Text('Boton de prueba...'),
+                  duration: Duration(seconds: 1),
                 ));
               },
               child: Icon(
@@ -192,20 +190,13 @@ class _MenuScreenState extends State<MenuScreen> {
       contentPadding: EdgeInsets.only(top: 0.0, left: 16, right: 16, bottom: 0),
       leading: Icon(iconData,
           size: 20,
-          color: _selectedPage == position
-              ? themeData.colorScheme.primary
-              : themeData.colorScheme.onBackground.withAlpha(240)),
+          color: _selectedPage == position ? themeData.colorScheme.primary : themeData.colorScheme.onBackground.withAlpha(240)),
       title: Text(title,
           style: themeData.textTheme.subtitle2!
+              .merge(TextStyle(fontWeight: _selectedPage == position ? FontWeight.w600 : FontWeight.w500, letterSpacing: 0.2))
               .merge(TextStyle(
-                  fontWeight: _selectedPage == position
-                      ? FontWeight.w600
-                      : FontWeight.w500,
-                  letterSpacing: 0.2))
-              .merge(TextStyle(
-                  color: _selectedPage == position
-                      ? themeData.colorScheme.primary
-                      : themeData.colorScheme.onBackground.withAlpha(240)))),
+                  color:
+                      _selectedPage == position ? themeData.colorScheme.primary : themeData.colorScheme.onBackground.withAlpha(240)))),
       onTap: () {
         setState(() {
           _selectedPage = position;
@@ -217,13 +208,19 @@ class _MenuScreenState extends State<MenuScreen> {
 
   Future<bool> onWillPop() {
     DateTime now = DateTime.now();
-    if (currentBackPressTime == null ||
-        now.difference(currentBackPressTime!) > Duration(seconds: 2)) {
+    if (currentBackPressTime == null || now.difference(currentBackPressTime!) > Duration(seconds: 2)) {
       currentBackPressTime = now;
-      ScaffoldMessenger.of(_scaffoldKey.currentContext!).showSnackBar(SnackBar(
-        content: Text('Presione volver nuevamente para salir'),
-        duration: Duration(seconds: 2),
-      ));
+      ScaffoldMessenger.of(_scaffoldKey.currentContext!).showSnackBar(
+        new SnackBar(
+          content: new Text(
+            'Presione volver nuevamente para salir',
+            style: themeData.textTheme.subtitle2!.merge(TextStyle(color: themeData.colorScheme.onPrimary)),
+          ),
+          backgroundColor: themeData.colorScheme.primary,
+          behavior: SnackBarBehavior.floating,
+          duration: Duration(seconds: 2),
+        ),
+      );
       return Future.value(false);
     }
     return Future.value(true);

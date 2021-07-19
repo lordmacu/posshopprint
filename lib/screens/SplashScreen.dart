@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:posshop_app/data/dao/TokenDao.dart';
 import 'package:posshop_app/screens/MenuScreen.dart';
 import 'package:posshop_app/screens/StartupScreen.dart';
+import 'package:posshop_app/service/DiscountService.dart';
+import 'package:posshop_app/service/PosService.dart';
 
 class SplashScreen extends StatefulWidget {
   SplashScreen({Key? key}) : super(key: key);
@@ -37,7 +39,7 @@ class _SplashScreenState extends State<SplashScreen> {
       if (value.length == 0) {
         _changePageToStartup();
       } else {
-        _changePageToMenu();
+        _processData();
       }
     });
   }
@@ -56,5 +58,19 @@ class _SplashScreenState extends State<SplashScreen> {
         pageBuilder: (context, animation1, animation2) => MenuScreen(),
       ),
     );
+  }
+
+  _processData() async {
+    PosService posService = PosService();
+    int? idPos = await posService.getPosId();
+
+    if (idPos != null) {
+      DiscountService discountService = DiscountService();
+      await discountService.updateAll(idPos);
+
+      _changePageToMenu();
+    } else {
+      _changePageToStartup();
+    }
   }
 }

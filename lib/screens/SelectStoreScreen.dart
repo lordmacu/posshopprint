@@ -11,9 +11,9 @@ import '../model/dto/StoreRequest.dart';
 import 'package:posshop_app/api/client/ApiClientOutlet.dart' as apiOutlet;
 
 class SelectStoreScreen extends StatefulWidget {
-  final TokenEntity tokenDB;
+  final TokenEntity tokenEntity;
 
-  SelectStoreScreen({Key? key, required this.tokenDB}) : super(key: key);
+  SelectStoreScreen({Key? key, required this.tokenEntity}) : super(key: key);
 
   @override
   createState() => _SelectStoreScreen();
@@ -44,9 +44,7 @@ class _SelectStoreScreen extends State<SelectStoreScreen> {
             appBar: AppBar(
               elevation: 0,
               backgroundColor: themeData.appBarTheme.color,
-              title: Text("Elija una tienda",
-                  style: AppTheme.getTextStyle(themeData.textTheme.headline6,
-                      fontWeight: 600)),
+              title: Text("Elija una tienda", style: AppTheme.getTextStyle(themeData.textTheme.headline6, fontWeight: 600)),
               leading: IconButton(
                 onPressed: () => Navigator.of(context).pop(),
                 icon: Icon(
@@ -68,20 +66,15 @@ class _SelectStoreScreen extends State<SelectStoreScreen> {
                         margin: EdgeInsets.only(top: MySize.size24!),
                         child: FutureBuilder<OutletRequest>(
                           future: futureOutlet,
-                          builder:
-                              (BuildContext context, AsyncSnapshot snapshot) {
-                            if (snapshot.hasError)
-                              return Text(snapshot.error.toString());
+                          builder: (BuildContext context, AsyncSnapshot snapshot) {
+                            if (snapshot.hasError) return Text(snapshot.error.toString());
 
                             return snapshot.hasData
                                 ? Container(
                                     child: DropdownButton<StoreRequest>(
                                       isExpanded: true,
-                                      hint: Text(
-                                          'La tienda no está seleccionada'),
-                                      items: snapshot.data.stores
-                                          .map<DropdownMenuItem<StoreRequest>>(
-                                              (item) {
+                                      hint: Text('La tienda no está seleccionada'),
+                                      items: snapshot.data.stores.map<DropdownMenuItem<StoreRequest>>((item) {
                                         return DropdownMenuItem<StoreRequest>(
                                           value: item,
                                           child: Text(item.name),
@@ -91,12 +84,8 @@ class _SelectStoreScreen extends State<SelectStoreScreen> {
                                         setState(() => store = value);
                                       },
                                       value: store,
-                                      style: AppTheme.getTextStyle(
-                                          themeData.textTheme.bodyText1,
-                                          letterSpacing: 0.1,
-                                          color: themeData
-                                              .colorScheme.onBackground,
-                                          fontWeight: 500),
+                                      style: AppTheme.getTextStyle(themeData.textTheme.bodyText1,
+                                          letterSpacing: 0.1, color: themeData.colorScheme.onBackground, fontWeight: 500),
                                     ),
                                   )
                                 : Container(
@@ -110,22 +99,18 @@ class _SelectStoreScreen extends State<SelectStoreScreen> {
                       Container(
                         width: MediaQuery.of(context).size.width,
                         decoration: BoxDecoration(
-                          borderRadius:
-                              BorderRadius.all(Radius.circular(MySize.size28!)),
+                          borderRadius: BorderRadius.all(Radius.circular(MySize.size28!)),
                           boxShadow: [
                             BoxShadow(
                               color: themeData.primaryColor.withAlpha(24),
                               blurRadius: 5,
-                              offset:
-                                  Offset(0, 3), // changes position of shadow
+                              offset: Offset(0, 3), // changes position of shadow
                             ),
                           ],
                         ),
                         margin: EdgeInsets.only(top: MySize.size24!),
                         child: ElevatedButton(
-                          style: ButtonStyle(
-                              padding:
-                                  MaterialStateProperty.all(Spacing.xy(16, 0))),
+                          style: ButtonStyle(padding: MaterialStateProperty.all(Spacing.xy(16, 0))),
                           onPressed: _isButtonDisabled || store == null
                               ? null
                               : () {
@@ -135,10 +120,9 @@ class _SelectStoreScreen extends State<SelectStoreScreen> {
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (context) =>
-                                                SelectPosScreen(
+                                            builder: (context) => SelectPosScreen(
                                                   store: this.store!,
-                                                  tokenDB: widget.tokenDB,
+                                                  tokenEntity: widget.tokenEntity,
                                                 )));
 
                                     setState(() => _isButtonDisabled = false);
@@ -146,11 +130,8 @@ class _SelectStoreScreen extends State<SelectStoreScreen> {
                                 },
                           child: Text(
                             "CONTINUAR",
-                            style: AppTheme.getTextStyle(
-                                    themeData.textTheme.bodyText2,
-                                    fontWeight: 600)
-                                .merge(TextStyle(
-                                    color: themeData.colorScheme.onPrimary)),
+                            style: AppTheme.getTextStyle(themeData.textTheme.bodyText2, fontWeight: 600)
+                                .merge(TextStyle(color: themeData.colorScheme.onPrimary)),
                           ),
                         ),
                       ),
