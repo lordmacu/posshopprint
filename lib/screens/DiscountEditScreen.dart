@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:posshop_app/model/entity/DiscountEntity.dart';
+import 'package:posshop_app/utils/NumberTextInputFormatter.dart';
+import 'package:posshop_app/utils/PercentTextInputFormatter.dart';
 import 'package:posshop_app/utils/SizeConfig.dart';
 import 'package:provider/provider.dart';
 
@@ -20,6 +23,38 @@ class _DiscountEditScreenState extends State<DiscountEditScreen> {
   final _formKey = GlobalKey<FormState>();
   late ThemeData themeData;
   late CustomAppTheme customAppTheme;
+  late DiscountEntity discountEntity;
+
+  late TextEditingController txtValorController;
+  List<bool> toggleButtonsSelected = [true, false];
+
+  @override
+  void initState() {
+    if (widget.discountEntity == null) {
+      discountEntity = DiscountEntity(name: '', calculationType: '');
+      txtValorController = TextEditingController();
+    } else {
+      discountEntity = DiscountEntity(
+          name: widget.discountEntity!.name,
+          value: widget.discountEntity!.value,
+          calculationType: widget.discountEntity!.calculationType,
+          id: widget.discountEntity!.id);
+      txtValorController = TextEditingController();
+
+      if (discountEntity.calculationType == "PERCENT") {
+        if (discountEntity.value != null) {
+          txtValorController = TextEditingController(text: discountEntity.value!.toStringAsFixed(2).replaceAll(".", ","));
+        }
+      } else {
+        toggleButtonsSelected = [false, true];
+        if (discountEntity.value != null) {
+          NumberFormat format = NumberFormat.currency(locale: "es_CL", symbol: '', decimalDigits: 0);
+          txtValorController = TextEditingController(text: format.format(discountEntity.value).trim());
+        }
+      }
+    }
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +74,9 @@ class _DiscountEditScreenState extends State<DiscountEditScreen> {
               title: Text(widget.discountEntity == null ? "Crear descuento" : "Editar descuento",
                   style: AppTheme.getTextStyle(themeData.textTheme.headline6, fontWeight: 600)),
               leading: IconButton(
-                onPressed: () => Navigator.of(context).pop(),
+                onPressed: () {
+                  goBack();
+                },
                 icon: Icon(
                   MdiIcons.chevronLeft,
                   color: themeData.colorScheme.onBackground,
@@ -51,147 +88,167 @@ class _DiscountEditScreenState extends State<DiscountEditScreen> {
               key: _formKey,
               child: Container(
                 padding: EdgeInsets.only(left: MySize.size24!, right: MySize.size24!),
-                child: Center(
-                  child: ListView(
-                    shrinkWrap: true,
-                    children: <Widget>[
-                      Container(
-                        margin: EdgeInsets.only(top: MySize.size24!),
-                        child: TextFormField(
-                          style: AppTheme.getTextStyle(themeData.textTheme.bodyText1,
-                              letterSpacing: 0.1, color: themeData.colorScheme.onBackground, fontWeight: 500),
-                          decoration: InputDecoration(
-                            hintStyle: AppTheme.getTextStyle(themeData.textTheme.bodyText1,
-                                letterSpacing: 0.1, color: themeData.colorScheme.onBackground, fontWeight: 500),
-                            hintText: "Dirección de correo electrónico",
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(8.0),
-                                ),
-                                borderSide: BorderSide.none),
-                            enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(8.0),
-                                ),
-                                borderSide: BorderSide.none),
-                            focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(8.0),
-                                ),
-                                borderSide: BorderSide.none),
-                            filled: true,
-                            fillColor: themeData.colorScheme.background,
-                            prefixIcon: Icon(
-                              MdiIcons.emailOutline,
-                              size: MySize.size22,
-                            ),
-                            isDense: true,
-                            contentPadding: EdgeInsets.all(0),
+                child: ListView(
+                  shrinkWrap: true,
+                  children: <Widget>[
+                    Container(
+                      margin: EdgeInsets.only(top: MySize.size24!),
+                      child: TextFormField(
+                        decoration: InputDecoration(
+                          labelText: "Nombre",
+                          hintText: "Nombre",
+                          border: themeData.inputDecorationTheme.border,
+                          enabledBorder: themeData.inputDecorationTheme.border,
+                          focusedBorder: themeData.inputDecorationTheme.focusedBorder,
+                          prefixIcon: Icon(
+                            MdiIcons.cardText,
+                            size: MySize.size22,
                           ),
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'El campo no puede estar en blanco';
-                            }
-                            // return null;
-                          },
-                          keyboardType: TextInputType.emailAddress,
-                          textCapitalization: TextCapitalization.sentences,
                         ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'El campo no puede estar en blanco';
+                          }
+                        },
+                        onChanged: (value) {
+                          setState(() => discountEntity.name = value);
+                        },
+                        initialValue: discountEntity.name,
+                        // controller: TextEditingController(text: discountEntity.name),
+                        keyboardType: TextInputType.text,
+                        textCapitalization: TextCapitalization.sentences,
                       ),
-                      Container(
-                        margin: EdgeInsets.only(top: MySize.size24!),
-                        child: TextFormField(
-                          style: AppTheme.getTextStyle(themeData.textTheme.bodyText1,
-                              letterSpacing: 0.1, color: themeData.colorScheme.onBackground, fontWeight: 500),
-                          decoration: InputDecoration(
-                            hintText: "Nombre del negocio",
-                            hintStyle: AppTheme.getTextStyle(themeData.textTheme.bodyText1,
-                                letterSpacing: 0.1, color: themeData.colorScheme.onBackground, fontWeight: 500),
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(8.0),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(top: MySize.size24!),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Expanded(
+                            flex: 1,
+                            child: Column(
+                              children: <Widget>[
+                                TextFormField(
+                                  decoration: InputDecoration(
+                                    labelText: "Valor",
+                                    hintText: "Valor",
+                                    border: themeData.inputDecorationTheme.border,
+                                    enabledBorder: themeData.inputDecorationTheme.border,
+                                    focusedBorder: themeData.inputDecorationTheme.focusedBorder,
+                                    prefixIcon: Icon(
+                                      MdiIcons.cardText,
+                                      size: MySize.size22,
+                                    ),
+                                  ),
+                                  onChanged: (value) {
+                                    setState(() => discountEntity.value =
+                                        value.isEmpty ? null : double.parse(value.replaceAll(".", "").replaceAll(",", ".")));
+                                    txtValorController.selection = TextSelection.fromPosition(TextPosition(offset: value.length));
+                                  },
+                                  controller: txtValorController,
+                                  keyboardType: TextInputType.number,
+                                  inputFormatters: [
+                                    toggleButtonsSelected[0]
+                                        ? PercentTextInputFormatter(decimalRange: 2, maxValue: 100)
+                                        : NumberTextInputFormatter(maxValue: 99999999),
+                                  ],
+                                  textCapitalization: TextCapitalization.sentences,
                                 ),
-                                borderSide: BorderSide.none),
-                            enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(8.0),
+                                Container(
+                                  margin: Spacing.top(MySize.size4!),
+                                  child: Text("Dejar el campo en blanco para ingresar el valor durante la venta"),
                                 ),
-                                borderSide: BorderSide.none),
-                            focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(8.0),
-                                ),
-                                borderSide: BorderSide.none),
-                            filled: true,
-                            fillColor: themeData.colorScheme.background,
-                            prefixIcon: Icon(
-                              MdiIcons.officeBuildingOutline,
-                              size: MySize.size22,
+                              ],
                             ),
-                            isDense: true,
-                            contentPadding: EdgeInsets.all(0),
                           ),
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'El campo no puede estar en blanco';
-                            }
-                            // return null;
-                          },
-                          textCapitalization: TextCapitalization.sentences,
-                        ),
-                      ),
-                      Container(
-                        width: MediaQuery.of(context).size.width,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(MySize.size48!)),
-                          boxShadow: [
-                            BoxShadow(
-                              color: themeData.primaryColor.withAlpha(20),
-                              spreadRadius: 2,
-                              offset: Offset(0, 2),
-                            ),
-                          ],
-                        ),
-                        margin: EdgeInsets.only(top: MySize.size24!),
-                        child: ElevatedButton.icon(
-                          style: ButtonStyle(padding: MaterialStateProperty.all(Spacing.xy(16, 0))),
-                          onPressed: () {},
-                          icon: Icon(
-                            MdiIcons.contentSaveOutline,
-                            color: themeData.colorScheme.onPrimary,
-                          ),
-                          label: Text(
-                            "GUARDAR",
-                            style: AppTheme.getTextStyle(themeData.textTheme.bodyText1,
-                                fontWeight: 600, color: themeData.colorScheme.onPrimary),
-                          ),
-                        ),
-                      ),
-                      widget.discountEntity == null
-                          ? Container()
-                          : Container(
-                              width: MediaQuery.of(context).size.width,
-                              decoration: BoxDecoration(
-                                color: customAppTheme.bgLayer1,
-                                borderRadius: BorderRadius.all(Radius.circular(MySize.size48!)),
-                              ),
-                              margin: EdgeInsets.only(top: MySize.size24!),
-                              child: OutlinedButton.icon(
-                                style: ButtonStyle(padding: MaterialStateProperty.all(Spacing.xy(16, 0))),
-                                onPressed: () {},
-                                icon: Icon(
-                                  MdiIcons.delete,
+                          Container(
+                            margin: EdgeInsets.only(left: MySize.size16!, top: MySize.size8!),
+                            child: ToggleButtons(
+                              splashColor: themeData.colorScheme.primary.withAlpha(48),
+                              color: themeData.colorScheme.onBackground,
+                              fillColor: themeData.colorScheme.primary.withAlpha(48),
+                              selectedBorderColor: themeData.colorScheme.primary.withAlpha(48),
+                              children: <Widget>[
+                                Icon(
+                                  MdiIcons.percent,
                                   color: themeData.colorScheme.onBackground,
                                 ),
-                                label: Text(
-                                  "ELIMINAR",
-                                  style: AppTheme.getTextStyle(themeData.textTheme.bodyText1,
-                                      fontWeight: 600, color: themeData.colorScheme.onBackground),
+                                Icon(
+                                  Icons.attach_money,
+                                  color: themeData.colorScheme.onBackground,
                                 ),
+                              ],
+                              isSelected: toggleButtonsSelected,
+                              onPressed: (int index) {
+                                setState(() {
+                                  if (!toggleButtonsSelected[index]) {
+                                    txtValorController = TextEditingController();
+                                    discountEntity.value = null;
+                                    txtValorController.selection = TextSelection.fromPosition(TextPosition(offset: 0));
+                                  }
+                                  for (int x = 0; x < toggleButtonsSelected.length; x++) {
+                                    toggleButtonsSelected[x] = x == index;
+                                  }
+                                });
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(MySize.size48!)),
+                        boxShadow: [
+                          BoxShadow(
+                            color: themeData.primaryColor.withAlpha(20),
+                            spreadRadius: 2,
+                            offset: Offset(0, 2),
+                          ),
+                        ],
+                      ),
+                      margin: EdgeInsets.only(top: MySize.size24!),
+                      child: ElevatedButton.icon(
+                        style: ButtonStyle(padding: MaterialStateProperty.all(Spacing.xy(16, 0))),
+                        onPressed: () {
+                          if (_formKey.currentState!.validate()) {}
+                        },
+                        icon: Icon(
+                          MdiIcons.contentSaveOutline,
+                          color: themeData.colorScheme.onPrimary,
+                        ),
+                        label: Text(
+                          "GUARDAR",
+                          style: AppTheme.getTextStyle(themeData.textTheme.bodyText1,
+                              fontWeight: 600, color: themeData.colorScheme.onPrimary),
+                        ),
+                      ),
+                    ),
+                    widget.discountEntity == null
+                        ? Container()
+                        : Container(
+                            width: MediaQuery.of(context).size.width,
+                            decoration: BoxDecoration(
+                              color: customAppTheme.bgLayer1,
+                              borderRadius: BorderRadius.all(Radius.circular(MySize.size48!)),
+                            ),
+                            margin: EdgeInsets.only(top: MySize.size24!),
+                            child: OutlinedButton.icon(
+                              style: ButtonStyle(padding: MaterialStateProperty.all(Spacing.xy(16, 0))),
+                              onPressed: () {},
+                              icon: Icon(
+                                MdiIcons.delete,
+                                color: themeData.colorScheme.onBackground,
+                              ),
+                              label: Text(
+                                "ELIMINAR",
+                                style: AppTheme.getTextStyle(themeData.textTheme.bodyText1,
+                                    fontWeight: 600, color: themeData.colorScheme.onBackground),
                               ),
                             ),
-                    ],
-                  ),
+                          ),
+                  ],
                 ),
               ),
             ),
@@ -199,5 +256,40 @@ class _DiscountEditScreenState extends State<DiscountEditScreen> {
         );
       },
     );
+  }
+
+  goBack() async {
+    bool areChanges = false;
+    if (widget.discountEntity == null && (discountEntity.name.isNotEmpty || discountEntity.value != null)) {
+      areChanges = true;
+    } else if (widget.discountEntity != null &&
+        (widget.discountEntity!.name != discountEntity.name || widget.discountEntity!.value != discountEntity.value)) {
+      areChanges = true;
+    }
+
+    if (areChanges) {
+      if ((await showDialog(
+            context: context,
+            builder: (context) => new AlertDialog(
+              title: new Text('Cambios no guardados'),
+              content: new Text('¿Seguro que quiere continuar sin guardar los cambios?'),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () => Navigator.of(context).pop(false),
+                  child: new Text('CANCELAR'),
+                ),
+                TextButton(
+                  onPressed: () => Navigator.of(context).pop(true),
+                  child: new Text('CONTINUAR'),
+                ),
+              ],
+            ),
+          )) ??
+          false) {
+        Navigator.of(context).pop();
+      }
+    } else {
+      Navigator.of(context).pop();
+    }
   }
 }

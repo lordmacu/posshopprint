@@ -5,13 +5,13 @@ import 'BaseEntity.dart';
 class DiscountEntity extends BaseEntity {
   String name;
   String calculationType;
-  double value;
+  double? value;
 
   DiscountEntity({
     int? id,
     required this.name,
     required this.calculationType,
-    required this.value,
+    this.value,
   }) : super (id: id);
 
   @override

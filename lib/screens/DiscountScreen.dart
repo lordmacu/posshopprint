@@ -128,26 +128,24 @@ class _DiscountScreenState extends State<DiscountScreen> {
                                   onTap: () {
                                     if (_isSelectable) {
                                       setState(() => _selected[index] = !_selected[index]);
-                                      debugPrint('onTap index $index selected = ${_selected[index]}');
+                                    } else {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => DiscountEditScreen(discountEntity: snapshot.data[index])));
                                     }
                                     if (_selected.indexOf(true) == -1) {
-                                      debugPrint('Select mode Disabled');
                                       setState(() => _isSelectable = false);
                                     }
-
-                                    showSnackBarWithFloating("On Tap");
                                   },
                                   onLongPress: () {
                                     if (_isSelectable) {
                                       setState(() => _selected[index] = !_selected[index]);
-                                      debugPrint('onLongPress index $index selected = ${_selected[index]}');
                                     } else {
-                                      debugPrint('Select mode Enabled');
                                       setState(() {
                                         _isSelectable = true;
                                         _selected[index] = !_selected[index];
                                       });
-                                      debugPrint('onLongPress index $index selected = ${_selected[index]}');
                                     }
                                   },
                                   child: Container(
