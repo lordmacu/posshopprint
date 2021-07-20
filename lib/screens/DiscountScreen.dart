@@ -59,6 +59,12 @@ class _DiscountScreenState extends State<DiscountScreen> {
   }
 
   @override
+  void dispose() {
+    _searchQuery.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     themeData = Theme.of(context);
     return Consumer<AppThemeNotifier>(
@@ -86,158 +92,6 @@ class _DiscountScreenState extends State<DiscountScreen> {
                     }
 
                     return filteredListView(context, snapshot.data);
-                    // return ListView.builder(
-                    //   padding: EdgeInsets.all(0),
-                    //   itemCount: snapshot.data.length,
-                    //   itemBuilder: (context, index) {
-                    //     return Ink(
-                    //       color: _selected[index] ? themeData.colorScheme.primary : themeData.backgroundColor,
-                    //       child: Dismissible(
-                    //         background: Container(
-                    //           color: themeData.primaryColor,
-                    //           padding: EdgeInsets.symmetric(horizontal: 20),
-                    //           alignment: AlignmentDirectional.centerStart,
-                    //           child: Row(
-                    //             children: <Widget>[
-                    //               Icon(
-                    //                 MdiIcons.delete,
-                    //                 color: themeData.colorScheme.onPrimary,
-                    //               ),
-                    //               Padding(
-                    //                 padding: const EdgeInsets.only(left: 8.0),
-                    //                 child: Text("Delete",
-                    //                     style: AppTheme.getTextStyle(themeData.textTheme.bodyText2,
-                    //                         fontWeight: 500, color: themeData.colorScheme.onPrimary)),
-                    //               )
-                    //             ],
-                    //           ),
-                    //         ),
-                    //         secondaryBackground: Container(
-                    //           color: themeData.primaryColor,
-                    //           padding: EdgeInsets.symmetric(horizontal: 20),
-                    //           alignment: AlignmentDirectional.centerEnd,
-                    //           child: Row(
-                    //             mainAxisAlignment: MainAxisAlignment.end,
-                    //             children: <Widget>[
-                    //               Text("Archive",
-                    //                   style: AppTheme.getTextStyle(themeData.textTheme.bodyText2,
-                    //                       fontWeight: 500, color: themeData.colorScheme.onPrimary)),
-                    //               Padding(
-                    //                 padding: const EdgeInsets.only(left: 8.0),
-                    //                 child: Icon(
-                    //                   MdiIcons.inboxArrowDown,
-                    //                   color: themeData.colorScheme.onPrimary,
-                    //                 ),
-                    //               ),
-                    //             ],
-                    //           ),
-                    //         ),
-                    //         onDismissed: (direction) {
-                    //           if (direction == DismissDirection.endToStart) {
-                    //             setState(() {
-                    //               snapshot.data.removeAt(index);
-                    //               showSnackBarWithFloating("Archived");
-                    //             });
-                    //           } else {
-                    //             setState(() {
-                    //               snapshot.data.removeAt(index);
-                    //               showSnackBarWithFloating("Deleted");
-                    //             });
-                    //           }
-                    //         },
-                    //         key: UniqueKey(),
-                    //         child: Container(
-                    //           color: _selected[index] ? themeData.colorScheme.primary : themeData.backgroundColor,
-                    //           child: Padding(
-                    //             padding: EdgeInsets.only(top: 12, left: 16, right: 16, bottom: 12),
-                    //             child: GestureDetector(
-                    //               onTap: () {
-                    //                 if (_isSelectable) {
-                    //                   setState(() => _selected[index] = !_selected[index]);
-                    //                 } else {
-                    //                   Navigator.push(
-                    //                       context,
-                    //                       MaterialPageRoute(
-                    //                           builder: (context) => DiscountEditScreen(discountEntity: snapshot.data[index])));
-                    //                 }
-                    //                 if (_selected.indexOf(true) == -1) {
-                    //                   setState(() => _isSelectable = false);
-                    //                 }
-                    //               },
-                    //               onLongPress: () {
-                    //                 if (_isSelectable) {
-                    //                   setState(() => _selected[index] = !_selected[index]);
-                    //                 } else {
-                    //                   setState(() {
-                    //                     _isSelectable = true;
-                    //                     _selected[index] = !_selected[index];
-                    //                   });
-                    //                 }
-                    //               },
-                    //               child: Container(
-                    //                 color: _selected[index] ? themeData.colorScheme.primary : themeData.backgroundColor,
-                    //                 child: Row(
-                    //                   mainAxisAlignment: MainAxisAlignment.start,
-                    //                   crossAxisAlignment: CrossAxisAlignment.start,
-                    //                   children: <Widget>[
-                    //                     CircleAvatar(
-                    //                       backgroundColor: _selected[index]
-                    //                           ? themeData.colorScheme.primary
-                    //                           : themeData.colorScheme.primary.withAlpha(240),
-                    //                       child: _selected[index]
-                    //                           ? Icon(
-                    //                               Icons.done,
-                    //                               color: themeData.colorScheme.onSecondary,
-                    //                             )
-                    //                           : Icon(
-                    //                               MdiIcons.tag,
-                    //                               color: themeData.colorScheme.onPrimary,
-                    //                             ),
-                    //                     ),
-                    //                     Expanded(
-                    //                       flex: 1,
-                    //                       child: Padding(
-                    //                         padding: const EdgeInsets.only(left: 16.0),
-                    //                         child: /*Column(
-                    //                       children: <Widget>[*/
-                    //                             Row(
-                    //                           children: <Widget>[
-                    //                             Expanded(
-                    //                                 flex: 1,
-                    //                                 child: Text(snapshot.data[index].name,
-                    //                                     style: AppTheme.getTextStyle(
-                    //                                       themeData.textTheme.subtitle2,
-                    //                                       color: _selected[index]
-                    //                                           ? themeData.colorScheme.onPrimary
-                    //                                           : themeData.colorScheme.onBackground,
-                    //                                       /*fontWeight: snapshot.data[index].isRead ? 600 : 800*/
-                    //                                     ))),
-                    //                             discountValue(snapshot.data[index], index)
-                    //                           ],
-                    //                           crossAxisAlignment: CrossAxisAlignment.center,
-                    //                         ),
-                    //                         // Text(snapshot.data[index].value.toString(),
-                    //                         //     style: AppTheme.getTextStyle(
-                    //                         //       themeData.textTheme.subtitle2,
-                    //                         //       fontWeight: snapshot.data[index].isRead ? 600 : 800
-                    //                         //     )),
-                    //                         // Text(snapshot.data[index].message,
-                    //                         //     style: AppTheme.getTextStyle(themeData.textTheme.bodyText2, fontWeight: 600))
-                    //                         /*],
-                    //                       crossAxisAlignment: CrossAxisAlignment.center,
-                    //                     ),*/
-                    //                       ),
-                    //                     )
-                    //                   ],
-                    //                 ),
-                    //               ),
-                    //             ),
-                    //           ),
-                    //         ),
-                    //       ),
-                    //     );
-                    //   },
-                    // );
                   } else {
                     return Container(
                       child: Center(
@@ -300,29 +154,11 @@ class _DiscountScreenState extends State<DiscountScreen> {
           icon: actionIcon,
           onPressed: () {
             setState(() {
-              if (this.actionIcon.icon == Icons.search) {
-                this.actionIcon = Icon(Icons.close);
-                this.appBarTitle = TextField(
-                  autofocus: true,
-                  controller: _searchQuery,
-                  decoration: InputDecoration(
-                    hintText: "Buscar",
-                    border: InputBorder.none,
-                    focusedBorder: InputBorder.none,
-                    enabledBorder: InputBorder.none,
-                    disabledBorder: InputBorder.none,
-                    errorBorder: InputBorder.none,
-                    focusedErrorBorder: InputBorder.none,
-                    isDense: true,
-                    contentPadding: EdgeInsets.only(top: MySize.size14!),
-                    prefixIcon: Icon(
-                      MdiIcons.magnify,
-                      size: MySize.size22,
-                      color: themeData.colorScheme.onBackground,
-                    ),
-                  ),
-                );
+              if (actionIcon.icon == Icons.search) {
                 _handleSearchStart();
+              } else if (actionIcon.icon == Icons.delete) {
+                debugPrint('Borrando informacion');
+                _handleDeleteEnd();
               } else {
                 _handleSearchEnd();
               }
@@ -336,6 +172,27 @@ class _DiscountScreenState extends State<DiscountScreen> {
   void _handleSearchStart() {
     setState(() {
       _isSearching = true;
+      actionIcon = Icon(Icons.close);
+      appBarTitle = TextField(
+        autofocus: true,
+        controller: _searchQuery,
+        decoration: InputDecoration(
+          hintText: "Buscar",
+          border: InputBorder.none,
+          focusedBorder: InputBorder.none,
+          enabledBorder: InputBorder.none,
+          disabledBorder: InputBorder.none,
+          errorBorder: InputBorder.none,
+          focusedErrorBorder: InputBorder.none,
+          isDense: true,
+          contentPadding: EdgeInsets.only(top: MySize.size14!),
+          prefixIcon: Icon(
+            MdiIcons.magnify,
+            size: MySize.size22,
+            color: themeData.colorScheme.onBackground,
+          ),
+        ),
+      );
     });
   }
 
@@ -346,6 +203,58 @@ class _DiscountScreenState extends State<DiscountScreen> {
       _isSearching = false;
       _searchQuery.clear();
     });
+  }
+
+  void _handleDeleteStart() {
+    setState(() {
+      _isSelectable = true;
+      actionIcon = Icon(Icons.delete);
+      _changeLabelDeleteAppBar();
+    });
+  }
+
+  void _changeLabelDeleteAppBar() {
+    int totalSelected = _selected.where((element) => element == true).length;
+    setState(() {
+      appBarTitle = Container(
+        child: Row(
+          children: <Widget>[
+            IconButton(
+              icon: Icon(Icons.close),
+              onPressed: () {
+                _handleDeleteEnd();
+              },
+            ),
+            Expanded(
+              flex: 1,
+              child: Text(" $totalSelected descuento${totalSelected > 1 ? 's' : ''}",
+                  style: AppTheme.getTextStyle(themeData.textTheme.headline6, fontWeight: 600)),
+            )
+          ],
+        ),
+      );
+    });
+  }
+
+  void _handleDeleteChange(int index) {
+    setState(() {
+      _selected[index] = !_selected[index];
+    });
+    _changeLabelDeleteAppBar();
+  }
+
+  void _handleDeleteEnd() {
+    setState(() {
+      this.actionIcon = Icon(Icons.search);
+      this.appBarTitle = Text("Descuentos", style: AppTheme.getTextStyle(themeData.textTheme.headline6, fontWeight: 600));
+      for (int x = 0; x < _selected.length; x++) {
+        _selected[x] = false;
+      }
+      _isSelectable = false;
+    });
+    if (_isSearching) {
+      _handleSearchStart();
+    }
   }
 
   Widget filteredListView(BuildContext context, List<DiscountEntity> discountsEntity) {
@@ -423,24 +332,20 @@ class _DiscountScreenState extends State<DiscountScreen> {
                 child: GestureDetector(
                   onTap: () {
                     if (_isSelectable) {
-                      setState(() => _selected[index] = !_selected[index]);
+                      _handleDeleteChange(index);
                     } else {
                       Navigator.push(
                           context, MaterialPageRoute(builder: (context) => DiscountEditScreen(discountEntity: data[index])));
                     }
                     if (_selected.indexOf(true) == -1) {
-                      setState(() => _isSelectable = false);
+                      _handleDeleteEnd();
                     }
                   },
                   onLongPress: () {
-                    if (_isSelectable) {
-                      setState(() => _selected[index] = !_selected[index]);
-                    } else {
-                      setState(() {
-                        _isSelectable = true;
-                        _selected[index] = !_selected[index];
-                      });
+                    if (!_isSelectable) {
+                      _handleDeleteStart();
                     }
+                    _handleDeleteChange(index);
                   },
                   child: Container(
                     color: _selected[index] ? themeData.colorScheme.primary : themeData.backgroundColor,
@@ -465,35 +370,13 @@ class _DiscountScreenState extends State<DiscountScreen> {
                           flex: 1,
                           child: Padding(
                             padding: const EdgeInsets.only(left: 16.0),
-                            child: /*Column(
-                                          children: <Widget>[*/
-                                Row(
+                            child: Row(
                               children: <Widget>[
-                                Expanded(
-                                    flex: 1,
-                                    child: richTextListView(data[index].name, index)
-                                    // Text(data[index].name,
-                                    //     style: AppTheme.getTextStyle(
-                                    //       themeData.textTheme.subtitle2,
-                                    //       color:
-                                    //           _selected[index] ? themeData.colorScheme.onPrimary : themeData.colorScheme.onBackground,
-                                    //       /*fontWeight: snapshot.data[index].isRead ? 600 : 800*/
-                                    //     )),
-                                ),
+                                Expanded(flex: 1, child: richTextListView(data[index].name, index)),
                                 discountValue(data[index], index)
                               ],
                               crossAxisAlignment: CrossAxisAlignment.center,
                             ),
-                            // Text(snapshot.data[index].value.toString(),
-                            //     style: AppTheme.getTextStyle(
-                            //       themeData.textTheme.subtitle2,
-                            //       fontWeight: snapshot.data[index].isRead ? 600 : 800
-                            //     )),
-                            // Text(snapshot.data[index].message,
-                            //     style: AppTheme.getTextStyle(themeData.textTheme.bodyText2, fontWeight: 600))
-                            /*],
-                                          crossAxisAlignment: CrossAxisAlignment.center,
-                                        ),*/
                           ),
                         )
                       ],
@@ -519,7 +402,8 @@ class _DiscountScreenState extends State<DiscountScreen> {
           ),
           children: <TextSpan>[
             TextSpan(
-                text: text.substring(text.toLowerCase().indexOf(_searchText.toLowerCase()), text.toLowerCase().indexOf(_searchText.toLowerCase()) + _searchText.length),
+                text: text.substring(text.toLowerCase().indexOf(_searchText.toLowerCase()),
+                    text.toLowerCase().indexOf(_searchText.toLowerCase()) + _searchText.length),
                 style: AppTheme.getTextStyle(
                   themeData.textTheme.subtitle2,
                   color: _selected[index] ? themeData.colorScheme.onPrimary : themeData.colorScheme.onBackground,
@@ -540,7 +424,6 @@ class _DiscountScreenState extends State<DiscountScreen> {
           style: AppTheme.getTextStyle(
             themeData.textTheme.subtitle2,
             color: _selected[index] ? themeData.colorScheme.onPrimary : themeData.colorScheme.onBackground,
-            /*fontWeight: snapshot.data[index].isRead ? 600 : 800*/
           ));
     }
   }
