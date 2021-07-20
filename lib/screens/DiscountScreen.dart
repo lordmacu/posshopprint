@@ -5,6 +5,7 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:posshop_app/model/entity/DiscountEntity.dart';
 import 'package:posshop_app/screens/DiscountEditScreen.dart';
 import 'package:posshop_app/service/DiscountService.dart';
+import 'package:posshop_app/utils/SizeConfig.dart';
 import 'package:posshop_app/widget/MenuDrawerWidget.dart';
 import 'package:provider/provider.dart';
 
@@ -28,6 +29,35 @@ class _DiscountScreenState extends State<DiscountScreen> {
   bool _isSelectable = false;
   List<bool> _selected = List.empty();
 
+  late Widget appBarTitle;
+  late Icon actionIcon;
+  TextEditingController _searchQuery = new TextEditingController();
+  bool _isSearching = false;
+  String _searchText = "";
+
+  _DiscountScreenState() {
+    _searchQuery.addListener(() {
+      if (_searchQuery.text.isEmpty) {
+        setState(() {
+          _isSearching = false;
+          _searchText = "";
+        });
+      } else {
+        setState(() {
+          _isSearching = true;
+          _searchText = _searchQuery.text;
+        });
+      }
+    });
+  }
+
+  @override
+  void initState() {
+    actionIcon = Icon(Icons.search);
+    appBarTitle = Text("Descuentos");
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     themeData = Theme.of(context);
@@ -39,14 +69,9 @@ class _DiscountScreenState extends State<DiscountScreen> {
           theme: AppTheme.getThemeFromThemeMode(value.themeMode()),
           home: Scaffold(
             key: _scaffoldKey,
-            appBar: AppBar(
-              title: Text("Descuentos", style: AppTheme.getTextStyle(themeData.textTheme.headline6, fontWeight: 600)),
-              actions: <Widget>[
-                IconButton(
-                  icon: Icon(Icons.search),
-                  onPressed: () {},
-                ),
-              ],
+            appBar: PreferredSize(
+              preferredSize: const Size.fromHeight(56),
+              child: buildAppBar(context),
             ),
             body: Container(
               color: themeData.backgroundColor,
@@ -60,158 +85,159 @@ class _DiscountScreenState extends State<DiscountScreen> {
                       _selected = List.generate(snapshot.data.length, (index) => false);
                     }
 
-                    return ListView.builder(
-                      padding: EdgeInsets.all(0),
-                      itemCount: snapshot.data.length,
-                      itemBuilder: (context, index) {
-                        return Ink(
-                          color: _selected[index] ? themeData.colorScheme.primary : themeData.backgroundColor,
-                          child: Dismissible(
-                            background: Container(
-                              color: themeData.primaryColor,
-                              padding: EdgeInsets.symmetric(horizontal: 20),
-                              alignment: AlignmentDirectional.centerStart,
-                              child: Row(
-                                children: <Widget>[
-                                  Icon(
-                                    MdiIcons.delete,
-                                    color: themeData.colorScheme.onPrimary,
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 8.0),
-                                    child: Text("Delete",
-                                        style: AppTheme.getTextStyle(themeData.textTheme.bodyText2,
-                                            fontWeight: 500, color: themeData.colorScheme.onPrimary)),
-                                  )
-                                ],
-                              ),
-                            ),
-                            secondaryBackground: Container(
-                              color: themeData.primaryColor,
-                              padding: EdgeInsets.symmetric(horizontal: 20),
-                              alignment: AlignmentDirectional.centerEnd,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: <Widget>[
-                                  Text("Archive",
-                                      style: AppTheme.getTextStyle(themeData.textTheme.bodyText2,
-                                          fontWeight: 500, color: themeData.colorScheme.onPrimary)),
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 8.0),
-                                    child: Icon(
-                                      MdiIcons.inboxArrowDown,
-                                      color: themeData.colorScheme.onPrimary,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            onDismissed: (direction) {
-                              if (direction == DismissDirection.endToStart) {
-                                setState(() {
-                                  snapshot.data.removeAt(index);
-                                  showSnackBarWithFloating("Archived");
-                                });
-                              } else {
-                                setState(() {
-                                  snapshot.data.removeAt(index);
-                                  showSnackBarWithFloating("Deleted");
-                                });
-                              }
-                            },
-                            key: UniqueKey(),
-                            child: Container(
-                              color: _selected[index] ? themeData.colorScheme.primary : themeData.backgroundColor,
-                              child: Padding(
-                                padding: EdgeInsets.only(top: 12, left: 16, right: 16, bottom: 12),
-                                child: GestureDetector(
-                                  onTap: () {
-                                    if (_isSelectable) {
-                                      setState(() => _selected[index] = !_selected[index]);
-                                    } else {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) => DiscountEditScreen(discountEntity: snapshot.data[index])));
-                                    }
-                                    if (_selected.indexOf(true) == -1) {
-                                      setState(() => _isSelectable = false);
-                                    }
-                                  },
-                                  onLongPress: () {
-                                    if (_isSelectable) {
-                                      setState(() => _selected[index] = !_selected[index]);
-                                    } else {
-                                      setState(() {
-                                        _isSelectable = true;
-                                        _selected[index] = !_selected[index];
-                                      });
-                                    }
-                                  },
-                                  child: Container(
-                                    color: _selected[index] ? themeData.colorScheme.primary : themeData.backgroundColor,
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: <Widget>[
-                                        CircleAvatar(
-                                          backgroundColor: _selected[index]
-                                              ? themeData.colorScheme.primary
-                                              : themeData.colorScheme.primary.withAlpha(240),
-                                          child: _selected[index]
-                                              ? Icon(
-                                                  Icons.done,
-                                                  color: themeData.colorScheme.onSecondary,
-                                                )
-                                              : Icon(
-                                                  MdiIcons.tag,
-                                                  color: themeData.colorScheme.onPrimary,
-                                                ),
-                                        ),
-                                        Expanded(
-                                          flex: 1,
-                                          child: Padding(
-                                            padding: const EdgeInsets.only(left: 16.0),
-                                            child: /*Column(
-                                          children: <Widget>[*/
-                                                Row(
-                                              children: <Widget>[
-                                                Expanded(
-                                                    flex: 1,
-                                                    child: Text(snapshot.data[index].name,
-                                                        style: AppTheme.getTextStyle(
-                                                          themeData.textTheme.subtitle2,
-                                                          color: _selected[index]
-                                                              ? themeData.colorScheme.onPrimary
-                                                              : themeData.colorScheme.onBackground,
-                                                          /*fontWeight: snapshot.data[index].isRead ? 600 : 800*/
-                                                        ))),
-                                                discountValue(snapshot.data[index], index)
-                                              ],
-                                              crossAxisAlignment: CrossAxisAlignment.center,
-                                            ),
-                                            // Text(snapshot.data[index].value.toString(),
-                                            //     style: AppTheme.getTextStyle(
-                                            //       themeData.textTheme.subtitle2,
-                                            //       fontWeight: snapshot.data[index].isRead ? 600 : 800
-                                            //     )),
-                                            // Text(snapshot.data[index].message,
-                                            //     style: AppTheme.getTextStyle(themeData.textTheme.bodyText2, fontWeight: 600))
-                                            /*],
-                                          crossAxisAlignment: CrossAxisAlignment.center,
-                                        ),*/
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        );
-                      },
-                    );
+                    return filteredListView(context, snapshot.data);
+                    // return ListView.builder(
+                    //   padding: EdgeInsets.all(0),
+                    //   itemCount: snapshot.data.length,
+                    //   itemBuilder: (context, index) {
+                    //     return Ink(
+                    //       color: _selected[index] ? themeData.colorScheme.primary : themeData.backgroundColor,
+                    //       child: Dismissible(
+                    //         background: Container(
+                    //           color: themeData.primaryColor,
+                    //           padding: EdgeInsets.symmetric(horizontal: 20),
+                    //           alignment: AlignmentDirectional.centerStart,
+                    //           child: Row(
+                    //             children: <Widget>[
+                    //               Icon(
+                    //                 MdiIcons.delete,
+                    //                 color: themeData.colorScheme.onPrimary,
+                    //               ),
+                    //               Padding(
+                    //                 padding: const EdgeInsets.only(left: 8.0),
+                    //                 child: Text("Delete",
+                    //                     style: AppTheme.getTextStyle(themeData.textTheme.bodyText2,
+                    //                         fontWeight: 500, color: themeData.colorScheme.onPrimary)),
+                    //               )
+                    //             ],
+                    //           ),
+                    //         ),
+                    //         secondaryBackground: Container(
+                    //           color: themeData.primaryColor,
+                    //           padding: EdgeInsets.symmetric(horizontal: 20),
+                    //           alignment: AlignmentDirectional.centerEnd,
+                    //           child: Row(
+                    //             mainAxisAlignment: MainAxisAlignment.end,
+                    //             children: <Widget>[
+                    //               Text("Archive",
+                    //                   style: AppTheme.getTextStyle(themeData.textTheme.bodyText2,
+                    //                       fontWeight: 500, color: themeData.colorScheme.onPrimary)),
+                    //               Padding(
+                    //                 padding: const EdgeInsets.only(left: 8.0),
+                    //                 child: Icon(
+                    //                   MdiIcons.inboxArrowDown,
+                    //                   color: themeData.colorScheme.onPrimary,
+                    //                 ),
+                    //               ),
+                    //             ],
+                    //           ),
+                    //         ),
+                    //         onDismissed: (direction) {
+                    //           if (direction == DismissDirection.endToStart) {
+                    //             setState(() {
+                    //               snapshot.data.removeAt(index);
+                    //               showSnackBarWithFloating("Archived");
+                    //             });
+                    //           } else {
+                    //             setState(() {
+                    //               snapshot.data.removeAt(index);
+                    //               showSnackBarWithFloating("Deleted");
+                    //             });
+                    //           }
+                    //         },
+                    //         key: UniqueKey(),
+                    //         child: Container(
+                    //           color: _selected[index] ? themeData.colorScheme.primary : themeData.backgroundColor,
+                    //           child: Padding(
+                    //             padding: EdgeInsets.only(top: 12, left: 16, right: 16, bottom: 12),
+                    //             child: GestureDetector(
+                    //               onTap: () {
+                    //                 if (_isSelectable) {
+                    //                   setState(() => _selected[index] = !_selected[index]);
+                    //                 } else {
+                    //                   Navigator.push(
+                    //                       context,
+                    //                       MaterialPageRoute(
+                    //                           builder: (context) => DiscountEditScreen(discountEntity: snapshot.data[index])));
+                    //                 }
+                    //                 if (_selected.indexOf(true) == -1) {
+                    //                   setState(() => _isSelectable = false);
+                    //                 }
+                    //               },
+                    //               onLongPress: () {
+                    //                 if (_isSelectable) {
+                    //                   setState(() => _selected[index] = !_selected[index]);
+                    //                 } else {
+                    //                   setState(() {
+                    //                     _isSelectable = true;
+                    //                     _selected[index] = !_selected[index];
+                    //                   });
+                    //                 }
+                    //               },
+                    //               child: Container(
+                    //                 color: _selected[index] ? themeData.colorScheme.primary : themeData.backgroundColor,
+                    //                 child: Row(
+                    //                   mainAxisAlignment: MainAxisAlignment.start,
+                    //                   crossAxisAlignment: CrossAxisAlignment.start,
+                    //                   children: <Widget>[
+                    //                     CircleAvatar(
+                    //                       backgroundColor: _selected[index]
+                    //                           ? themeData.colorScheme.primary
+                    //                           : themeData.colorScheme.primary.withAlpha(240),
+                    //                       child: _selected[index]
+                    //                           ? Icon(
+                    //                               Icons.done,
+                    //                               color: themeData.colorScheme.onSecondary,
+                    //                             )
+                    //                           : Icon(
+                    //                               MdiIcons.tag,
+                    //                               color: themeData.colorScheme.onPrimary,
+                    //                             ),
+                    //                     ),
+                    //                     Expanded(
+                    //                       flex: 1,
+                    //                       child: Padding(
+                    //                         padding: const EdgeInsets.only(left: 16.0),
+                    //                         child: /*Column(
+                    //                       children: <Widget>[*/
+                    //                             Row(
+                    //                           children: <Widget>[
+                    //                             Expanded(
+                    //                                 flex: 1,
+                    //                                 child: Text(snapshot.data[index].name,
+                    //                                     style: AppTheme.getTextStyle(
+                    //                                       themeData.textTheme.subtitle2,
+                    //                                       color: _selected[index]
+                    //                                           ? themeData.colorScheme.onPrimary
+                    //                                           : themeData.colorScheme.onBackground,
+                    //                                       /*fontWeight: snapshot.data[index].isRead ? 600 : 800*/
+                    //                                     ))),
+                    //                             discountValue(snapshot.data[index], index)
+                    //                           ],
+                    //                           crossAxisAlignment: CrossAxisAlignment.center,
+                    //                         ),
+                    //                         // Text(snapshot.data[index].value.toString(),
+                    //                         //     style: AppTheme.getTextStyle(
+                    //                         //       themeData.textTheme.subtitle2,
+                    //                         //       fontWeight: snapshot.data[index].isRead ? 600 : 800
+                    //                         //     )),
+                    //                         // Text(snapshot.data[index].message,
+                    //                         //     style: AppTheme.getTextStyle(themeData.textTheme.bodyText2, fontWeight: 600))
+                    //                         /*],
+                    //                       crossAxisAlignment: CrossAxisAlignment.center,
+                    //                     ),*/
+                    //                       ),
+                    //                     )
+                    //                   ],
+                    //                 ),
+                    //               ),
+                    //             ),
+                    //           ),
+                    //         ),
+                    //       ),
+                    //     );
+                    //   },
+                    // );
                   } else {
                     return Container(
                       child: Center(
@@ -264,5 +290,258 @@ class _DiscountScreenState extends State<DiscountScreen> {
         duration: Duration(seconds: 1),
       ),
     );
+  }
+
+  Widget buildAppBar(BuildContext context) {
+    return AppBar(
+      title: appBarTitle,
+      actions: <Widget>[
+        IconButton(
+          icon: actionIcon,
+          onPressed: () {
+            setState(() {
+              if (this.actionIcon.icon == Icons.search) {
+                this.actionIcon = Icon(Icons.close);
+                this.appBarTitle = TextField(
+                  autofocus: true,
+                  controller: _searchQuery,
+                  decoration: InputDecoration(
+                    hintText: "Buscar",
+                    border: InputBorder.none,
+                    focusedBorder: InputBorder.none,
+                    enabledBorder: InputBorder.none,
+                    disabledBorder: InputBorder.none,
+                    errorBorder: InputBorder.none,
+                    focusedErrorBorder: InputBorder.none,
+                    isDense: true,
+                    contentPadding: EdgeInsets.only(top: MySize.size14!),
+                    prefixIcon: Icon(
+                      MdiIcons.magnify,
+                      size: MySize.size22,
+                      color: themeData.colorScheme.onBackground,
+                    ),
+                  ),
+                );
+                _handleSearchStart();
+              } else {
+                _handleSearchEnd();
+              }
+            });
+          },
+        ),
+      ],
+    );
+  }
+
+  void _handleSearchStart() {
+    setState(() {
+      _isSearching = true;
+    });
+  }
+
+  void _handleSearchEnd() {
+    setState(() {
+      this.actionIcon = Icon(Icons.search);
+      this.appBarTitle = Text("Descuentos", style: AppTheme.getTextStyle(themeData.textTheme.headline6, fontWeight: 600));
+      _isSearching = false;
+      _searchQuery.clear();
+    });
+  }
+
+  Widget filteredListView(BuildContext context, List<DiscountEntity> discountsEntity) {
+    List<DiscountEntity> data;
+    if (_isSearching && _searchText.isNotEmpty) {
+      data = List.from(discountsEntity.where((discount) => discount.name.toLowerCase().contains(_searchText.toLowerCase())));
+    } else {
+      data = discountsEntity;
+    }
+
+    return ListView.builder(
+      padding: EdgeInsets.all(0),
+      itemCount: data.length,
+      itemBuilder: (context, index) {
+        return Ink(
+          color: _selected[index] ? themeData.colorScheme.primary : themeData.backgroundColor,
+          child: Dismissible(
+            background: Container(
+              color: themeData.primaryColor,
+              padding: EdgeInsets.symmetric(horizontal: 20),
+              alignment: AlignmentDirectional.centerStart,
+              child: Row(
+                children: <Widget>[
+                  Icon(
+                    MdiIcons.delete,
+                    color: themeData.colorScheme.onPrimary,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 8.0),
+                    child: Text("Delete",
+                        style: AppTheme.getTextStyle(themeData.textTheme.bodyText2,
+                            fontWeight: 500, color: themeData.colorScheme.onPrimary)),
+                  )
+                ],
+              ),
+            ),
+            secondaryBackground: Container(
+              color: themeData.primaryColor,
+              padding: EdgeInsets.symmetric(horizontal: 20),
+              alignment: AlignmentDirectional.centerEnd,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: <Widget>[
+                  Text("Archive",
+                      style: AppTheme.getTextStyle(themeData.textTheme.bodyText2,
+                          fontWeight: 500, color: themeData.colorScheme.onPrimary)),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 8.0),
+                    child: Icon(
+                      MdiIcons.inboxArrowDown,
+                      color: themeData.colorScheme.onPrimary,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            onDismissed: (direction) {
+              if (direction == DismissDirection.endToStart) {
+                setState(() {
+                  data.removeAt(index);
+                  showSnackBarWithFloating("Archived");
+                });
+              } else {
+                setState(() {
+                  data.removeAt(index);
+                  showSnackBarWithFloating("Deleted");
+                });
+              }
+            },
+            key: UniqueKey(),
+            child: Container(
+              color: _selected[index] ? themeData.colorScheme.primary : themeData.backgroundColor,
+              child: Padding(
+                padding: EdgeInsets.only(top: 12, left: 16, right: 16, bottom: 12),
+                child: GestureDetector(
+                  onTap: () {
+                    if (_isSelectable) {
+                      setState(() => _selected[index] = !_selected[index]);
+                    } else {
+                      Navigator.push(
+                          context, MaterialPageRoute(builder: (context) => DiscountEditScreen(discountEntity: data[index])));
+                    }
+                    if (_selected.indexOf(true) == -1) {
+                      setState(() => _isSelectable = false);
+                    }
+                  },
+                  onLongPress: () {
+                    if (_isSelectable) {
+                      setState(() => _selected[index] = !_selected[index]);
+                    } else {
+                      setState(() {
+                        _isSelectable = true;
+                        _selected[index] = !_selected[index];
+                      });
+                    }
+                  },
+                  child: Container(
+                    color: _selected[index] ? themeData.colorScheme.primary : themeData.backgroundColor,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        CircleAvatar(
+                          backgroundColor:
+                              _selected[index] ? themeData.colorScheme.primary : themeData.colorScheme.primary.withAlpha(240),
+                          child: _selected[index]
+                              ? Icon(
+                                  Icons.done,
+                                  color: themeData.colorScheme.onSecondary,
+                                )
+                              : Icon(
+                                  MdiIcons.tag,
+                                  color: themeData.colorScheme.onPrimary,
+                                ),
+                        ),
+                        Expanded(
+                          flex: 1,
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 16.0),
+                            child: /*Column(
+                                          children: <Widget>[*/
+                                Row(
+                              children: <Widget>[
+                                Expanded(
+                                    flex: 1,
+                                    child: richTextListView(data[index].name, index)
+                                    // Text(data[index].name,
+                                    //     style: AppTheme.getTextStyle(
+                                    //       themeData.textTheme.subtitle2,
+                                    //       color:
+                                    //           _selected[index] ? themeData.colorScheme.onPrimary : themeData.colorScheme.onBackground,
+                                    //       /*fontWeight: snapshot.data[index].isRead ? 600 : 800*/
+                                    //     )),
+                                ),
+                                discountValue(data[index], index)
+                              ],
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                            ),
+                            // Text(snapshot.data[index].value.toString(),
+                            //     style: AppTheme.getTextStyle(
+                            //       themeData.textTheme.subtitle2,
+                            //       fontWeight: snapshot.data[index].isRead ? 600 : 800
+                            //     )),
+                            // Text(snapshot.data[index].message,
+                            //     style: AppTheme.getTextStyle(themeData.textTheme.bodyText2, fontWeight: 600))
+                            /*],
+                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                        ),*/
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget richTextListView(String text, int index) {
+    if (_isSearching && _searchText.isNotEmpty) {
+      return RichText(
+        text: TextSpan(
+          text: text.substring(0, text.toLowerCase().indexOf(_searchText.toLowerCase())),
+          style: AppTheme.getTextStyle(
+            themeData.textTheme.subtitle2,
+            color: _selected[index] ? themeData.colorScheme.onPrimary : themeData.colorScheme.onBackground,
+          ),
+          children: <TextSpan>[
+            TextSpan(
+                text: text.substring(text.toLowerCase().indexOf(_searchText.toLowerCase()), text.toLowerCase().indexOf(_searchText.toLowerCase()) + _searchText.length),
+                style: AppTheme.getTextStyle(
+                  themeData.textTheme.subtitle2,
+                  color: _selected[index] ? themeData.colorScheme.onPrimary : themeData.colorScheme.onBackground,
+                  fontWeight: 800,
+                )),
+            TextSpan(
+              text: text.substring(text.toLowerCase().indexOf(_searchText.toLowerCase()) + _searchText.length, text.length),
+              style: AppTheme.getTextStyle(
+                themeData.textTheme.subtitle2,
+                color: _selected[index] ? themeData.colorScheme.onPrimary : themeData.colorScheme.onBackground,
+              ),
+            ),
+          ],
+        ),
+      );
+    } else {
+      return Text(text,
+          style: AppTheme.getTextStyle(
+            themeData.textTheme.subtitle2,
+            color: _selected[index] ? themeData.colorScheme.onPrimary : themeData.colorScheme.onBackground,
+            /*fontWeight: snapshot.data[index].isRead ? 600 : 800*/
+          ));
+    }
   }
 }
