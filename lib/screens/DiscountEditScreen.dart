@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:posshop_app/model/entity/DiscountEntity.dart';
+import 'package:posshop_app/service/DiscountService.dart';
+import 'package:posshop_app/service/PosService.dart';
 import 'package:posshop_app/utils/NumberTextInputFormatter.dart';
 import 'package:posshop_app/utils/PercentTextInputFormatter.dart';
 import 'package:posshop_app/utils/SizeConfig.dart';
@@ -10,10 +12,13 @@ import 'package:provider/provider.dart';
 import '../AppTheme.dart';
 import '../AppThemeNotifier.dart';
 
+typedef UpdateListCallback = void Function();
+
 class DiscountEditScreen extends StatefulWidget {
   final DiscountEntity? discountEntity;
+  final UpdateListCallback updateList;
 
-  const DiscountEditScreen({Key? key, this.discountEntity}) : super(key: key);
+  const DiscountEditScreen({Key? key, this.discountEntity, required this.updateList}) : super(key: key);
 
   @override
   _DiscountEditScreenState createState() => _DiscountEditScreenState();
@@ -25,20 +30,24 @@ class _DiscountEditScreenState extends State<DiscountEditScreen> {
   late CustomAppTheme customAppTheme;
   late DiscountEntity discountEntity;
 
+  bool _isButtonSaveDisabled = false;
+  bool _isButtonDeleteDisabled = false;
   late TextEditingController txtValorController;
   List<bool> toggleButtonsSelected = [true, false];
 
   @override
   void initState() {
     if (widget.discountEntity == null) {
-      discountEntity = DiscountEntity(name: '', calculationType: '');
+      discountEntity = DiscountEntity(idCloud: 0, name: '', calculationType: '');
       txtValorController = TextEditingController();
     } else {
       discountEntity = DiscountEntity(
-          name: widget.discountEntity!.name,
-          value: widget.discountEntity!.value,
-          calculationType: widget.discountEntity!.calculationType,
-          id: widget.discountEntity!.id);
+        idCloud: widget.discountEntity!.idCloud,
+        name: widget.discountEntity!.name,
+        value: widget.discountEntity!.value,
+        calculationType: widget.discountEntity!.calculationType,
+        id: widget.discountEntity!.id,
+      );
       txtValorController = TextEditingController();
 
       if (discountEntity.calculationType == "PERCENT") {
@@ -211,9 +220,13 @@ class _DiscountEditScreenState extends State<DiscountEditScreen> {
                       margin: EdgeInsets.only(top: MySize.size24!),
                       child: ElevatedButton.icon(
                         style: ButtonStyle(padding: MaterialStateProperty.all(Spacing.xy(16, 0))),
-                        onPressed: () {
-                          if (_formKey.currentState!.validate()) {}
-                        },
+                        onPressed: _isButtonSaveDisabled
+                            ? null
+                            : () {
+                                if (_formKey.currentState!.validate()) {
+                                  saveDiscount();
+                                }
+                              },
                         icon: Icon(
                           MdiIcons.contentSaveOutline,
                           color: themeData.colorScheme.onPrimary,
@@ -236,7 +249,11 @@ class _DiscountEditScreenState extends State<DiscountEditScreen> {
                             margin: EdgeInsets.only(top: MySize.size24!),
                             child: OutlinedButton.icon(
                               style: ButtonStyle(padding: MaterialStateProperty.all(Spacing.xy(16, 0))),
-                              onPressed: () {},
+                              onPressed: _isButtonDeleteDisabled
+                                  ? null
+                                  : () {
+                                      deleteDiscount();
+                                    },
                               icon: Icon(
                                 MdiIcons.delete,
                                 color: themeData.colorScheme.onBackground,
@@ -290,6 +307,64 @@ class _DiscountEditScreenState extends State<DiscountEditScreen> {
       }
     } else {
       Navigator.of(context).pop();
+    }
+  }
+
+  saveDiscount() async {
+    setState(() => _isButtonSaveDisabled = true);
+
+    PosService posService = PosService();
+    int? idPos = await posService.getPosId();
+
+    if (idPos != null) {
+      if (toggleButtonsSelected[0]) {
+        discountEntity.calculationType = 'PERCENT';
+      } else {
+        discountEntity.calculationType = 'AMOUNT';
+      }
+      DiscountService discountService = DiscountService();
+      discountService.save(idPos, discountEntity).then((success) async {
+        if (success) {
+          discountService.updateAll(idPos).then((value) {
+            widget.updateList();
+            Navigator.of(context).pop();
+          });
+        }
+      });
+    }
+  }
+
+  deleteDiscount() async {
+    if ((await showDialog(
+          context: context,
+          builder: (context) => new AlertDialog(
+            title: new Text('Eliminar descuento'),
+            content: new Text('¿Estás seguro de eliminar el descuento?'),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(false),
+                child: new Text('CANCELAR'),
+              ),
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(true),
+                child: new Text('RETIRAR'),
+              ),
+            ],
+          ),
+        )) ??
+        false) {
+      setState(() => _isButtonDeleteDisabled = true);
+      PosService posService = PosService();
+      int? idPos = await posService.getPosId();
+
+      if (idPos != null) {
+        DiscountService discountService = DiscountService();
+        if (await discountService.delete(discountEntity)) {
+          await discountService.updateAll(idPos);
+          widget.updateList();
+        }
+        Navigator.of(context).pop();
+      }
     }
   }
 }

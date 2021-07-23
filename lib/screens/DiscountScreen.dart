@@ -25,6 +25,7 @@ class _DiscountScreenState extends State<DiscountScreen> {
 
   late ThemeData themeData;
   DiscountService discountService = DiscountService();
+  late Future<List<DiscountEntity>> discounts = discountService.getAll();
 
   bool _isSelectable = false;
   List<bool> _selected = List.empty();
@@ -82,12 +83,12 @@ class _DiscountScreenState extends State<DiscountScreen> {
             body: Container(
               color: themeData.backgroundColor,
               child: FutureBuilder<List<DiscountEntity>>(
-                future: discountService.getAll(),
+                future: discounts,
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
                   if (snapshot.hasError) return Text(snapshot.error.toString());
 
                   if (snapshot.hasData) {
-                    if (_selected.isEmpty) {
+                    if (_selected.isEmpty || _selected.length != snapshot.data.length) {
                       _selected = List.generate(snapshot.data.length, (index) => false);
                     }
 
@@ -105,7 +106,7 @@ class _DiscountScreenState extends State<DiscountScreen> {
             drawer: MenuDrawerWidget(themeData, _scaffoldKey, 4),
             floatingActionButton: FloatingActionButton(
               onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => DiscountEditScreen()));
+                Navigator.push(context, MaterialPageRoute(builder: (context) => DiscountEditScreen(updateList: updateList)));
               },
               child: Icon(
                 MdiIcons.plus,
@@ -123,9 +124,11 @@ class _DiscountScreenState extends State<DiscountScreen> {
     var percentFormat = NumberFormat.currency(locale: 'es_CL', symbol: '%');
 
     return Text(
-        ("PERCENT" == discountEntity.calculationType)
-            ? percentFormat.format(discountEntity.value) /*'${discountEntity.value.toStringAsFixed(0)} %'*/
-            : pesosInCLFormat.format(discountEntity.value),
+        (discountEntity.value == null)
+            ? ''
+            : ("PERCENT" == discountEntity.calculationType)
+                ? percentFormat.format(discountEntity.value) /*'${discountEntity.value.toStringAsFixed(0)} %'*/
+                : pesosInCLFormat.format(discountEntity.value),
         style: AppTheme.getTextStyle(
           themeData.textTheme.subtitle2,
           color: _selected[index] ? themeData.colorScheme.onPrimary : themeData.colorScheme.onBackground,
@@ -157,8 +160,12 @@ class _DiscountScreenState extends State<DiscountScreen> {
               if (actionIcon.icon == Icons.search) {
                 _handleSearchStart();
               } else if (actionIcon.icon == Icons.delete) {
-                debugPrint('Borrando informacion');
-                _handleDeleteEnd();
+                showAlertDelete().then((value) {
+                  if (value) {
+                    debugPrint('Borrando informacion');
+                    _handleDeleteEnd();
+                  }
+                });
               } else {
                 _handleSearchEnd();
               }
@@ -279,12 +286,12 @@ class _DiscountScreenState extends State<DiscountScreen> {
               child: Row(
                 children: <Widget>[
                   Icon(
-                    MdiIcons.delete,
+                    MdiIcons.inboxArrowDown,
                     color: themeData.colorScheme.onPrimary,
                   ),
                   Padding(
                     padding: const EdgeInsets.only(left: 8.0),
-                    child: Text("Delete",
+                    child: Text("Editar",
                         style: AppTheme.getTextStyle(themeData.textTheme.bodyText2,
                             fontWeight: 500, color: themeData.colorScheme.onPrimary)),
                   )
@@ -298,13 +305,13 @@ class _DiscountScreenState extends State<DiscountScreen> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
-                  Text("Archive",
+                  Text("Eliminar",
                       style: AppTheme.getTextStyle(themeData.textTheme.bodyText2,
                           fontWeight: 500, color: themeData.colorScheme.onPrimary)),
                   Padding(
                     padding: const EdgeInsets.only(left: 8.0),
                     child: Icon(
-                      MdiIcons.inboxArrowDown,
+                      MdiIcons.delete,
                       color: themeData.colorScheme.onPrimary,
                     ),
                   ),
@@ -315,12 +322,12 @@ class _DiscountScreenState extends State<DiscountScreen> {
               if (direction == DismissDirection.endToStart) {
                 setState(() {
                   data.removeAt(index);
-                  showSnackBarWithFloating("Archived");
+                  showSnackBarWithFloating("Editado");
                 });
               } else {
                 setState(() {
                   data.removeAt(index);
-                  showSnackBarWithFloating("Deleted");
+                  showSnackBarWithFloating("Eliminado");
                 });
               }
             },
@@ -335,7 +342,7 @@ class _DiscountScreenState extends State<DiscountScreen> {
                       _handleDeleteChange(index);
                     } else {
                       Navigator.push(
-                          context, MaterialPageRoute(builder: (context) => DiscountEditScreen(discountEntity: data[index])));
+                          context, MaterialPageRoute(builder: (context) => DiscountEditScreen(discountEntity: data[index], updateList: updateList)));
                     }
                     if (_selected.indexOf(true) == -1) {
                       _handleDeleteEnd();
@@ -426,5 +433,37 @@ class _DiscountScreenState extends State<DiscountScreen> {
             color: _selected[index] ? themeData.colorScheme.onPrimary : themeData.colorScheme.onBackground,
           ));
     }
+  }
+
+  Future<bool> showAlertDelete() async {
+    return (await showDialog(
+          context: context,
+          builder: (context) => new AlertDialog(
+            title: new Text('Eliminar descuentos'),
+            content: new Text('¿Estás seguro de eliminar los descuentos seleccionados?'),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(false),
+                child: new Text('CANCELAR'),
+              ),
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(true),
+                child: new Text('RETIRAR'),
+              ),
+            ],
+          ),
+        )) ??
+        false;
+  }
+
+  void updateList() {
+    //TODO mejorar el uso de la busqueda y marcado de descuentos, para cuando se añade uno nuevo o elimina alguno
+    Future.delayed(const Duration(milliseconds: 500), () //TODO despues de los insert no trae la informacion de inmediato
+    {
+      discountService.getAll().then((value) {
+        discounts = Future.value(value);
+        setState(() {});
+      });
+    });
   }
 }

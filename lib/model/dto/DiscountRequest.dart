@@ -6,7 +6,7 @@ class DiscountRequest {
   bool limitedAccess;
   String calculationType;
   String type;
-  double value;
+  double? value;
   int idUserCreated;
   int idUserUpdated;
   DateTime createdAt;
@@ -21,7 +21,7 @@ class DiscountRequest {
     required this.limitedAccess,
     required this.calculationType,
     required this.type,
-    required this.value,
+    this.value,
     required this.idUserCreated,
     required this.idUserUpdated,
     required this.createdAt,
@@ -38,7 +38,7 @@ class DiscountRequest {
       limitedAccess: json['limitedAccess'] != 0,
       calculationType: json['calculationType'],
       type: json['type'],
-      value: double.parse(json['value']),
+      value: (json['value'] != null)? double.parse(json['value']): null,
       idUserCreated: json['id_user_created'],
       idUserUpdated: json['id_user_updated'],
       createdAt: DateTime.parse(json['created_at'].toString()),

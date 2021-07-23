@@ -102,7 +102,6 @@ class _SelectPosScreen extends State<SelectPosScreen> {
                                     setState(() => _isButtonDisabled = true);
 
                                     TokenDao tokenDao = new TokenDao();
-                                    tokenDao.deleteAll(); //TODO: Quitar
                                     tokenDao.insert(widget.tokenEntity).then((value) {
                                       PosEntity posEntity = new PosEntity(
                                         storeId: widget.store.id,
@@ -112,7 +111,6 @@ class _SelectPosScreen extends State<SelectPosScreen> {
                                       );
 
                                       PosDao posDao = PosDao();
-                                      posDao.deleteAll(); //TODO: Quitar
                                       posDao.insert(posEntity).then((idPos) {
                                         Navigator.push(context, MaterialPageRoute(builder: (context) => SplashScreen()));
 
