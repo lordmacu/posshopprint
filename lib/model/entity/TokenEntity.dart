@@ -29,4 +29,9 @@ class TokenEntity extends BaseEntity {
         password: map['password'],
         token: map['token'],
       );
+
+  @override
+  String uniqueCloudKey() {
+    throw UnimplementedError();
+  }
 }

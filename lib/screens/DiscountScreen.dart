@@ -5,6 +5,8 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:posshop_app/model/entity/DiscountEntity.dart';
 import 'package:posshop_app/screens/DiscountEditScreen.dart';
 import 'package:posshop_app/service/DiscountService.dart';
+import 'package:posshop_app/service/PosService.dart';
+import 'package:posshop_app/utils/SelectedObject.dart';
 import 'package:posshop_app/utils/SizeConfig.dart';
 import 'package:posshop_app/widget/MenuDrawerWidget.dart';
 import 'package:provider/provider.dart';
@@ -28,7 +30,7 @@ class _DiscountScreenState extends State<DiscountScreen> {
   late Future<List<DiscountEntity>> discounts = discountService.getAll();
 
   bool _isSelectable = false;
-  List<bool> _selected = List.empty();
+  SelectedItem _selected = SelectedItem();
 
   late Widget appBarTitle;
   late Icon actionIcon;
@@ -88,9 +90,7 @@ class _DiscountScreenState extends State<DiscountScreen> {
                   if (snapshot.hasError) return Text(snapshot.error.toString());
 
                   if (snapshot.hasData) {
-                    if (_selected.isEmpty || _selected.length != snapshot.data.length) {
-                      _selected = List.generate(snapshot.data.length, (index) => false);
-                    }
+                    _selected.load(snapshot.data);
 
                     return filteredListView(context, snapshot.data);
                   } else {
@@ -131,11 +131,11 @@ class _DiscountScreenState extends State<DiscountScreen> {
                 : pesosInCLFormat.format(discountEntity.value),
         style: AppTheme.getTextStyle(
           themeData.textTheme.subtitle2,
-          color: _selected[index] ? themeData.colorScheme.onPrimary : themeData.colorScheme.onBackground,
+          color: _selected.isSelected(discountEntity) ? themeData.colorScheme.onPrimary : themeData.colorScheme.onBackground,
         ));
   }
 
-  void showSnackBarWithFloating(String message) {
+  void showSnackBarWithFloating(String message, {int duration = 1}) {
     scaffoldMessengerKey.currentState!.showSnackBar(
       new SnackBar(
         content: new Text(
@@ -144,7 +144,7 @@ class _DiscountScreenState extends State<DiscountScreen> {
         ),
         backgroundColor: themeData.colorScheme.primary,
         behavior: SnackBarBehavior.floating,
-        duration: Duration(seconds: 1),
+        duration: Duration(seconds: duration),
       ),
     );
   }
@@ -162,8 +162,7 @@ class _DiscountScreenState extends State<DiscountScreen> {
               } else if (actionIcon.icon == Icons.delete) {
                 showAlertDelete().then((value) {
                   if (value) {
-                    debugPrint('Borrando informacion');
-                    _handleDeleteEnd();
+                    deleteDiscounts();
                   }
                 });
               } else {
@@ -221,7 +220,7 @@ class _DiscountScreenState extends State<DiscountScreen> {
   }
 
   void _changeLabelDeleteAppBar() {
-    int totalSelected = _selected.where((element) => element == true).length;
+    int totalSelected = _selected.totalSelected();
     setState(() {
       appBarTitle = Container(
         child: Row(
@@ -243,9 +242,9 @@ class _DiscountScreenState extends State<DiscountScreen> {
     });
   }
 
-  void _handleDeleteChange(int index) {
+  void _handleDeleteChange(DiscountEntity entity) {
     setState(() {
-      _selected[index] = !_selected[index];
+      _selected.changeSelected(entity);
     });
     _changeLabelDeleteAppBar();
   }
@@ -254,9 +253,7 @@ class _DiscountScreenState extends State<DiscountScreen> {
     setState(() {
       this.actionIcon = Icon(Icons.search);
       this.appBarTitle = Text("Descuentos", style: AppTheme.getTextStyle(themeData.textTheme.headline6, fontWeight: 600));
-      for (int x = 0; x < _selected.length; x++) {
-        _selected[x] = false;
-      }
+      _selected.reset();
       _isSelectable = false;
     });
     if (_isSearching) {
@@ -277,7 +274,7 @@ class _DiscountScreenState extends State<DiscountScreen> {
       itemCount: data.length,
       itemBuilder: (context, index) {
         return Ink(
-          color: _selected[index] ? themeData.colorScheme.primary : themeData.backgroundColor,
+          color: _selected.isSelected(data[index]) ? themeData.colorScheme.primary : themeData.backgroundColor,
           child: Dismissible(
             background: Container(
               color: themeData.primaryColor,
@@ -319,32 +316,35 @@ class _DiscountScreenState extends State<DiscountScreen> {
               ),
             ),
             onDismissed: (direction) {
-              if (direction == DismissDirection.endToStart) {
+              if (direction == DismissDirection.startToEnd) {
                 setState(() {
-                  data.removeAt(index);
-                  showSnackBarWithFloating("Editado");
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => DiscountEditScreen(discountEntity: data[index], updateList: updateList)));
                 });
               } else {
                 setState(() {
-                  data.removeAt(index);
-                  showSnackBarWithFloating("Eliminado");
+                  deleteDiscount(data[index]);
                 });
               }
             },
             key: UniqueKey(),
             child: Container(
-              color: _selected[index] ? themeData.colorScheme.primary : themeData.backgroundColor,
+              color: _selected.isSelected(data[index]) ? themeData.colorScheme.primary : themeData.backgroundColor,
               child: Padding(
                 padding: EdgeInsets.only(top: 12, left: 16, right: 16, bottom: 12),
                 child: GestureDetector(
                   onTap: () {
                     if (_isSelectable) {
-                      _handleDeleteChange(index);
+                      _handleDeleteChange(data[index]);
                     } else {
                       Navigator.push(
-                          context, MaterialPageRoute(builder: (context) => DiscountEditScreen(discountEntity: data[index], updateList: updateList)));
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => DiscountEditScreen(discountEntity: data[index], updateList: updateList)));
                     }
-                    if (_selected.indexOf(true) == -1) {
+                    if (_selected.totalSelected() < 1) {
                       _handleDeleteEnd();
                     }
                   },
@@ -352,18 +352,18 @@ class _DiscountScreenState extends State<DiscountScreen> {
                     if (!_isSelectable) {
                       _handleDeleteStart();
                     }
-                    _handleDeleteChange(index);
+                    _handleDeleteChange(data[index]);
                   },
                   child: Container(
-                    color: _selected[index] ? themeData.colorScheme.primary : themeData.backgroundColor,
+                    color: _selected.isSelected(data[index]) ? themeData.colorScheme.primary : themeData.backgroundColor,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         CircleAvatar(
                           backgroundColor:
-                              _selected[index] ? themeData.colorScheme.primary : themeData.colorScheme.primary.withAlpha(240),
-                          child: _selected[index]
+                              _selected.isSelected(data[index]) ? themeData.colorScheme.primary : themeData.colorScheme.primary.withAlpha(240),
+                          child: _selected.isSelected(data[index])
                               ? Icon(
                                   Icons.done,
                                   color: themeData.colorScheme.onSecondary,
@@ -379,7 +379,7 @@ class _DiscountScreenState extends State<DiscountScreen> {
                             padding: const EdgeInsets.only(left: 16.0),
                             child: Row(
                               children: <Widget>[
-                                Expanded(flex: 1, child: richTextListView(data[index].name, index)),
+                                Expanded(flex: 1, child: richTextListView(data[index])),
                                 discountValue(data[index], index)
                               ],
                               crossAxisAlignment: CrossAxisAlignment.center,
@@ -398,39 +398,39 @@ class _DiscountScreenState extends State<DiscountScreen> {
     );
   }
 
-  Widget richTextListView(String text, int index) {
+  Widget richTextListView(DiscountEntity entity) {
     if (_isSearching && _searchText.isNotEmpty) {
       return RichText(
         text: TextSpan(
-          text: text.substring(0, text.toLowerCase().indexOf(_searchText.toLowerCase())),
+          text: entity.name.substring(0, entity.name.toLowerCase().indexOf(_searchText.toLowerCase())),
           style: AppTheme.getTextStyle(
             themeData.textTheme.subtitle2,
-            color: _selected[index] ? themeData.colorScheme.onPrimary : themeData.colorScheme.onBackground,
+            color: _selected.isSelected(entity) ? themeData.colorScheme.onPrimary : themeData.colorScheme.onBackground,
           ),
           children: <TextSpan>[
             TextSpan(
-                text: text.substring(text.toLowerCase().indexOf(_searchText.toLowerCase()),
-                    text.toLowerCase().indexOf(_searchText.toLowerCase()) + _searchText.length),
+                text: entity.name.substring(entity.name.toLowerCase().indexOf(_searchText.toLowerCase()),
+                    entity.name.toLowerCase().indexOf(_searchText.toLowerCase()) + _searchText.length),
                 style: AppTheme.getTextStyle(
                   themeData.textTheme.subtitle2,
-                  color: _selected[index] ? themeData.colorScheme.onPrimary : themeData.colorScheme.onBackground,
+                  color: _selected.isSelected(entity) ? themeData.colorScheme.onPrimary : themeData.colorScheme.onBackground,
                   fontWeight: 800,
                 )),
             TextSpan(
-              text: text.substring(text.toLowerCase().indexOf(_searchText.toLowerCase()) + _searchText.length, text.length),
+              text: entity.name.substring(entity.name.toLowerCase().indexOf(_searchText.toLowerCase()) + _searchText.length, entity.name.length),
               style: AppTheme.getTextStyle(
                 themeData.textTheme.subtitle2,
-                color: _selected[index] ? themeData.colorScheme.onPrimary : themeData.colorScheme.onBackground,
+                color: _selected.isSelected(entity) ? themeData.colorScheme.onPrimary : themeData.colorScheme.onBackground,
               ),
             ),
           ],
         ),
       );
     } else {
-      return Text(text,
+      return Text(entity.name,
           style: AppTheme.getTextStyle(
             themeData.textTheme.subtitle2,
-            color: _selected[index] ? themeData.colorScheme.onPrimary : themeData.colorScheme.onBackground,
+            color: _selected.isSelected(entity) ? themeData.colorScheme.onPrimary : themeData.colorScheme.onBackground,
           ));
     }
   }
@@ -459,11 +459,62 @@ class _DiscountScreenState extends State<DiscountScreen> {
   void updateList() {
     //TODO mejorar el uso de la busqueda y marcado de descuentos, para cuando se añade uno nuevo o elimina alguno
     Future.delayed(const Duration(milliseconds: 500), () //TODO despues de los insert no trae la informacion de inmediato
-    {
+        {
       discountService.getAll().then((value) {
         discounts = Future.value(value);
         setState(() {});
       });
     });
+  }
+
+  deleteDiscount(DiscountEntity discountEntity) async {
+    if ((await showDialog(
+          context: context,
+          builder: (context) => new AlertDialog(
+            title: new Text('Eliminar descuento'),
+            content: new Text('¿Estás seguro de eliminar el descuento?'),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(false),
+                child: new Text('CANCELAR'),
+              ),
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(true),
+                child: new Text('RETIRAR'),
+              ),
+            ],
+          ),
+        )) ??
+        false) {
+      PosService posService = PosService();
+      int? idPos = await posService.getPosId();
+
+      if (idPos != null) {
+        DiscountService discountService = DiscountService();
+        if (await discountService.delete(discountEntity)) {
+          await discountService.updateAll(idPos);
+          updateList();
+          showSnackBarWithFloating("Eliminado", duration: 2);
+        }
+      }
+    }
+  }
+
+  deleteDiscounts() async {
+    //TODO Mejorar esto de llamar a la BD para buscar el posId
+    PosService posService = PosService();
+    int? idPos = await posService.getPosId();
+
+    if (idPos != null) {
+      showSnackBarWithFloating('Borrando informacion', duration: 3);
+      DiscountService discountService = DiscountService();
+
+      _selected.getSelectedItems().forEach((element) async {
+        await discountService.delete(element);
+      });
+      await discountService.updateAll(idPos);
+      updateList();
+      _handleDeleteEnd();
+    }
   }
 }

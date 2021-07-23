@@ -33,4 +33,9 @@ class PosEntity extends BaseEntity {
         posId: map['posId'],
         posName: map['posName'],
       );
+
+  @override
+  String uniqueCloudKey() {
+    throw UnimplementedError();
+  }
 }

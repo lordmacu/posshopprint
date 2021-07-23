@@ -1,6 +1,7 @@
 import 'BaseEntity.dart';
 
 class ClientEntity extends BaseEntity {
+  int idCloud;
   String cutProvince;
   String name;
   String email;
@@ -13,6 +14,7 @@ class ClientEntity extends BaseEntity {
 
   ClientEntity({
     int? id,
+    required this.idCloud,
     required this.cutProvince,
     required this.name,
     required this.email,
@@ -27,6 +29,7 @@ class ClientEntity extends BaseEntity {
   @override
   Map<String, dynamic> toMap() => {
         'id': id,
+        'idCloud': idCloud,
         'cutProvince': cutProvince,
         'name': name,
         'email': email,
@@ -45,6 +48,7 @@ class ClientEntity extends BaseEntity {
 
   factory ClientEntity.fromMap(Map<String, dynamic> map) => ClientEntity(
         id: map['id'],
+        idCloud: map['idCloud'],
         cutProvince: map['cutProvince'],
         name: map['name'],
         email: map['email'],
@@ -55,4 +59,9 @@ class ClientEntity extends BaseEntity {
         postalCode: map['postalCode'],
         comment: map['comment'],
       );
+
+  @override
+  String uniqueCloudKey() {
+    return idCloud.toString();
+  }
 }

@@ -44,4 +44,9 @@ class DiscountEntity extends BaseEntity {
         calculationType: request.calculationType,
         value: request.value,
       );
+
+  @override
+  String uniqueCloudKey() {
+    return idCloud.toString();
+  }
 }

@@ -3,6 +3,8 @@ abstract class BaseEntity {
 
   BaseEntity({this.id});
 
+  String uniqueCloudKey();
+
   Map<String, dynamic> toMap();
 
   BaseEntity fromMap(Map<String, dynamic> map);
