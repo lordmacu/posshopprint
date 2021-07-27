@@ -31,14 +31,19 @@ class DiscountService {
 
   Future<bool> save(int idPos, DiscountEntity entity) async {
     bool success = false;
-    if (entity.idCloud == 0) {
-      await client.create(idPos, entity).then((value) {
-        success = true;
-      });
-    } else {
-      await client.update(entity).then((value) {
-        success = true;
-      });
+    try {
+      if (entity.idCloud == 0) {
+        await client.create(idPos, entity).then((value) {
+          success = true;
+        });
+      } else {
+        await client.update(entity).then((value) {
+          success = true;
+        });
+      }
+    } catch (e) {
+      print('Error 2');
+      rethrow;
     }
     return success;
   }

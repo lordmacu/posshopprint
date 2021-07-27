@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:posshop_app/api/exceptions/ConnectionException.dart';
 import 'package:posshop_app/model/entity/DiscountEntity.dart';
 import 'package:posshop_app/service/DiscountService.dart';
 import 'package:posshop_app/service/PosService.dart';
@@ -25,6 +26,7 @@ class DiscountEditScreen extends StatefulWidget {
 }
 
 class _DiscountEditScreenState extends State<DiscountEditScreen> {
+  final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
   final _formKey = GlobalKey<FormState>();
   late ThemeData themeData;
   late CustomAppTheme customAppTheme;
@@ -74,6 +76,7 @@ class _DiscountEditScreenState extends State<DiscountEditScreen> {
       builder: (BuildContext context, AppThemeNotifier value, Widget? child) {
         customAppTheme = AppTheme.getCustomAppTheme(value.themeMode());
         return MaterialApp(
+          scaffoldMessengerKey: scaffoldMessengerKey,
           debugShowCheckedModeBanner: false,
           theme: AppTheme.getThemeFromThemeMode(value.themeMode()),
           home: Scaffold(
@@ -330,6 +333,11 @@ class _DiscountEditScreenState extends State<DiscountEditScreen> {
             Navigator.of(context).pop();
           });
         }
+      }).catchError((e) {
+        print(e.toString());
+        print('Error Final');
+        showSnackBarWithFloating('No hay conexión a internet', 2);
+        setState(() => _isButtonSaveDisabled = false);
       });
     }
   }
@@ -366,5 +374,19 @@ class _DiscountEditScreenState extends State<DiscountEditScreen> {
         Navigator.of(context).pop();
       }
     }
+  }
+
+  void showSnackBarWithFloating(String message, [int duration = 1]) {
+    scaffoldMessengerKey.currentState!.showSnackBar(
+      new SnackBar(
+        content: new Text(
+          message,
+          style: themeData.textTheme.subtitle2!.merge(TextStyle(color: themeData.colorScheme.onPrimary)),
+        ),
+        backgroundColor: themeData.colorScheme.primary,
+        behavior: SnackBarBehavior.floating,
+        duration: Duration(seconds: duration),
+      ),
+    );
   }
 }

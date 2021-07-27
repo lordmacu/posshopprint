@@ -1,102 +1,51 @@
-import 'dart:convert';
-import 'dart:io';
-
-import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:posshop_app/exceptions/FetchException.dart';
-import 'package:posshop_app/exceptions/NotFoundException.dart';
 import 'package:posshop_app/model/dto/DiscountRequest.dart';
 import 'package:posshop_app/model/dto/DiscountsRequest.dart';
 import 'package:posshop_app/model/entity/DiscountEntity.dart';
-import '../../data/SPToken.dart';
+import 'package:posshop_app/utils/APIManager.dart';
 
 Future<DiscountsRequest> getAll(int idPos) async {
-  String token = await SPToken.get();
-  if (token == '') {
-    throw Exception('No autenticado');
+  Map<String, dynamic> body;
+  APIManager api = APIManager();
+  try {
+    body = await api.get('https://poschile.bbndev.com/api/discount/?id_cashregister=$idPos');
+  } catch (e) {
+    rethrow;
   }
 
-  final response = await http.get(
-    Uri.parse('https://poschile.bbndev.com/api/discount/?id_cashregister=$idPos'),
-    headers: {
-      HttpHeaders.authorizationHeader: 'Bearer $token',
-      HttpHeaders.acceptHeader: 'application/json',
-    },
-  );
-  if (response.statusCode == 200) {
-    return DiscountsRequest.fromJson(jsonDecode(response.body));
-  } else {
-    throw FetchException(jsonDecode(response.body)['message']);
-  }
+  return DiscountsRequest.fromJson(body);
 }
 
 Future<DiscountRequest> create(int idPos, DiscountEntity entity) async {
-  String token = await SPToken.get();
-  if (token == '') {
-    throw Exception('No autenticado');
+  Map<String, dynamic> body;
+  APIManager api = APIManager();
+  try {
+    body = await api.post(
+        'https://poschile.bbndev.com/api/discount?id_cashregister=$idPos&name=${entity.name}&calculationType=${entity.calculationType}${entity.value != null ? '&value=' + entity.value.toString().replaceAll(',', '.') : ''}');
+  } catch (e) {
+    rethrow;
   }
 
-  final response = await http.post(
-    Uri.parse(
-        'https://poschile.bbndev.com/api/discount?id_cashregister=$idPos&name=${entity.name}&calculationType=${entity.calculationType}${entity.value != null ? '&value=' + entity.value.toString().replaceAll(',', '.') : ''}'),
-    headers: {
-      HttpHeaders.authorizationHeader: 'Bearer $token',
-      HttpHeaders.acceptHeader: 'application/json',
-    },
-  );
-  if (response.statusCode == 200) {
-    return DiscountRequest.fromJsonData(jsonDecode(response.body));
-  } else {
-    debugPrint(response.statusCode.toString());
-    debugPrint(response.body);
-    throw FetchException(jsonDecode(response.body)['message']);
-  }
+  return DiscountRequest.fromJsonData(body);
 }
 
 Future<DiscountRequest> update(DiscountEntity entity) async {
-  String token = await SPToken.get();
-  if (token == '') {
-    throw Exception('No autenticado');
+  Map<String, dynamic> body;
+  APIManager api = APIManager();
+  try {
+    body = await api.put(
+        'https://poschile.bbndev.com/api/discount/${entity.idCloud}?name=${entity.name}&calculationType=${entity.calculationType}${entity.value != null ? '&value=' + entity.value.toString().replaceAll(',', '.') : ''}');
+  } catch (e) {
+    rethrow;
   }
 
-  debugPrint(
-      'https://poschile.bbndev.com/api/discount/${entity.idCloud}?name=${entity.name}&calculationType=${entity.calculationType}${entity.value != null ? '&value=' + entity.value.toString().replaceAll(',', '.') : ''}');
-
-  final response = await http.put(
-    Uri.parse(
-        'https://poschile.bbndev.com/api/discount/${entity.idCloud}?name=${entity.name}&calculationType=${entity.calculationType}${entity.value != null ? '&value=' + entity.value.toString().replaceAll(',', '.') : ''}'),
-    headers: {
-      HttpHeaders.authorizationHeader: 'Bearer $token',
-      HttpHeaders.acceptHeader: 'application/json',
-    },
-  );
-  if (response.statusCode == 200) {
-    return DiscountRequest.fromJsonData(jsonDecode(response.body));
-  } else if (response.statusCode == 404) {
-    throw NotFoundException(jsonDecode(response.body)['message']);
-  } else {
-    throw FetchException(jsonDecode(response.body)['message']);
-  }
+  return DiscountRequest.fromJsonData(body);
 }
 
 Future<void> delete(int id) async {
-  String token = await SPToken.get();
-  if (token == '') {
-    throw Exception('No autenticado');
-  }
-
-  final response = await http.delete(
-    Uri.parse('https://poschile.bbndev.com/api/discount/$id'),
-    headers: {
-      HttpHeaders.authorizationHeader: 'Bearer $token',
-      HttpHeaders.acceptHeader: 'application/json',
-    },
-  );
-  if (response.statusCode == 200) {
-    return;
-  } else if (response.statusCode == 404) {
-    throw NotFoundException(jsonDecode(response.body)['message']);
-  } else {
-    throw FetchException(jsonDecode(response.body)['message']);
+  APIManager api = APIManager();
+  try {
+    await api.delete('https://poschile.bbndev.com/api/discount/$id');
+  } catch (e) {
+    rethrow;
   }
 }

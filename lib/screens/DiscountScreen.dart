@@ -135,7 +135,7 @@ class _DiscountScreenState extends State<DiscountScreen> {
         ));
   }
 
-  void showSnackBarWithFloating(String message, {int duration = 1}) {
+  void showSnackBarWithFloating(String message, [int duration = 1]) {
     scaffoldMessengerKey.currentState!.showSnackBar(
       new SnackBar(
         content: new Text(
@@ -494,7 +494,7 @@ class _DiscountScreenState extends State<DiscountScreen> {
         if (await discountService.delete(discountEntity)) {
           await discountService.updateAll(idPos);
           updateList();
-          showSnackBarWithFloating("Eliminado", duration: 2);
+          showSnackBarWithFloating("Eliminado", 2);
         }
       }
     }
@@ -506,7 +506,7 @@ class _DiscountScreenState extends State<DiscountScreen> {
     int? idPos = await posService.getPosId();
 
     if (idPos != null) {
-      showSnackBarWithFloating('Borrando informacion', duration: 3);
+      showSnackBarWithFloating('Borrando informacion', 3);
       DiscountService discountService = DiscountService();
 
       _selected.getSelectedItems().forEach((element) async {
