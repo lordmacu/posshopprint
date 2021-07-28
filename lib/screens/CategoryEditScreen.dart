@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:posshop_app/model/entity/DiscountEntity.dart';
-import 'package:posshop_app/service/DiscountService.dart';
-import 'package:posshop_app/service/PosService.dart';
-import 'package:posshop_app/utils/NumberTextInputFormatter.dart';
-import 'package:posshop_app/utils/PercentTextInputFormatter.dart';
+import 'package:posshop_app/model/entity/CategoryEntity.dart';
+import 'package:posshop_app/service/CategoryService.dart';
 import 'package:posshop_app/utils/SizeConfig.dart';
 import 'package:provider/provider.dart';
 
@@ -14,22 +10,22 @@ import '../AppThemeNotifier.dart';
 
 typedef UpdateListCallback = void Function();
 
-class DiscountEditScreen extends StatefulWidget {
-  final DiscountEntity? discountEntity;
+class CategoryEditScreen extends StatefulWidget {
+  final CategoryEntity? categoryEntity;
   final UpdateListCallback updateList;
 
-  const DiscountEditScreen({Key? key, this.discountEntity, required this.updateList}) : super(key: key);
+  const CategoryEditScreen({Key? key, this.categoryEntity, required this.updateList}) : super(key: key);
 
   @override
-  _DiscountEditScreenState createState() => _DiscountEditScreenState();
+  _CategoryEditScreenState createState() => _CategoryEditScreenState();
 }
 
-class _DiscountEditScreenState extends State<DiscountEditScreen> {
+class _CategoryEditScreenState extends State<CategoryEditScreen> {
   final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
   final _formKey = GlobalKey<FormState>();
   late ThemeData themeData;
   late CustomAppTheme customAppTheme;
-  late DiscountEntity discountEntity;
+  late CategoryEntity categoryEntity;
 
   bool _isButtonSaveDisabled = false;
   bool _isButtonDeleteDisabled = false;
@@ -38,30 +34,18 @@ class _DiscountEditScreenState extends State<DiscountEditScreen> {
 
   @override
   void initState() {
-    if (widget.discountEntity == null) {
-      discountEntity = DiscountEntity(idCloud: 0, name: '', calculationType: '');
+    if (widget.categoryEntity == null) {
+      categoryEntity = CategoryEntity(idCloud: 0, name: '', color: '', itemsCount: 0);
       txtValorController = TextEditingController();
     } else {
-      discountEntity = DiscountEntity(
-        idCloud: widget.discountEntity!.idCloud,
-        name: widget.discountEntity!.name,
-        value: widget.discountEntity!.value,
-        calculationType: widget.discountEntity!.calculationType,
-        id: widget.discountEntity!.id,
+      categoryEntity = CategoryEntity(
+        idCloud: widget.categoryEntity!.idCloud,
+        name: widget.categoryEntity!.name,
+        color: widget.categoryEntity!.color,
+        itemsCount: widget.categoryEntity!.itemsCount,
+        id: widget.categoryEntity!.id,
       );
       txtValorController = TextEditingController();
-
-      if (discountEntity.calculationType == "PERCENT") {
-        if (discountEntity.value != null) {
-          txtValorController = TextEditingController(text: discountEntity.value!.toStringAsFixed(2).replaceAll(".", ","));
-        }
-      } else {
-        toggleButtonsSelected = [false, true];
-        if (discountEntity.value != null) {
-          NumberFormat format = NumberFormat.currency(locale: "es_CL", symbol: '', decimalDigits: 0);
-          txtValorController = TextEditingController(text: format.format(discountEntity.value).trim());
-        }
-      }
     }
     super.initState();
   }
@@ -82,7 +66,7 @@ class _DiscountEditScreenState extends State<DiscountEditScreen> {
             appBar: AppBar(
               elevation: 0,
               backgroundColor: themeData.appBarTheme.color,
-              title: Text(widget.discountEntity == null ? "Crear descuento" : "Editar descuento",
+              title: Text(widget.categoryEntity == null ? "Crear categoría" : "Editar categoría",
                   style: AppTheme.getTextStyle(themeData.textTheme.headline6, fontWeight: 600)),
               leading: IconButton(
                 onPressed: () {
@@ -122,10 +106,10 @@ class _DiscountEditScreenState extends State<DiscountEditScreen> {
                           }
                         },
                         onChanged: (value) {
-                          setState(() => discountEntity.name = value);
+                          setState(() => categoryEntity.name = value);
                         },
-                        initialValue: discountEntity.name,
-                        // controller: TextEditingController(text: discountEntity.name),
+                        initialValue: categoryEntity.name,
+                        // controller: TextEditingController(text: categoryEntity.name),
                         keyboardType: TextInputType.text,
                         textCapitalization: TextCapitalization.sentences,
                       ),
@@ -139,32 +123,7 @@ class _DiscountEditScreenState extends State<DiscountEditScreen> {
                             flex: 1,
                             child: Column(
                               children: <Widget>[
-                                TextFormField(
-                                  decoration: InputDecoration(
-                                    labelText: "Valor",
-                                    hintText: "Valor",
-                                    border: themeData.inputDecorationTheme.border,
-                                    enabledBorder: themeData.inputDecorationTheme.border,
-                                    focusedBorder: themeData.inputDecorationTheme.focusedBorder,
-                                    prefixIcon: Icon(
-                                      MdiIcons.cardText,
-                                      size: MySize.size22,
-                                    ),
-                                  ),
-                                  onChanged: (value) {
-                                    setState(() => discountEntity.value =
-                                        value.isEmpty ? null : double.parse(value.replaceAll(".", "").replaceAll(",", ".")));
-                                    txtValorController.selection = TextSelection.fromPosition(TextPosition(offset: value.length));
-                                  },
-                                  controller: txtValorController,
-                                  keyboardType: TextInputType.number,
-                                  inputFormatters: [
-                                    toggleButtonsSelected[0]
-                                        ? PercentTextInputFormatter(decimalRange: 2, maxValue: 100)
-                                        : NumberTextInputFormatter(maxValue: 99999999),
-                                  ],
-                                  textCapitalization: TextCapitalization.sentences,
-                                ),
+                                Text(categoryEntity.color),
                                 Container(
                                   margin: Spacing.top(MySize.size4!),
                                   child: Text("Dejar el campo en blanco para ingresar el valor durante la venta"),
@@ -191,16 +150,7 @@ class _DiscountEditScreenState extends State<DiscountEditScreen> {
                               ],
                               isSelected: toggleButtonsSelected,
                               onPressed: (int index) {
-                                setState(() {
-                                  if (!toggleButtonsSelected[index]) {
-                                    txtValorController = TextEditingController();
-                                    discountEntity.value = null;
-                                    txtValorController.selection = TextSelection.fromPosition(TextPosition(offset: 0));
-                                  }
-                                  for (int x = 0; x < toggleButtonsSelected.length; x++) {
-                                    toggleButtonsSelected[x] = x == index;
-                                  }
-                                });
+                                setState(() {});
                               },
                             ),
                           ),
@@ -226,7 +176,7 @@ class _DiscountEditScreenState extends State<DiscountEditScreen> {
                             ? null
                             : () {
                                 if (_formKey.currentState!.validate()) {
-                                  saveDiscount();
+                                  saveCategory();
                                 }
                               },
                         icon: Icon(
@@ -240,7 +190,7 @@ class _DiscountEditScreenState extends State<DiscountEditScreen> {
                         ),
                       ),
                     ),
-                    widget.discountEntity == null
+                    widget.categoryEntity == null
                         ? Container()
                         : Container(
                             width: MediaQuery.of(context).size.width,
@@ -254,7 +204,7 @@ class _DiscountEditScreenState extends State<DiscountEditScreen> {
                               onPressed: _isButtonDeleteDisabled
                                   ? null
                                   : () {
-                                      deleteDiscount();
+                                      deleteCategory();
                                     },
                               icon: Icon(
                                 MdiIcons.delete,
@@ -279,10 +229,10 @@ class _DiscountEditScreenState extends State<DiscountEditScreen> {
 
   goBack() async {
     bool areChanges = false;
-    if (widget.discountEntity == null && (discountEntity.name.isNotEmpty || discountEntity.value != null)) {
+    if (widget.categoryEntity == null && (categoryEntity.name.isNotEmpty || categoryEntity.color.isNotEmpty)) {
       areChanges = true;
-    } else if (widget.discountEntity != null &&
-        (widget.discountEntity!.name != discountEntity.name || widget.discountEntity!.value != discountEntity.value)) {
+    } else if (widget.categoryEntity != null &&
+        (widget.categoryEntity!.name != categoryEntity.name || widget.categoryEntity!.color != categoryEntity.color)) {
       areChanges = true;
     }
 
@@ -312,45 +262,35 @@ class _DiscountEditScreenState extends State<DiscountEditScreen> {
     }
   }
 
-  saveDiscount() async {
+  saveCategory() async {
     setState(() {
       _isButtonSaveDisabled = true;
       _isButtonDeleteDisabled = true;
     });
 
-    PosService posService = PosService();
-    int? idPos = await posService.getPosId();
-
-    if (idPos != null) {
-      if (toggleButtonsSelected[0]) {
-        discountEntity.calculationType = 'PERCENT';
-      } else {
-        discountEntity.calculationType = 'AMOUNT';
-      }
-      DiscountService discountService = DiscountService();
-      discountService.save(idPos, discountEntity).then((success) async {
-        if (success) {
-          discountService.updateAll(idPos).then((value) {
-            widget.updateList();
-            Navigator.of(context).pop();
-          });
-        }
-      }).catchError((e) {
-        showSnackBarWithFloating('No hay conexión a internet', 2);
-        setState(() {
-          _isButtonSaveDisabled = false;
-          _isButtonDeleteDisabled = false;
+    CategoryService categoryService = CategoryService();
+    categoryService.save(categoryEntity).then((success) async {
+      if (success) {
+        categoryService.updateAll().then((value) {
+          widget.updateList();
+          Navigator.of(context).pop();
         });
+      }
+    }).catchError((e) {
+      showSnackBarWithFloating('No hay conexión a internet', 2);
+      setState(() {
+        _isButtonSaveDisabled = false;
+        _isButtonDeleteDisabled = false;
       });
-    }
+    });
   }
 
-  deleteDiscount() async {
+  deleteCategory() async {
     if ((await showDialog(
           context: context,
           builder: (context) => new AlertDialog(
-            title: new Text('Eliminar descuento'),
-            content: new Text('¿Estás seguro de eliminar el descuento?'),
+            title: new Text('Eliminar categoría'),
+            content: new Text('¿Estás seguro de eliminar la categoría?'),
             actions: <Widget>[
               TextButton(
                 onPressed: () => Navigator.of(context).pop(false),
@@ -368,25 +308,21 @@ class _DiscountEditScreenState extends State<DiscountEditScreen> {
         _isButtonSaveDisabled = true;
         _isButtonDeleteDisabled = true;
       });
-      PosService posService = PosService();
-      int? idPos = await posService.getPosId();
 
-      if (idPos != null) {
-        DiscountService discountService = DiscountService();
-        if (await discountService.delete(discountEntity).catchError((e) {
+      CategoryService categoryService = CategoryService();
+      if (await categoryService.delete(categoryEntity).catchError((e) {
+        showSnackBarWithFloating('No hay conexión a internet', 2);
+        setState(() {
+          _isButtonSaveDisabled = false;
+          _isButtonDeleteDisabled = false;
+        });
+      })) {
+        await categoryService.updateAll().catchError((e) {
           showSnackBarWithFloating('No hay conexión a internet', 2);
-          setState(() {
-            _isButtonSaveDisabled = false;
-            _isButtonDeleteDisabled = false;
-          });
-        })) {
-          await discountService.updateAll(idPos).catchError((e) {
-            showSnackBarWithFloating('No hay conexión a internet', 2);
-          });
-          widget.updateList();
-        }
-        Navigator.of(context).pop();
+        });
+        widget.updateList();
       }
+      Navigator.of(context).pop();
     }
   }
 

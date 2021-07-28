@@ -69,6 +69,8 @@ class _DiscountScreenState extends State<DiscountScreen> {
 
   @override
   Widget build(BuildContext context) {
+    //You will need to initialize MySize class for responsive spaces.
+    MySize().init(context);
     themeData = Theme.of(context);
     return Consumer<AppThemeNotifier>(
       builder: (BuildContext context, AppThemeNotifier value, Widget? child) {
@@ -463,6 +465,8 @@ class _DiscountScreenState extends State<DiscountScreen> {
       discountService.getAll().then((value) {
         discounts = Future.value(value);
         setState(() {});
+      }).catchError((e) {
+        showSnackBarWithFloating('No hay conexión a internet', 2);
       });
     });
   }
@@ -491,8 +495,12 @@ class _DiscountScreenState extends State<DiscountScreen> {
 
       if (idPos != null) {
         DiscountService discountService = DiscountService();
-        if (await discountService.delete(discountEntity)) {
-          await discountService.updateAll(idPos);
+        if (await discountService.delete(discountEntity).catchError((e) {
+          showSnackBarWithFloating('No hay conexión a internet', 2);
+        })) {
+          await discountService.updateAll(idPos).catchError((e) {
+            showSnackBarWithFloating('No hay conexión a internet', 2);
+          });
           updateList();
           showSnackBarWithFloating("Eliminado", 2);
         }
@@ -510,9 +518,13 @@ class _DiscountScreenState extends State<DiscountScreen> {
       DiscountService discountService = DiscountService();
 
       _selected.getSelectedItems().forEach((element) async {
-        await discountService.delete(element);
+        await discountService.delete(element).catchError((e) {
+          showSnackBarWithFloating('No hay conexión a internet', 2);
+        });
       });
-      await discountService.updateAll(idPos);
+      await discountService.updateAll(idPos).catchError((e) {
+        showSnackBarWithFloating('No hay conexión a internet', 2);
+      });
       updateList();
       _handleDeleteEnd();
     }

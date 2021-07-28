@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:posshop_app/data/dao/TokenDao.dart';
 import 'package:posshop_app/screens/MenuScreen.dart';
 import 'package:posshop_app/screens/StartupScreen.dart';
-import 'package:posshop_app/service/DiscountService.dart';
-import 'package:posshop_app/service/PosService.dart';
+import 'package:posshop_app/service/GlobalService.dart';
 
 class SplashScreen extends StatefulWidget {
   SplashScreen({Key? key}) : super(key: key);
@@ -61,13 +60,8 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   _processData() async {
-    PosService posService = PosService();
-    int? idPos = await posService.getPosId();
-
-    if (idPos != null) {
-      DiscountService discountService = DiscountService();
-      await discountService.updateAll(idPos);
-
+    GlobalService globalService = GlobalService();
+    if (await globalService.loadAll()) {
       _changePageToMenu();
     } else {
       _changePageToStartup();

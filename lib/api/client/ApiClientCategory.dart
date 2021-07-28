@@ -1,5 +1,6 @@
 import 'package:posshop_app/model/dto/CategoriesRequest.dart';
 import 'package:posshop_app/model/dto/CategoryRequest.dart';
+import 'package:posshop_app/model/entity/CategoryEntity.dart';
 import 'package:posshop_app/utils/APIManager.dart';
 
 Future<CategoriesRequest> getAll() async {
@@ -14,11 +15,12 @@ Future<CategoriesRequest> getAll() async {
   return CategoriesRequest.fromJson(body);
 }
 
-Future<CategoryRequest> getById(int id) async {
+Future<CategoryRequest> create(CategoryEntity entity) async {
   Map<String, dynamic> body;
   APIManager api = APIManager();
   try {
-    body = await api.get('https://poschile.bbndev.com/api/category/$id');
+    body = await api.post(
+        'https://poschile.bbndev.com/api/category?name=${entity.name}&color=${entity.color}');
   } catch (e) {
     rethrow;
   }
@@ -26,7 +28,20 @@ Future<CategoryRequest> getById(int id) async {
   return CategoryRequest.fromJsonData(body);
 }
 
-Future<void> deleteById(int id) async {
+Future<CategoryRequest> update(CategoryEntity entity) async {
+  Map<String, dynamic> body;
+  APIManager api = APIManager();
+  try {
+    body = await api.put(
+        'https://poschile.bbndev.com/api/category/${entity.idCloud}?name=${entity.name}&color=${entity.color}');
+  } catch (e) {
+    rethrow;
+  }
+
+  return CategoryRequest.fromJsonData(body);
+}
+
+Future<void> delete(int id) async {
   APIManager api = APIManager();
   try {
     await api.delete('https://poschile.bbndev.com/api/category/$id');

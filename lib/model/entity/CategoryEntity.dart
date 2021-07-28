@@ -1,3 +1,5 @@
+import 'package:posshop_app/model/dto/CategoryRequest.dart';
+
 import 'BaseEntity.dart';
 
 class CategoryEntity extends BaseEntity {
@@ -34,6 +36,13 @@ class CategoryEntity extends BaseEntity {
         name: map['name'],
         color: map['color'],
         itemsCount: map['itemsCount'],
+      );
+
+  factory CategoryEntity.fromRequest(CategoryRequest request) => CategoryEntity(
+        idCloud: request.id,
+        name: request.name,
+        color: request.color,
+        itemsCount: request.itemsCount,
       );
 
   @override
