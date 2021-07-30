@@ -346,27 +346,24 @@ class _CategoryScreenState extends State<CategoryScreen> {
                       children: <Widget>[
                         CircleAvatar(
                           backgroundColor:
-                          _selected.isSelected(data[index]) ? themeData.colorScheme.primary : themeData.colorScheme.primary.withAlpha(240),
+                          _selected.isSelected(data[index]) ? themeData.colorScheme.primary : hexColor(data[index].color),
                           child: _selected.isSelected(data[index])
                               ? Icon(
                             Icons.done,
                             color: themeData.colorScheme.onSecondary,
                           )
-                              : Icon(
-                            MdiIcons.tag,
-                            color: themeData.colorScheme.onPrimary,
-                          ),
+                              : null,
                         ),
                         Expanded(
                           flex: 1,
                           child: Padding(
                             padding: const EdgeInsets.only(left: 16.0),
-                            child: Row(
+                            child: Column(
                               children: <Widget>[
-                                Expanded(flex: 1, child: richTextListView(data[index])),
-                                Text(data[index].itemsCount.toString()),
+                                richTextListView(data[index]),
+                                Text('${data[index].itemsCount.toString()} artículos'),
                               ],
-                              crossAxisAlignment: CrossAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                             ),
                           ),
                         )
@@ -510,5 +507,12 @@ class _CategoryScreenState extends State<CategoryScreen> {
       updateList();
       _handleDeleteEnd();
     }
+  }
+
+  Color hexColor(String hexString) {
+    final buffer = StringBuffer();
+    if (hexString.length == 6 || hexString.length == 7) buffer.write('ff');
+    buffer.write(hexString.replaceFirst('#', ''));
+    return Color(int.parse(buffer.toString(), radix: 16));
   }
 }

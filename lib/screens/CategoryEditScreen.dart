@@ -31,6 +31,7 @@ class _CategoryEditScreenState extends State<CategoryEditScreen> {
   bool _isButtonDeleteDisabled = false;
   late TextEditingController txtValorController;
   List<bool> toggleButtonsSelected = [true, false];
+  List<String> colors = ["#E0E0E0", "#F44336", "#E91E63", "#FF9800", "#CDDC39", "#4CAF50", "#2196F3", "#9C27B0"];
 
   @override
   void initState() {
@@ -115,46 +116,49 @@ class _CategoryEditScreenState extends State<CategoryEditScreen> {
                       ),
                     ),
                     Container(
+                      height: 70,
                       margin: EdgeInsets.only(top: MySize.size24!),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Expanded(
-                            flex: 1,
-                            child: Column(
-                              children: <Widget>[
-                                Text(categoryEntity.color),
-                                Container(
-                                  margin: Spacing.top(MySize.size4!),
-                                  child: Text("Dejar el campo en blanco para ingresar el valor durante la venta"),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Container(
-                            margin: EdgeInsets.only(left: MySize.size16!, top: MySize.size8!),
-                            child: ToggleButtons(
-                              splashColor: themeData.colorScheme.primary.withAlpha(48),
-                              color: themeData.colorScheme.onBackground,
-                              fillColor: themeData.colorScheme.primary.withAlpha(48),
-                              selectedBorderColor: themeData.colorScheme.primary.withAlpha(48),
-                              children: <Widget>[
-                                Icon(
-                                  MdiIcons.percent,
-                                  color: themeData.colorScheme.onBackground,
-                                ),
-                                Icon(
-                                  Icons.attach_money,
-                                  color: themeData.colorScheme.onBackground,
-                                ),
-                              ],
-                              isSelected: toggleButtonsSelected,
-                              onPressed: (int index) {
-                                setState(() {});
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: 4,
+                        itemBuilder: (BuildContext context, int index) {
+                          return Card(
+                            margin: EdgeInsets.only(right: MySize.size22!),
+                            child: InkWell(
+                              onTap: () {
+                                print("tapped");
                               },
+                              child: Container(
+                                color: hexColor(colors[index]),
+                                width: 70.0,
+                                height: 70.0,
+                              ),
                             ),
-                          ),
-                        ],
+                          );
+                        },
+                      ),
+                    ),
+                    Container(
+                      height: 70,
+                      margin: EdgeInsets.only(top: MySize.size24!),
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: 4,
+                        itemBuilder: (BuildContext context, int index) {
+                          return Card(
+                            margin: EdgeInsets.only(right: MySize.size22!),
+                            child: InkWell(
+                              onTap: () {
+                                print("tapped");
+                              },
+                              child: Container(
+                                color: hexColor(colors[index + 4]),
+                                width: 70.0,
+                                height: 70.0,
+                              ),
+                            ),
+                          );
+                        },
                       ),
                     ),
                     Container(
@@ -338,5 +342,12 @@ class _CategoryEditScreenState extends State<CategoryEditScreen> {
         duration: Duration(seconds: duration),
       ),
     );
+  }
+
+  Color hexColor(String hexString) {
+    final buffer = StringBuffer();
+    if (hexString.length == 6 || hexString.length == 7) buffer.write('ff');
+    buffer.write(hexString.replaceFirst('#', ''));
+    return Color(int.parse(buffer.toString(), radix: 16));
   }
 }
