@@ -33,10 +33,8 @@ class CategoryRequest {
       idUserUpdated: json['id_user_updated'],
       createdAt: DateTime.parse(json['created_at'].toString()),
       updatedAt: DateTime.parse(json['updated_at'].toString()),
-      deletedAt: (json['deleted_at'] != null)
-          ? DateTime.parse(json['deleted_at'].toString())
-          : null,
-      itemsCount: json['items_count'],
+      deletedAt: (json['deleted_at'] != null) ? DateTime.parse(json['deleted_at'].toString()) : null,
+      itemsCount: (json['items_count'] != null) ? json['items_count'] : 0,
     );
   }
 

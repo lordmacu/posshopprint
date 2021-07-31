@@ -30,13 +30,23 @@ class _CategoryEditScreenState extends State<CategoryEditScreen> {
   bool _isButtonSaveDisabled = false;
   bool _isButtonDeleteDisabled = false;
   late TextEditingController txtValorController;
-  List<bool> toggleButtonsSelected = [true, false];
-  List<String> colors = ["#E0E0E0", "#F44336", "#E91E63", "#FF9800", "#CDDC39", "#4CAF50", "#2196F3", "#9C27B0"];
+
+  final int maxItemsHorizontal = 4;
+  List<ColorButton> colorsButton = [
+    ColorButton(color: '#E0E0E0', selected: true),
+    ColorButton(color: '#F44336'),
+    ColorButton(color: '#E91E63'),
+    ColorButton(color: '#FF9800'),
+    ColorButton(color: '#CDDC39'),
+    ColorButton(color: '#4CAF50'),
+    ColorButton(color: '#2196F3'),
+    ColorButton(color: '#9C27B0')
+  ];
 
   @override
   void initState() {
     if (widget.categoryEntity == null) {
-      categoryEntity = CategoryEntity(idCloud: 0, name: '', color: '', itemsCount: 0);
+      categoryEntity = CategoryEntity(idCloud: 0, name: '', color: colorsButton[0].color, itemsCount: 0);
       txtValorController = TextEditingController();
     } else {
       categoryEntity = CategoryEntity(
@@ -46,6 +56,7 @@ class _CategoryEditScreenState extends State<CategoryEditScreen> {
         itemsCount: widget.categoryEntity!.itemsCount,
         id: widget.categoryEntity!.id,
       );
+      pickColor(categoryEntity.color);
       txtValorController = TextEditingController();
     }
     super.initState();
@@ -116,49 +127,31 @@ class _CategoryEditScreenState extends State<CategoryEditScreen> {
                       ),
                     ),
                     Container(
-                      height: 70,
                       margin: EdgeInsets.only(top: MySize.size24!),
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: 4,
-                        itemBuilder: (BuildContext context, int index) {
-                          return Card(
-                            margin: EdgeInsets.only(right: MySize.size22!),
-                            child: InkWell(
-                              onTap: () {
-                                print("tapped");
-                              },
-                              child: Container(
-                                color: hexColor(colors[index]),
-                                width: 70.0,
-                                height: 70.0,
-                              ),
-                            ),
-                          );
-                        },
+                      child: Text(
+                        "Color de la categoría",
+                        style: AppTheme.getTextStyle(themeData.textTheme.bodyText1, fontWeight: 600),
                       ),
                     ),
                     Container(
-                      height: 70,
+                      height: 200,
                       margin: EdgeInsets.only(top: MySize.size24!),
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: 4,
-                        itemBuilder: (BuildContext context, int index) {
-                          return Card(
-                            margin: EdgeInsets.only(right: MySize.size22!),
-                            child: InkWell(
-                              onTap: () {
-                                print("tapped");
-                              },
-                              child: Container(
-                                color: hexColor(colors[index + 4]),
-                                width: 70.0,
-                                height: 70.0,
+                      child: GridView.count(
+                        crossAxisCount: 4,
+                        children: List.of(colorsButton.map((color) => Card(
+                              margin: EdgeInsets.all(MySize.size8!),
+                              child: InkWell(
+                                onTap: () {
+                                  pickColor(color.color);
+                                },
+                                child: Container(
+                                  color: hexColor(color.color),
+                                  width: 70.0,
+                                  height: 70.0,
+                                  child: (color.selected) ? Icon(Icons.check, color: Colors.white, size: 30.0) : null,
+                                ),
                               ),
-                            ),
-                          );
-                        },
+                            ))),
                       ),
                     ),
                     Container(
@@ -281,6 +274,7 @@ class _CategoryEditScreenState extends State<CategoryEditScreen> {
         });
       }
     }).catchError((e) {
+      print(e);
       showSnackBarWithFloating('No hay conexión a internet', 2);
       setState(() {
         _isButtonSaveDisabled = false;
@@ -350,4 +344,24 @@ class _CategoryEditScreenState extends State<CategoryEditScreen> {
     buffer.write(hexString.replaceFirst('#', ''));
     return Color(int.parse(buffer.toString(), radix: 16));
   }
+
+  pickColor(String color) {
+    setState(() => {
+          colorsButton.forEach((colorButton) {
+            if (colorButton.color == color) {
+              colorButton.selected = true;
+              categoryEntity.color = color;
+            } else {
+              colorButton.selected = false;
+            }
+          })
+        });
+  }
+}
+
+class ColorButton {
+  String color;
+  bool selected;
+
+  ColorButton({required this.color, this.selected = false});
 }

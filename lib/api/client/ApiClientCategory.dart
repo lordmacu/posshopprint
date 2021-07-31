@@ -20,7 +20,7 @@ Future<CategoryRequest> create(CategoryEntity entity) async {
   APIManager api = APIManager();
   try {
     body = await api.post(
-        'https://poschile.bbndev.com/api/category?name=${entity.name}&color=${entity.color}');
+        'https://poschile.bbndev.com/api/category?name=${entity.name}&color=${entity.color.replaceFirst('#','')}');
   } catch (e) {
     rethrow;
   }
@@ -33,7 +33,7 @@ Future<CategoryRequest> update(CategoryEntity entity) async {
   APIManager api = APIManager();
   try {
     body = await api.put(
-        'https://poschile.bbndev.com/api/category/${entity.idCloud}?name=${entity.name}&color=${entity.color}');
+        'https://poschile.bbndev.com/api/category/${entity.idCloud}?name=${entity.name}&color=${entity.color.replaceFirst('#','')}');
   } catch (e) {
     rethrow;
   }
