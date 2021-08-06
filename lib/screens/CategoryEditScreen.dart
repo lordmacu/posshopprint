@@ -4,6 +4,7 @@ import 'package:posshop_app/model/entity/CategoryEntity.dart';
 import 'package:posshop_app/service/CategoryService.dart';
 import 'package:posshop_app/utils/SizeConfig.dart';
 import 'package:provider/provider.dart';
+import 'package:posshop_app/screens/CategoryEditAddItemScreen.dart';
 
 import '../AppTheme.dart';
 import '../AppThemeNotifier.dart';
@@ -14,14 +15,17 @@ class CategoryEditScreen extends StatefulWidget {
   final CategoryEntity? categoryEntity;
   final UpdateListCallback updateList;
 
-  const CategoryEditScreen({Key? key, this.categoryEntity, required this.updateList}) : super(key: key);
+  const CategoryEditScreen(
+      {Key? key, this.categoryEntity, required this.updateList})
+      : super(key: key);
 
   @override
   _CategoryEditScreenState createState() => _CategoryEditScreenState();
 }
 
 class _CategoryEditScreenState extends State<CategoryEditScreen> {
-  final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
+  final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
+      GlobalKey<ScaffoldMessengerState>();
   final _formKey = GlobalKey<FormState>();
   late ThemeData themeData;
   late CustomAppTheme customAppTheme;
@@ -46,7 +50,8 @@ class _CategoryEditScreenState extends State<CategoryEditScreen> {
   @override
   void initState() {
     if (widget.categoryEntity == null) {
-      categoryEntity = CategoryEntity(idCloud: 0, name: '', color: colorsButton[0].color, itemsCount: 0);
+      categoryEntity = CategoryEntity(
+          idCloud: 0, name: '', color: colorsButton[0].color, itemsCount: 0);
       txtValorController = TextEditingController();
     } else {
       categoryEntity = CategoryEntity(
@@ -78,8 +83,12 @@ class _CategoryEditScreenState extends State<CategoryEditScreen> {
             appBar: AppBar(
               elevation: 0,
               backgroundColor: themeData.appBarTheme.color,
-              title: Text(widget.categoryEntity == null ? "Crear categoría" : "Editar categoría",
-                  style: AppTheme.getTextStyle(themeData.textTheme.headline6, fontWeight: 600)),
+              title: Text(
+                  widget.categoryEntity == null
+                      ? "Crear categoría"
+                      : "Editar categoría",
+                  style: AppTheme.getTextStyle(themeData.textTheme.headline6,
+                      fontWeight: 600)),
               leading: IconButton(
                 onPressed: () {
                   goBack();
@@ -94,7 +103,8 @@ class _CategoryEditScreenState extends State<CategoryEditScreen> {
             body: Form(
               key: _formKey,
               child: Container(
-                padding: EdgeInsets.only(left: MySize.size24!, right: MySize.size24!),
+                padding: EdgeInsets.only(
+                    left: MySize.size24!, right: MySize.size24!),
                 child: ListView(
                   shrinkWrap: true,
                   children: <Widget>[
@@ -106,7 +116,8 @@ class _CategoryEditScreenState extends State<CategoryEditScreen> {
                           hintText: "Nombre",
                           border: themeData.inputDecorationTheme.border,
                           enabledBorder: themeData.inputDecorationTheme.border,
-                          focusedBorder: themeData.inputDecorationTheme.focusedBorder,
+                          focusedBorder:
+                              themeData.inputDecorationTheme.focusedBorder,
                           prefixIcon: Icon(
                             MdiIcons.cardText,
                             size: MySize.size22,
@@ -130,7 +141,9 @@ class _CategoryEditScreenState extends State<CategoryEditScreen> {
                       margin: EdgeInsets.only(top: MySize.size24!),
                       child: Text(
                         "Color de la categoría",
-                        style: AppTheme.getTextStyle(themeData.textTheme.bodyText1, fontWeight: 600),
+                        style: AppTheme.getTextStyle(
+                            themeData.textTheme.bodyText1,
+                            fontWeight: 600),
                       ),
                     ),
                     Container(
@@ -148,7 +161,10 @@ class _CategoryEditScreenState extends State<CategoryEditScreen> {
                                   color: hexColor(color.color),
                                   width: 70.0,
                                   height: 70.0,
-                                  child: (color.selected) ? Icon(Icons.check, color: Colors.white, size: 30.0) : null,
+                                  child: (color.selected)
+                                      ? Icon(Icons.check,
+                                          color: Colors.white, size: 30.0)
+                                      : null,
                                 ),
                               ),
                             ))),
@@ -157,7 +173,36 @@ class _CategoryEditScreenState extends State<CategoryEditScreen> {
                     Container(
                       width: MediaQuery.of(context).size.width,
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(MySize.size48!)),
+                        color: customAppTheme.bgLayer1,
+                        borderRadius:
+                            BorderRadius.all(Radius.circular(MySize.size48!)),
+                      ),
+                      margin: EdgeInsets.only(top: MySize.size24!),
+                      child: OutlinedButton.icon(
+                        style: ButtonStyle(
+                            padding:
+                                MaterialStateProperty.all(Spacing.xy(16, 0))),
+                        onPressed: () {
+                          addItems();
+                        },
+                        icon: Icon(
+                          MdiIcons.formatListBulleted,
+                          color: themeData.colorScheme.onBackground,
+                        ),
+                        label: Text(
+                          "ASIGNAR ARTÍCULOS",
+                          style: AppTheme.getTextStyle(
+                              themeData.textTheme.bodyText1,
+                              fontWeight: 600,
+                              color: themeData.colorScheme.onBackground),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width,
+                      decoration: BoxDecoration(
+                        borderRadius:
+                            BorderRadius.all(Radius.circular(MySize.size48!)),
                         boxShadow: [
                           BoxShadow(
                             color: themeData.primaryColor.withAlpha(20),
@@ -168,7 +213,9 @@ class _CategoryEditScreenState extends State<CategoryEditScreen> {
                       ),
                       margin: EdgeInsets.only(top: MySize.size24!),
                       child: ElevatedButton.icon(
-                        style: ButtonStyle(padding: MaterialStateProperty.all(Spacing.xy(16, 0))),
+                        style: ButtonStyle(
+                            padding:
+                                MaterialStateProperty.all(Spacing.xy(16, 0))),
                         onPressed: _isButtonSaveDisabled
                             ? null
                             : () {
@@ -182,8 +229,10 @@ class _CategoryEditScreenState extends State<CategoryEditScreen> {
                         ),
                         label: Text(
                           "GUARDAR",
-                          style: AppTheme.getTextStyle(themeData.textTheme.bodyText1,
-                              fontWeight: 600, color: themeData.colorScheme.onPrimary),
+                          style: AppTheme.getTextStyle(
+                              themeData.textTheme.bodyText1,
+                              fontWeight: 600,
+                              color: themeData.colorScheme.onPrimary),
                         ),
                       ),
                     ),
@@ -193,11 +242,14 @@ class _CategoryEditScreenState extends State<CategoryEditScreen> {
                             width: MediaQuery.of(context).size.width,
                             decoration: BoxDecoration(
                               color: customAppTheme.bgLayer1,
-                              borderRadius: BorderRadius.all(Radius.circular(MySize.size48!)),
+                              borderRadius: BorderRadius.all(
+                                  Radius.circular(MySize.size48!)),
                             ),
                             margin: EdgeInsets.only(top: MySize.size24!),
                             child: OutlinedButton.icon(
-                              style: ButtonStyle(padding: MaterialStateProperty.all(Spacing.xy(16, 0))),
+                              style: ButtonStyle(
+                                  padding: MaterialStateProperty.all(
+                                      Spacing.xy(16, 0))),
                               onPressed: _isButtonDeleteDisabled
                                   ? null
                                   : () {
@@ -209,8 +261,10 @@ class _CategoryEditScreenState extends State<CategoryEditScreen> {
                               ),
                               label: Text(
                                 "ELIMINAR",
-                                style: AppTheme.getTextStyle(themeData.textTheme.bodyText1,
-                                    fontWeight: 600, color: themeData.colorScheme.onBackground),
+                                style: AppTheme.getTextStyle(
+                                    themeData.textTheme.bodyText1,
+                                    fontWeight: 600,
+                                    color: themeData.colorScheme.onBackground),
                               ),
                             ),
                           ),
@@ -226,10 +280,12 @@ class _CategoryEditScreenState extends State<CategoryEditScreen> {
 
   goBack() async {
     bool areChanges = false;
-    if (widget.categoryEntity == null && (categoryEntity.name.isNotEmpty || categoryEntity.color.isNotEmpty)) {
+    if (widget.categoryEntity == null &&
+        (categoryEntity.name.isNotEmpty || categoryEntity.color.isNotEmpty)) {
       areChanges = true;
     } else if (widget.categoryEntity != null &&
-        (widget.categoryEntity!.name != categoryEntity.name || widget.categoryEntity!.color != categoryEntity.color)) {
+        (widget.categoryEntity!.name != categoryEntity.name ||
+            widget.categoryEntity!.color != categoryEntity.color)) {
       areChanges = true;
     }
 
@@ -238,7 +294,8 @@ class _CategoryEditScreenState extends State<CategoryEditScreen> {
             context: context,
             builder: (context) => new AlertDialog(
               title: new Text('Cambios no guardados'),
-              content: new Text('¿Seguro que quiere continuar sin guardar los cambios?'),
+              content: new Text(
+                  '¿Seguro que quiere continuar sin guardar los cambios?'),
               actions: <Widget>[
                 TextButton(
                   onPressed: () => Navigator.of(context).pop(false),
@@ -324,12 +381,20 @@ class _CategoryEditScreenState extends State<CategoryEditScreen> {
     }
   }
 
+  addItems() {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => CategoryEditAddItemScreen()));
+  }
+
   void showSnackBarWithFloating(String message, [int duration = 1]) {
     scaffoldMessengerKey.currentState!.showSnackBar(
       new SnackBar(
         content: new Text(
           message,
-          style: themeData.textTheme.subtitle2!.merge(TextStyle(color: themeData.colorScheme.onPrimary)),
+          style: themeData.textTheme.subtitle2!
+              .merge(TextStyle(color: themeData.colorScheme.onPrimary)),
         ),
         backgroundColor: themeData.colorScheme.primary,
         behavior: SnackBarBehavior.floating,

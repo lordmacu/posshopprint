@@ -25,7 +25,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
 
   late ThemeData themeData;
   CategoryService categoryService = CategoryService();
-  late Future<List<CategoryEntity>> categorys = categoryService.getAll();
+  late Future<List<CategoryEntity>> categories = categoryService.getAll();
 
   bool _isSelectable = false;
   SelectedItem _selected = SelectedItem();
@@ -85,7 +85,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
             body: Container(
               color: themeData.backgroundColor,
               child: FutureBuilder<List<CategoryEntity>>(
-                future: categorys,
+                future: categories,
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
                   if (snapshot.hasError) return Text(snapshot.error.toString());
 
@@ -442,7 +442,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
     Future.delayed(const Duration(milliseconds: 500), () //TODO despues de los insert no trae la informacion de inmediato
     {
       categoryService.getAll().then((value) {
-        categorys = Future.value(value);
+        categories = Future.value(value);
         setState(() {});
       }).catchError((e) {
         showSnackBarWithFloating('No hay conexión a internet', 2);
