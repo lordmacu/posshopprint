@@ -1,5 +1,6 @@
 import 'CategoryService.dart';
 import 'DiscountService.dart';
+import 'ItemService.dart';
 import 'PosService.dart';
 
 class GlobalService {
@@ -13,6 +14,9 @@ class GlobalService {
 
       CategoryService categoryService = CategoryService();
       await categoryService.updateAll();
+
+      ItemService itemService = ItemService();
+      await itemService.updateAll(idPos);
 
       return true;
     }
