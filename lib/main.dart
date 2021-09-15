@@ -1,34 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:provider/provider.dart';
-import 'package:posshop_app/AppTheme.dart';
-import 'package:posshop_app/AppThemeNotifier.dart';
-import 'package:posshop_app/screens/SplashScreen.dart';
+import 'package:get/get.dart';
+import 'package:poshop/home/home.dart';
 
 void main() {
-  //You will need to initialize AppThemeNotifier class for theme changes.
-  WidgetsFlutterBinding.ensureInitialized();
-  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
-      .then((_) {
-    runApp(ChangeNotifierProvider<AppThemeNotifier>(
-      create: (context) => AppThemeNotifier(),
-      child: MyApp(),
-    ));
-  });
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return Consumer<AppThemeNotifier>(
-      builder: (BuildContext context, AppThemeNotifier value, Widget? child) {
-        return MaterialApp(
-          title: 'Pos Shop',
-          debugShowCheckedModeBanner: false,
-          theme: AppTheme.getThemeFromThemeMode(value.themeMode()),
-          home: SplashScreen(),
-        );
-      },
+    return GetMaterialApp(
+      title: 'Flutter Demo',
+      theme: ThemeData(
+
+        primarySwatch: Colors.blue,
+
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+      ),
+      home: Home(),
     );
   }
 }
+

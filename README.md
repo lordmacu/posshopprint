@@ -1,6 +1,6 @@
-# posshop_app
+# poshop
 
-Pos Shop
+A new Flutter application.
 
 ## Getting Started
 
