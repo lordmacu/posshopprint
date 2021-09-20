@@ -6,14 +6,29 @@ import 'package:poshop/controllers/MenuController.dart';
 import 'package:pop_bottom_menu/pop_bottom_menu.dart';
 import 'package:masonry_grid/masonry_grid.dart';
 import 'package:poshop/general/bottonMenu.dart';
+import 'package:poshop/home/cart.dart';
 import 'package:poshop/home/categories.dart';
 import 'package:poshop/home/controllers/HomeController.dart';
 import 'package:poshop/home/products.dart';
+import 'package:poshop/products/products.dart';
+import 'package:poshop/tickets/tickets.dart';
 
 class Home extends StatelessWidget {
   MenuContoller controller = Get.put(MenuContoller());
   HomeContoller controllerHome = Get.put(HomeContoller());
 
+
+  Widget getScreen(){
+    if( controller.positionMenu.value==0){
+      return Cart();
+    }
+    if( controller.positionMenu.value==1){
+      return Tickets();
+    }
+    if( controller.positionMenu.value==2){
+      return ProductsList();
+    }
+  }
 
 
   @override
@@ -74,12 +89,7 @@ class Home extends StatelessWidget {
             )
           ],
         ),
-        body: Column(
-          children: [
-           Categories(),
-            Products()
-          ],
-        ),
+        body: Obx(()=>getScreen()),
         bottomNavigationBar: BottomMenu() );
   }
 }
