@@ -21,6 +21,7 @@ class ProductsList extends StatelessWidget {
         panel: DetailProduct(),
         body: Column(
           children: [
+
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextField(
