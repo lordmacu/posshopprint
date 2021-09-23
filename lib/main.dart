@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:poshop/auth/auth.dart';
 import 'package:poshop/home/home.dart';
 
 void main() {
@@ -15,10 +16,14 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
 
         primarySwatch: Colors.blue,
-
+        textTheme: TextTheme(
+          bodyText2: TextStyle(
+            color: Color(0xff44454f).withOpacity(0.4),
+          ),
+        ),
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: Home(),
+      home: Auth(),
     );
   }
 }
