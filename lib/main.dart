@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         textTheme: TextTheme(
           bodyText2: TextStyle(
-            color: Color(0xff44454f).withOpacity(0.4),
+            color: Color(0xff44454f),
           ),
         ),
         visualDensity: VisualDensity.adaptivePlatformDensity,
