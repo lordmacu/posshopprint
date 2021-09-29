@@ -38,6 +38,11 @@ dependencies:
   o_color_picker:
   animated_background:
   sliding_switch: 0.0.3
+  dio:
+  loading_hud:
+  rflutter_alert:
+  validators:
+  shared_preferences:
 
 
 dev_dependencies:

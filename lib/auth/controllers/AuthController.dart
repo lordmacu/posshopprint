@@ -23,6 +23,10 @@ class AuthContoller extends GetxController{
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setDouble("isLogged", login);
 
+    if(data!=null){
+      prefs.setDouble("user", data);
+    }
+
     isLogged.value=login;
   }
 
@@ -32,12 +36,12 @@ class AuthContoller extends GetxController{
     try{
       var data = await _endpointProvider.login(email,password);
        if(data["success"]){
-        loginUserSystem(true,{});
+        loginUserSystem(true,data["data"]);
         return true;
       }
     }catch(e){
 
-      loginUserSystem(false,{});
+      loginUserSystem(false,null);
       return false;
 
     }

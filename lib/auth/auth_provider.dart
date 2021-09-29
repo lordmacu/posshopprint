@@ -9,7 +9,7 @@ class AuthProvider {
   Future login(email,password) async {
     try {
       final response = await _client.post(
-          '/auth/login?email=cristianberrios@gmail.com&password=12345678.');
+          '/auth/login',data: {"email":"cristianberrios@gmail.com","password":"12345678."});
 
       return json.decode(response.toString());
     } on DioError catch (ex) {
