@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:poshop/auth/controllers/AuthController.dart';
  import 'package:poshop/helpers/countries/csc_picker.dart';
 import 'package:poshop/home/home.dart';
+import 'package:get/get.dart';
 
 class Register extends StatelessWidget{
   final _formKey = GlobalKey<FormState>();
+  AuthContoller controllerAuth = Get.put(AuthContoller());
 
   @override
   Widget build(BuildContext context) {
@@ -156,10 +159,12 @@ class Register extends StatelessWidget{
                       child:  RaisedButton(
                         padding: EdgeInsets.only(top: 15,bottom: 15),
                         onPressed: () {
-                          Navigator.push(
+                     /*     Navigator.push(
                             context,
                             MaterialPageRoute(builder: (context) => Home()),
-                          );
+                          );*/
+                          controllerAuth.login();
+
 
                         },
                         shape: RoundedRectangleBorder(

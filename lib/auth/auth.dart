@@ -1,17 +1,25 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:loading_hud/loading_hud.dart';
+import 'package:loading_hud/loading_indicator.dart';
 import 'package:poshop/auth/login.dart';
 import 'package:poshop/auth/register.dart';
 import 'package:poshop/helpers/animationBackground.dart';
 import 'package:poshop/auth/controllers/AuthController.dart';
 import 'package:get/get.dart';
+import 'package:poshop/home/controllers/HomeController.dart';
 
 class Auth extends StatelessWidget{
   final _formKey = GlobalKey<FormState>();
   AuthContoller controllerAuth = Get.put(AuthContoller());
+  HomeContoller controllerHome = Get.put(HomeContoller());
+
+
 
   @override
   Widget build(BuildContext context) {
+
+
 
     return Scaffold(
       backgroundColor: Colors.white,
