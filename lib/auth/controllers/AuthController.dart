@@ -1,4 +1,6 @@
 
+import 'dart:convert';
+
 import 'package:get/get.dart';
 import 'package:dio/dio.dart';
 import 'package:poshop/home/controllers/HomeController.dart';
@@ -21,10 +23,11 @@ class AuthContoller extends GetxController{
 
   void loginUserSystem(login,data) async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setDouble("isLogged", login);
+    prefs.setBool("isLogged", login);
 
     if(data!=null){
-      prefs.setDouble("user", data);
+      prefs.setString("user", jsonEncode(data));
+      prefs.setString("token", data["token"]);
     }
 
     isLogged.value=login;

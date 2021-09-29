@@ -34,11 +34,11 @@ dependencies:
   masonry_grid:
   sliding_up_panel:
   easy_mask:
-  image_picker:
+  image_picker: 0.6.7+22
   o_color_picker:
   animated_background:
   sliding_switch: 0.0.3
-  dio:
+  dio: 3.0.10
   loading_hud:
   rflutter_alert:
   validators:
