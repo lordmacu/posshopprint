@@ -2,10 +2,14 @@ import 'dart:async';
 import "package:dio/dio.dart";
 
 class Client{
-  Dio init() {
+  Dio init(token) {
     Dio _dio = new Dio();
     _dio.interceptors.add(new ApiInterceptors());
     _dio.options.baseUrl = "https://poschile.bbndev.com/api";
+    _dio.options.headers["Authorization"] = "Bearer " + token;
+
+    print("este es el token  ${token}");
+
     return _dio;
   }
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:poshop/auth/auth.dart';
 import 'package:poshop/home/home.dart';
+import 'package:poshop/redirector.dart';
 
 void main() {
   runApp(MyApp());
@@ -23,7 +24,7 @@ class MyApp extends StatelessWidget {
         ),
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: Auth(),
+      home: Redirector(),
     );
   }
 }

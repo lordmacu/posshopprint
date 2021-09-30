@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:masonry_grid/masonry_grid.dart';
 import 'package:bubble_bottom_bar/bubble_bottom_bar.dart';
+import 'package:poshop/auth/controllers/AuthController.dart';
 import 'package:poshop/controllers/MenuController.dart';
 import 'package:poshop/categories/categories.dart';
 import 'package:get/get.dart';
 import 'package:pop_bottom_menu/pop_bottom_menu.dart';
+import 'package:poshop/redirector.dart';
 
 class BottomMenu extends StatelessWidget {
   MenuContoller controller = Get.find();
+  AuthContoller controllerAuth = Get.find();
 
   void _showMenu(context) {
     showModalBottomSheet(
@@ -51,6 +54,20 @@ class BottomMenu extends StatelessWidget {
                 );
               },
               label: "Categorias",
+              icon: Icon(
+                Icons.comment,
+                color: Colors.grey,
+              ),
+            ),
+            ItemPopBottomMenu(
+              onPressed: () {
+                controllerAuth.logout();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Redirector()),
+                );
+              },
+              label: "Salir",
               icon: Icon(
                 Icons.comment,
                 color: Colors.grey,

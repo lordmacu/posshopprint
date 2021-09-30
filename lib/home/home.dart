@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:bubble_bottom_bar/bubble_bottom_bar.dart';
 import 'package:get/get.dart';
+import 'package:poshop/categories/controllers/CategoryController.dart';
 import 'package:poshop/controllers/MenuController.dart';
 import 'package:pop_bottom_menu/pop_bottom_menu.dart';
 import 'package:masonry_grid/masonry_grid.dart';
@@ -16,6 +17,7 @@ import 'package:poshop/tickets/tickets.dart';
 class Home extends StatelessWidget {
   MenuContoller controller = Get.put(MenuContoller());
   HomeContoller controllerHome = Get.put(HomeContoller());
+  CategoryContoller controllerCategory = Get.put(CategoryContoller());
 
 
   Widget getScreen(){

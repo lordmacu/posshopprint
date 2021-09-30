@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:poshop/categories/controllers/CategoryController.dart';
+import 'package:poshop/categories/models/Category.dart';
 import 'package:poshop/controllers/MenuController.dart';
 import 'package:get/get.dart';
 import 'package:poshop/home/controllers/HomeController.dart';
@@ -6,6 +8,7 @@ import 'package:poshop/home/controllers/HomeController.dart';
 class Categories extends StatelessWidget{
 
   HomeContoller controller = Get.find();
+  CategoryContoller controllerCategory = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -13,35 +16,41 @@ class Categories extends StatelessWidget{
     return Container(
       margin: EdgeInsets.only(top: 10,bottom: 0,left: 10,right: 0),
       height: 50,
-      child: ListView.builder(
+      child: Obx(()=>ListView.builder(
         shrinkWrap: true,
         scrollDirection: Axis.horizontal,
-        itemCount: 15,
-        itemBuilder: (BuildContext context, int index) => Obx(()=>GestureDetector(
-          onTap: (){
-            controller.categorySelect.value=index;
-          },
-          child: Card(
+        itemCount: controllerCategory.items.length,
+        itemBuilder: (BuildContext context, int index) {
 
-            shape: RoundedRectangleBorder(
+          Category cat= controllerCategory.items[index];
+          return Obx(()=>GestureDetector(
+            onTap: (){
+              controller.categorySelect.value=cat.id;
 
-              borderRadius: BorderRadius.circular(30.0),
-            ),
-            child: Container(
+              print("esta es la seleccion ${cat.id}");
+            },
+            child: Card(
 
-              decoration: BoxDecoration(
-                  color: index==controller.categorySelect.value ?  Color(0xff298dcf)  : Colors.white ,
-                  borderRadius: BorderRadius.circular(30.0),
+              shape: RoundedRectangleBorder(
 
-                  border: Border.all(color: Color(0xff298dcf))
-
+                borderRadius: BorderRadius.circular(30.0),
               ),
-              padding: EdgeInsets.only(left: 20,right: 20),
-              child: Center(child: Text(index==controller.categorySelect.value ? "Categoría":"Categoría",style: TextStyle(color: index==controller.categorySelect.value ?  Colors.white : Color(0xff298dcf) ),),),
+              child: Container(
+
+                decoration: BoxDecoration(
+                    color: cat.id==controller.categorySelect.value ?  Color(0xff298dcf)  : Colors.white ,
+                    borderRadius: BorderRadius.circular(30.0),
+
+                    border: Border.all(color: Color(0xff298dcf))
+
+                ),
+                padding: EdgeInsets.only(left: 20,right: 20),
+                child: Center(child: Text("${cat.name}",style: TextStyle(color: cat.id==controller.categorySelect.value ?  Colors.white : Color(0xff298dcf) ),),),
+              ),
             ),
-          ),
-        )),
-      ),
+          ));
+        },
+      )),
     );
   }
 
