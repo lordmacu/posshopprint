@@ -199,8 +199,8 @@ class Tickets extends StatelessWidget {
 
                 },
                  decoration: InputDecoration(
-                    labelText: "Buscar resibo",
-                    hintText: "Buscar resibo",
+                    labelText: "Buscar recibo",
+                    hintText: "Buscar recibo",
                     prefixIcon: Icon(Icons.search),
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(25.0)))),
@@ -215,7 +215,7 @@ class Tickets extends StatelessWidget {
                   },
                   child: Container(
                       padding:
-                      EdgeInsets.only(left: 10, right: 10, top: 30, bottom: 10),
+                      EdgeInsets.only(left: 20, right: 20, top: 30, bottom: 10),
                       child: Container(
                         padding: EdgeInsets.all(20),
                         decoration: BoxDecoration(
@@ -236,70 +236,108 @@ class Tickets extends StatelessWidget {
                         ),
                         child: Column(
                           children: [
-                            Row(
-                              children: [
-                                Expanded(
-                                    child: Container(
-                                      child: Column(
-                                        mainAxisSize: MainAxisSize.max,
-                                        mainAxisAlignment: MainAxisAlignment.start,
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Container(
-                                            child: Text(
-                                              "Producto",
+                            Container(
+                              margin: EdgeInsets.only(bottom: 10),
+
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                      child: Container(
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.max,
+                                          mainAxisAlignment: MainAxisAlignment.start,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Container(
+                                              child: Text(
+                                                "Producto",
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 20),
+                                              ),
+                                            ),
+                                            Container(
+                                              child: Text(
+                                                "Categoría",
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 15,
+                                                    color: Colors.grey.withOpacity(0.6)),
+                                              ),
+                                            ),
+
+                                          ],
+                                        ),
+                                      )),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    mainAxisSize: MainAxisSize.max,
+                                    children: [
+                                      Container(
+                                        margin: EdgeInsets.only(top: 10),
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                          children: [
+                                            Container(
+                                              child: Text(
+                                                "\$",
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 15,
+                                                    color:
+                                                    Colors.grey.withOpacity(0.9)),
+                                              ),
+                                              margin: EdgeInsets.only(right: 3),
+                                            ),
+                                            Text(
+                                              "5.000.000",
                                               style: TextStyle(
                                                   fontWeight: FontWeight.bold,
                                                   fontSize: 20),
-                                            ),
-                                          ),
-                                          Container(
-                                            child: Text(
-                                              "Categoría",
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 15,
-                                                  color: Colors.grey.withOpacity(0.6)),
-                                            ),
-                                          ),
-                                        ],
+                                            )
+                                          ],
+                                        ),
                                       ),
-                                    )),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  mainAxisSize: MainAxisSize.max,
-                                  children: [
-                                    Container(
-                                      margin: EdgeInsets.only(top: 10),
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                        children: [
-                                          Container(
-                                            child: Text(
-                                              "\$",
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 15,
-                                                  color:
-                                                  Colors.grey.withOpacity(0.9)),
-                                            ),
-                                            margin: EdgeInsets.only(right: 3),
-                                          ),
-                                          Text(
-                                            "5.000.000",
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 20),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
+                                    ],
+                                  ),
+                                ],
+                              ),
                             ),
+                            Divider(
+
+                               color: Colors.grey.withOpacity(0.4),
+                              height: 1,
+
+                            ),
+                            Container(
+
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    child: Text(
+                                      "#15312",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 15,
+                                          color: Colors.grey.withOpacity(0.6)),
+                                    ),
+                                  ),  Container(
+                                    child: Text(
+                                      "08/09/2021 8:30am",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 13,
+                                          color: Colors.grey.withOpacity(0.6)),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              margin: EdgeInsets.only(top: 10),
+                            )
                           ],
                         ),
                       )),

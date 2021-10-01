@@ -46,6 +46,7 @@ class CategoryContoller extends GetxController{
         for(var i = 0 ; i<  dataJson.length; i++){
           categoryes.add(Category(dataJson[i]["id"], dataJson[i]["idOrg"], dataJson[i]["name"], dataJson[i]["color"]));
         }
+
         items.value=categoryes;
 
         return true;
