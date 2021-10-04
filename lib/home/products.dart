@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:masonry_grid/masonry_grid.dart';
+import 'package:poshop/checkout/checkout.dart';
 
 class Products extends StatelessWidget{
   @override
@@ -17,8 +19,7 @@ class Products extends StatelessWidget{
                     return Container(
                         padding: EdgeInsets.only(
                             left: 10, right: 10, top: 10, bottom: 10),
-                        width: 100,
-                        height: 140,
+
                         child: Container(
                           padding: EdgeInsets.all(10),
                           decoration: BoxDecoration(
@@ -38,8 +39,7 @@ class Products extends StatelessWidget{
                               ),
                             ],
                           ),
-                          height: 80,
-                          child: Column(
+                           child: Column(
                             children: [
                               Row(
                                 children: [
@@ -212,26 +212,32 @@ class Products extends StatelessWidget{
             ),
             Align(
               alignment: Alignment.bottomCenter,
-              child: Container(
+              child: GestureDetector(
+                onTap: () async{
+                  var data = await Get.to(Checkout());
 
-                margin: EdgeInsets.only(left: 20,right: 20,bottom: 10),
-                padding: EdgeInsets.only(top: 10,bottom: 10),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  color: Color(
-                      0xff298dcf),
-                ),
-                width: double.infinity,
+                },
+                child: Container(
 
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text("Cobrar",style: TextStyle(color: Colors.white,fontSize: 22,fontWeight: FontWeight.bold),textAlign: TextAlign.center,),
-                    Container(
-                      margin: EdgeInsets.only(top: 3),
-                      child: Text("\$1000.000",style: TextStyle(color: Colors.white),textAlign: TextAlign.center,),
-                    )
-                  ],
+                  margin: EdgeInsets.only(left: 20,right: 20,bottom: 10),
+                  padding: EdgeInsets.only(top: 10,bottom: 10),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: Color(
+                        0xff298dcf),
+                  ),
+                  width: double.infinity,
+
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text("Cobrar",style: TextStyle(color: Colors.white,fontSize: 22,fontWeight: FontWeight.bold),textAlign: TextAlign.center,),
+                      Container(
+                        margin: EdgeInsets.only(top: 3),
+                        child: Text("\$1000.000",style: TextStyle(color: Colors.white),textAlign: TextAlign.center,),
+                      )
+                    ],
+                  ),
                 ),
               ),
             )
