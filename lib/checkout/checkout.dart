@@ -28,8 +28,7 @@ class Checkout extends StatelessWidget{
         backdropTapClosesPanel: true,
         backdropEnabled: true,
         controller: _panelController,
-        maxHeight:500,
-        minHeight: 0,
+         minHeight: 0,
         panel: Container(
           padding: EdgeInsets.only(left: 20,right: 20),
           child:  Obx(()=>Column(
@@ -58,8 +57,8 @@ class Checkout extends StatelessWidget{
 
           padding: EdgeInsets.only(left: 20,right: 20,top: 20),
           child:Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
+
+
             children: [
               Obx(()=>Row(
                 mainAxisAlignment: MainAxisAlignment.center,
