@@ -18,11 +18,14 @@ class _Redirector extends State<Redirector> {
     await controllerAuth.setToken();
     var checkIfLogged= await controllerAuth.checkIfLogged();
 
-    if(checkIfLogged){
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => Home()),
-      );
+    if(checkIfLogged!=null){
+      if(checkIfLogged){
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => Home()),
+        );
+      }
+
     }else{
       Navigator.push(
         context,
