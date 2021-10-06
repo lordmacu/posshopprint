@@ -49,7 +49,10 @@ class Home extends StatelessWidget {
           ),
           actions: [
             InkWell(
-              onTap: () {},
+              onTap: () {
+
+                controllerHome.isShowPayment.value=!controllerHome.isShowPayment.value;
+              },
               child: Container(
                 margin: EdgeInsets.only(right: 15),
                 child: Container(

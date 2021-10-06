@@ -1,9 +1,13 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:masonry_grid/masonry_grid.dart';
 import 'package:poshop/checkout/checkout.dart';
+import 'package:poshop/home/controllers/HomeController.dart';
 
 class Products extends StatelessWidget{
+  HomeContoller controllerHome = Get.find();
+
   @override
   Widget build(BuildContext context) {
 
@@ -212,32 +216,109 @@ class Products extends StatelessWidget{
             ),
             Align(
               alignment: Alignment.bottomCenter,
-              child: GestureDetector(
-                onTap: () async{
-                  var data = await Get.to(Checkout());
+              child: Container(
+                margin: EdgeInsets.only(left: 20,right: 20,bottom: 10),
 
-                },
-                child: Container(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
 
-                  margin: EdgeInsets.only(left: 20,right: 20,bottom: 10),
-                  padding: EdgeInsets.only(top: 10,bottom: 10),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    color: Color(
-                        0xff298dcf),
-                  ),
-                  width: double.infinity,
+                  children: [
+                    Obx(()=> controllerHome.isShowPayment.value ? Container(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Container(
 
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text("Cobrar",style: TextStyle(color: Colors.white,fontSize: 22,fontWeight: FontWeight.bold),textAlign: TextAlign.center,),
-                      Container(
-                        margin: EdgeInsets.only(top: 3),
-                        child: Text("\$1000.000",style: TextStyle(color: Colors.white),textAlign: TextAlign.center,),
-                      )
-                    ],
-                  ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Expanded(child: Container(
+                                  margin: EdgeInsets.only(right: 10),
+                                  child: Text("Procuto 1  x 1",style: TextStyle(fontSize: 15),),
+                                )),
+                                Container(
+                                  child: Text("\$5.000",style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold),),
+                                )
+                              ],
+                            ),
+                            margin: EdgeInsets.only(left: 10,right: 10,bottom: 10),
+                          ),
+                          Container(
+
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Expanded(child: Container(
+                                  margin: EdgeInsets.only(right: 10),
+                                  child: Text("Procuto 1  x 1",style: TextStyle(fontSize: 15),),
+                                )),
+                                Container(
+                                  child: Text("\$5.000",style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold),),
+                                )
+                              ],
+                            ),
+                            margin: EdgeInsets.only(left: 10,right: 10,bottom: 10),
+                          )
+                        ],
+                      ),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.only(topLeft: Radius.circular(10),topRight: Radius.circular(10)),
+                          border: Border.all(
+                              color: Color(
+                                  0xff298dcf),
+                              width: 1
+                          ),
+                          color: Colors.white
+                      ),
+                      padding: EdgeInsets.only(left: 10,right: 10,top: 10,bottom: 10),
+                    ) : Container()),
+                    Stack(
+                      children: [
+
+                        Obx(()=>GestureDetector(
+                          onTap: () async{
+                            if(!controllerHome.isShowPayment.value){
+                              controllerHome.isShowPayment.value=true;
+                            }else{
+                              var data = await Get.to(Checkout());
+                            }
+                          },
+                          child: Container(
+
+                            padding: EdgeInsets.only(top: 10,bottom: 10),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.only(bottomRight: Radius.circular(10),bottomLeft: Radius.circular(10),topRight: Radius.circular(controllerHome.isShowPayment.value ? 0 : 10),topLeft: Radius.circular(controllerHome.isShowPayment.value ? 0 : 10)),
+                              color: Color(
+                                  0xff298dcf),
+                            ),
+                            width: double.infinity,
+
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                !controllerHome.isShowPayment.value ? Text("Cobrar",style: TextStyle(color: Colors.white,fontSize: 22,fontWeight: FontWeight.bold),textAlign: TextAlign.center,) : Text("Pagar",style: TextStyle(color: Colors.white,fontSize: 22,fontWeight: FontWeight.bold),textAlign: TextAlign.center,),
+                                Container(
+                                  margin: EdgeInsets.only(top: 3),
+                                  child: Text("\$1000.000",style: TextStyle(color: Colors.white),textAlign: TextAlign.center,),
+                                )
+                              ],
+                            ),
+                          ),
+                        )),
+                        GestureDetector(
+                          onTap: (){
+                            controllerHome.isShowPayment.value= !controllerHome.isShowPayment.value;
+                          },
+                          child: Obx(()=>Container(
+                            color: Colors.transparent,
+                            child: Icon(controllerHome.isShowPayment.value ? Icons.remove : Icons.add,color: Colors.white,),
+                            height: 65,
+                            width: 65,
+                          )),
+                        ),
+                      ],
+                    )
+                  ],
                 ),
               ),
             )
