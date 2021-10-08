@@ -4,9 +4,11 @@ import 'package:get/get.dart';
 import 'package:masonry_grid/masonry_grid.dart';
 import 'package:poshop/checkout/checkout.dart';
 import 'package:poshop/home/controllers/HomeController.dart';
+import 'package:poshop/products/controllers/ProductContoller.dart';
 
 class Products extends StatelessWidget{
   HomeContoller controllerHome = Get.find();
+  ProductContoller controllerProduct = Get.put(ProductContoller());
 
   @override
   Widget build(BuildContext context) {

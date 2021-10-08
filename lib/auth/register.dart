@@ -3,13 +3,35 @@ import 'package:poshop/auth/controllers/AuthController.dart';
  import 'package:poshop/helpers/countries/csc_picker.dart';
 import 'package:poshop/home/home.dart';
 import 'package:get/get.dart';
+import 'package:poshop/helpers/widgetsHelper.dart';
 
 class Register extends StatelessWidget{
   final _formKey = GlobalKey<FormState>();
   AuthContoller controllerAuth = Get.put(AuthContoller());
+  var loadingHud;
+  WidgetsHelper helpers = WidgetsHelper();
+
+  registerUser(context) async {
+    loadingHud.show();
+
+    var isLoggedApi = await controllerAuth.register();
+    loadingHud.dismiss();
+
+    if (!isLoggedApi) {
+      helpers.defaultAlert(context, "error", "Error al ingresar",
+          "Por favor verifique la contraseña o el email.");
+    } else {
+  /*    Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => Home()),
+      );*/
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    loadingHud = helpers.initLoading(context);
+
     // TODO: implement build
 
     return Container(
@@ -51,6 +73,10 @@ class Register extends StatelessWidget{
                       margin: EdgeInsets.only(bottom: 15),
                       padding: EdgeInsets.only(top: 10,bottom: 0,left: 20,right: 20),
                       child: TextFormField(
+                        onChanged: (value){
+                          controllerAuth.email.value=value;
+
+                        },
                         decoration: InputDecoration(
 
                           hintText: 'Ingresa el email',
@@ -82,6 +108,10 @@ class Register extends StatelessWidget{
                       ),
                       padding: EdgeInsets.only(top: 10,bottom: 0,left: 20,right: 20),
                       child: TextFormField(
+                        onChanged: (value){
+                          controllerAuth.password.value=value;
+
+                        },
                         decoration: InputDecoration(
 
                           hintText: 'Ingresa la contraseña',
@@ -99,7 +129,7 @@ class Register extends StatelessWidget{
                         // The validator receives the text that the user has entered.
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Please enter some text';
+                            return 'Por favor ingrese la contraseña';
                           }
                           return null;
                         },
@@ -113,6 +143,10 @@ class Register extends StatelessWidget{
                       ),
                       padding: EdgeInsets.only(top: 10,bottom: 0,left: 20,right: 20),
                       child: TextFormField(
+                        onChanged: (value){
+                          controllerAuth.business.value=value;
+
+                        },
                         decoration: InputDecoration(
 
                           hintText: 'Ingresa el nombre de negocio',
@@ -130,41 +164,24 @@ class Register extends StatelessWidget{
                         // The validator receives the text that the user has entered.
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Please enter some text';
+                            return 'Por favor ingrese el nombre del negocio';
                           }
                           return null;
                         },
                       ),
                     ),
-                    Container(
-                      child: CSCPicker(
-                        showCities: false,
-                        showStates: false,
 
-                        onCountryChanged: (value) {
-
-                        },
-                        onStateChanged:(value) {
-
-                        },
-                        onCityChanged:(value) {
-
-                        },
-                      ),
-                    ),
                     Container(
                       margin: EdgeInsets.only(bottom: 10,top: 20),
 
                       width: double.infinity,
                       child:  RaisedButton(
                         padding: EdgeInsets.only(top: 15,bottom: 15),
-                        onPressed: () {
-                     /*     Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => Home()),
-                          );*/
-                          controllerAuth.login();
+                        onPressed: () async {
 
+                          if (_formKey.currentState.validate()) {
+                            await registerUser(context);
+                          }
 
                         },
                         shape: RoundedRectangleBorder(

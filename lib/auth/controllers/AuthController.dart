@@ -13,6 +13,8 @@ class AuthContoller extends GetxController{
   var isLogged=false.obs;
   var email= "".obs;
   var password= "".obs;
+  var business= "".obs;
+
   Client _client = new Client();
   var _endpointProvider;
   var token="".obs;
@@ -65,6 +67,23 @@ class AuthContoller extends GetxController{
         return true;
       }
     }catch(e){
+      loginUserSystem(false,null);
+      return false;
+    }
+  }
+
+  register() async{
+    try{
+      var data = await _endpointProvider.register(email,password,business);
+
+      print("esta es la data ${data}");
+      if(data["success"]){
+        loginUserSystem(true,data["data"]);
+        return true;
+      }
+    }catch(e){
+      print("esta es la data ${e}");
+
       loginUserSystem(false,null);
       return false;
     }

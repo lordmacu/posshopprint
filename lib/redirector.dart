@@ -17,14 +17,21 @@ class _Redirector extends State<Redirector> {
   checkLogged() async{
     await controllerAuth.setToken();
     var checkIfLogged= await controllerAuth.checkIfLogged();
+    print("aquiii esta la cosa  ${checkIfLogged} ");
 
     if(checkIfLogged!=null){
-      if(checkIfLogged){
+
+       if(checkIfLogged){
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => Home()),
         );
-      }
+      }else{
+         Navigator.push(
+           context,
+           MaterialPageRoute(builder: (context) => Auth()),
+         );
+       }
 
     }else{
       Navigator.push(

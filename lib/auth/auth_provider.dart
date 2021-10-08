@@ -9,11 +9,23 @@ class AuthProvider {
   Future login(email,password) async {
     try {
       final response = await _client.post(
-          '/auth/login',data: {"email":"cristianberrios@gmail.com","password":"12345678."});
+          '/auth/login',data: {"email":email,"password":password});
 
       return json.decode(response.toString());
     } on DioError catch (ex) {
         String errorMessage = ex.message.toString();
+      throw new Exception(errorMessage);
+    }
+  }
+
+  Future register(email,password,business) async {
+    try {
+      final response = await _client.post(
+          '/auth/register',data: {"email":email,"name":email,"password":email,"business_name":business});
+
+      return json.decode(response.toString());
+    } on DioError catch (ex) {
+      String errorMessage = ex.message.toString();
       throw new Exception(errorMessage);
     }
   }

@@ -1,15 +1,15 @@
 import 'dart:convert';
 import 'package:dio/dio.dart';
 
-class CategoryProvider {
+class ProductProvider {
   Dio _client;
 
-  CategoryProvider(this._client);
+  ProductProvider(this._client);
 
-  Future getCategories() async {
+  Future getProducts() async {
     try {
       final response = await _client.get(
-          '/category/');
+          '/items-disponibles?outlet_id=28&category_id=1&itemsPerPage=10&page=1');
       return json.decode(response.toString());
     } on DioError catch (ex) {
         String errorMessage = ex.message.toString();
