@@ -25,13 +25,15 @@ class ApiInterceptors extends Interceptor {
 
   @override
   Future<dynamic> onError(DioError dioError) async  {
-    print("erro : ${dioError.response}");
+    print("url :  ${dioError.request.uri}");
+    print("erro : ${dioError.response} ");
     throw new Exception(dioError.response);
   }
 
   @override
   Future<dynamic> onResponse(Response response) async {
     // do something before response
+    print("url : ${response.request.uri}");
     print("ok : ${response}");
 
   }

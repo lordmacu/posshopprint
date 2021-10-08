@@ -21,10 +21,10 @@ class Register extends StatelessWidget{
       helpers.defaultAlert(context, "error", "Error al ingresar",
           "Por favor verifique la contraseña o el email.");
     } else {
-  /*    Navigator.push(
+      Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => Home()),
-      );*/
+      );
     }
   }
 

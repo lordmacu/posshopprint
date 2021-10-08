@@ -2,6 +2,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:poshop/products/model/Product.dart';
 
 
 import 'package:poshop/products/product_provider.dart';
@@ -37,23 +38,20 @@ class ProductContoller extends GetxController{
     try{
       var data = await _endpointProvider.getProducts();
 
-      print("aquiii trae totods loss productos  ${data} ");
-     /* if(data["success"]){
+     if(data["success"]){
         var dataJson=(data["data"]);
-        List<Category> categoryes=[];
+        List<Product> products=[];
 
-        if(dataJson.length>0){
-          categorySelect.value= dataJson[0]["id"];
-        }
+
 
         for(var i = 0 ; i<  dataJson.length; i++){
-          categoryes.add(Category(dataJson[i]["id"], dataJson[i]["idOrg"], dataJson[i]["name"], dataJson[i]["color"]));
+          //products.add(Product(dataJson[i]["id"], dataJson[i]["item_name"]));
         }
 
-        items.value=categoryes;
+     //   items.value=categoryes;
 
         return true;
-      }*/
+      }
     }catch(e){
       print("aqui esta el error ${e}");
       return false;

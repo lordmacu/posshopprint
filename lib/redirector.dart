@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:poshop/auth/auth.dart';
 import 'package:poshop/auth/controllers/AuthController.dart';
 import 'package:get/get.dart';
+import 'package:poshop/auth/pin.dart';
 import 'package:poshop/home/home.dart';
 
 class Redirector extends StatefulWidget{
@@ -24,7 +25,7 @@ class _Redirector extends State<Redirector> {
        if(checkIfLogged){
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => Home()),
+          MaterialPageRoute(builder: (context) => Pin()),
         );
       }else{
          Navigator.push(

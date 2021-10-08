@@ -13,6 +13,7 @@ class AuthContoller extends GetxController{
   var isLogged=false.obs;
   var email= "".obs;
   var password= "".obs;
+  var pin= "".obs;
   var business= "".obs;
 
   Client _client = new Client();
@@ -52,6 +53,9 @@ class AuthContoller extends GetxController{
     prefs.setBool("isLogged", login);
     if(data!=null){
       prefs.setString("user", jsonEncode(data));
+      prefs.setInt("outletId",  data["user"]["outlet"]["id"]);
+      prefs.setInt("cashRegister",  data["user"]["cashRegister"]["id"]);
+      prefs.setInt("idOrg",   data["idOrg"]);
       prefs.setString("token", data["token"]);
       token.value=data["token"];
     }
@@ -68,6 +72,22 @@ class AuthContoller extends GetxController{
       }
     }catch(e){
       loginUserSystem(false,null);
+      return false;
+    }
+  }
+
+
+  loginPin() async{
+    prefs = await SharedPreferences.getInstance();
+    try{
+      var data = await _endpointProvider.loginPin(pin,prefs.getString("idOrg"));
+      if(data["success"]){
+        loginUserSystem(true,data["data"]);
+        return true;
+      }
+    }catch(e){
+      print("sadfasd   ${e}");
+    //  loginUserSystem(false,null);
       return false;
     }
   }

@@ -9,7 +9,7 @@ class ProductProvider {
   Future getProducts() async {
     try {
       final response = await _client.get(
-          '/items-disponibles?outlet_id=28&category_id=1&itemsPerPage=10&page=1');
+          '/items?outlet_id=134&category_id=1&itemsPerPage=10&page=1');
       return json.decode(response.toString());
     } on DioError catch (ex) {
         String errorMessage = ex.message.toString();
