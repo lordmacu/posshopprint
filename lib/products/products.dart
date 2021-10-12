@@ -12,6 +12,15 @@ class ProductsList extends StatelessWidget {
     PanelController _panelController = PanelController();
 
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        // isExtended: true,
+        child: Icon(Icons.add),
+        backgroundColor: Color(0xff298dcf),
+        onPressed: () {
+
+          _panelController.open();
+        },
+      ),
       body: SlidingUpPanel(
         backdropTapClosesPanel: true,
         backdropEnabled: true,
@@ -19,6 +28,7 @@ class ProductsList extends StatelessWidget {
         minHeight: 0,
 
         panel: DetailProduct(),
+
         body: Column(
           children: [
             Padding(
