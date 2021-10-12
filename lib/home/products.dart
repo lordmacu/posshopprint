@@ -321,56 +321,58 @@ class Products extends StatelessWidget {
               children: [
                 Obx(() => controllerHome.isShowPayment.value
                     ? Container(
-                        child: Obx((){
+                  child: Obx(()=> controlelrCart.items.length > 0 ? Container(
+                    child: Obx((){
 
-                          var items=controlelrCart.items;
-                          var total= 0;
-                          List<Widget> itemsBuy=[];
-                          for(var i =0  ; i  < items.length ; i++ ){
+                      var items=controlelrCart.items;
+                      var total= 0;
+                      List<Widget> itemsBuy=[];
+                      for(var i =0  ; i  < items.length ; i++ ){
 
-                            itemsBuy.add(Container(
-                              child: Row(
-                                mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Expanded(
-                                      child: Container(
-                                        margin: EdgeInsets.only(right: 10),
-                                        child: Text(
-                                          "${items[i].product.itemNme}  x ${items[i].numberItem}",
-                                          style: TextStyle(fontSize: 15),
-                                        ),
-                                      )),
-                                  Container(
+                        itemsBuy.add(Container(
+                          child: Row(
+                            mainAxisAlignment:
+                            MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(
+                                  child: Container(
+                                    margin: EdgeInsets.only(right: 10),
                                     child: Text(
-                                      "\$${(items[i].product.primeCost*items[i].numberItem)}",
-                                      style: TextStyle(
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.bold),
+                                      "${items[i].product.itemNme}  x ${items[i].numberItem}",
+                                      style: TextStyle(fontSize: 15),
                                     ),
-                                  )
-                                ],
-                              ),
-                              margin: EdgeInsets.only(
-                                  left: 10, right: 10, bottom: 10),
-                            ));
-                          }
+                                  )),
+                              Container(
+                                child: Text(
+                                  "\$${(items[i].product.primeCost*items[i].numberItem)}",
+                                  style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              )
+                            ],
+                          ),
+                          margin: EdgeInsets.only(
+                              left: 10, right: 10, bottom: 10),
+                        ));
+                      }
 
-                          return Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: itemsBuy,
-                          );
-                        }),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(10),
-                                topRight: Radius.circular(10)),
-                            border:
-                                Border.all(color: Color(0xff298dcf), width: 1),
-                            color: Colors.white),
-                        padding: EdgeInsets.only(
-                            left: 10, right: 10, top: 10, bottom: 10),
-                      )
+                      return Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: itemsBuy,
+                      );
+                    }),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(10),
+                            topRight: Radius.circular(10)),
+                        border:
+                        Border.all(color: Color(0xff298dcf), width: 1),
+                        color: Colors.white),
+                    padding: EdgeInsets.only(
+                        left: 10, right: 10, top: 10, bottom: 10),
+                  ): Container()),
+                )
                     : Container()),
                 Stack(
                   children: [
