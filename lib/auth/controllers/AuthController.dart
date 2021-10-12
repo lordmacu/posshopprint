@@ -88,6 +88,8 @@ class AuthContoller extends GetxController{
   }
 
   outletsAvailable() async{
+    prefs = await SharedPreferences.getInstance();
+
     _endpointProvider = new AuthProvider(_client.init(prefs.getString("token")));
 
     try{
@@ -95,12 +97,42 @@ class AuthContoller extends GetxController{
       if(data["success"]){
 
         prefs = await SharedPreferences.getInstance();
+        prefs.setString("outlet", jsonEncode(data["data"][0]));
+        prefs.setInt("outletId", data["data"][0]["id"]);
+        prefs.setString("cashier", jsonEncode(data["data"][0]["cashregisters_inactives"][0]));
+        prefs.setInt("cashierId", data["data"][0]["cashregisters_inactives"][0]["id"]);
 
-        ///   loginUserSystem(true,data["data"]);
+        print("aquiii esta la cosa ");
+        cashRegister();
         return true;
       }
     }catch(e){
-     // loginUserSystem(false,null);
+      prefs = await SharedPreferences.getInstance();
+      prefs.setString("outlet", null);
+      prefs.setString("outletId", null);
+      prefs.setString("cashier", null);
+      prefs.setString("cashierId", null);
+
+      print("error : ${e}");
+
+      return false;
+    }
+  }
+
+  cashRegister() async{
+    prefs = await SharedPreferences.getInstance();
+
+     _endpointProvider = new AuthProvider(_client.init(prefs.getString("token")));
+
+    try{
+      var data = await _endpointProvider.cashRegister(prefs.getInt("cashierId"));
+
+      if(data["success"]){
+
+        return true;
+      }
+    }catch(e){
+
       return false;
     }
   }

@@ -109,7 +109,7 @@ class Products extends StatelessWidget {
                                             "${product.itemNme}",
                                             style: TextStyle(
                                                 fontWeight: FontWeight.bold,
-                                                fontSize: 20),
+                                                fontSize: 17),
                                           ),
                                         ),
                                         Container(
@@ -117,7 +117,7 @@ class Products extends StatelessWidget {
                                             "Categoría",
                                             style: TextStyle(
                                                 fontWeight: FontWeight.bold,
-                                                fontSize: 15,
+                                                fontSize: 14,
                                                 color: Colors.grey
                                                     .withOpacity(0.6)),
                                           ),
@@ -150,11 +150,11 @@ class Products extends StatelessWidget {
                                                         right: 3),
                                                   ),
                                                   Text(
-                                                    "${product.primeCost}",
+                                                    "${product.salesPrice}",
                                                     style: TextStyle(
                                                         fontWeight:
                                                             FontWeight.bold,
-                                                        fontSize: 20),
+                                                        fontSize: 17),
                                                   )
                                                 ],
                                               ),
@@ -344,7 +344,7 @@ class Products extends StatelessWidget {
                                   )),
                               Container(
                                 child: Text(
-                                  "\$${(items[i].product.primeCost*items[i].numberItem)}",
+                                  "\$${(items[i].product.salesPrice*items[i].numberItem)}",
                                   style: TextStyle(
                                       fontSize: 15,
                                       fontWeight: FontWeight.bold),

@@ -63,7 +63,7 @@ class ProductContoller extends GetxController{
           product.primeCost=dataJson[i]["primeCost"];
           product.keepCount=dataJson[i]["keepCount"];
           product.purchaseCost=dataJson[i]["purchaseCost"];
-          product.salesPrice=dataJson[i]["salesPrice"];
+          product.salesPrice=dataJson[i]["salePrice"];
           product.shape=dataJson[i]["shape"];
 
             productsLocal.add(product);

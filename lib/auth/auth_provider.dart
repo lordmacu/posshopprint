@@ -33,7 +33,7 @@ class AuthProvider {
   Future register(email,password,business) async {
     try {
       final response = await _client.post(
-          '/auth/register',data: {"email":email,"name":email,"password":email,"business_name":business});
+          '/auth/register',data: {"email":email,"name":email,"password":password,"business_name":business});
 
       return json.decode(response.toString());
     } on DioError catch (ex) {
@@ -54,4 +54,17 @@ class AuthProvider {
     }
   }
 
+
+
+  Future cashRegister(cashier) async {
+    try {
+      final response = await _client.post(
+          '/cash-register/${cashier}/activate');
+
+      return json.decode(response.toString());
+    } on DioError catch (ex) {
+      String errorMessage = ex.message.toString();
+      throw new Exception(errorMessage);
+    }
+  }
 }
