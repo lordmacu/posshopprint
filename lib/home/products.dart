@@ -222,7 +222,12 @@ class Products extends StatelessWidget {
 
                                                         controlelrCart.items[
                                                         cartIndex] = isInCart;
-                                                      }else{
+                                                        print("aquiii esta mayor en cero");
+
+                                                      }
+
+                                                      if (isInCart.numberItem == 0) {
+                                                        print("aquiii esta en cero");
                                                         int cartIndex =
                                                         checkItemCartIndex(
                                                             product);
