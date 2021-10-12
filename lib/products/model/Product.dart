@@ -18,8 +18,23 @@ class Product{
   String _barCode;
   int _idUserCreated;
   int _idUserUpdate;
+  int _cartNumber;
+
+  int get cartNumber => _cartNumber;
+
+  set cartNumber(int value) {
+    _cartNumber = value;
+  }
+
+  int _categoryId;
   String _image;
   Category _category;
+
+  int get categoryId => _categoryId;
+
+  set categoryId(int value) {
+    _categoryId = value;
+  }
 
   Product(this._id,this._itemNme);
 

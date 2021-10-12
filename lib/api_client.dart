@@ -1,5 +1,6 @@
 import 'dart:async';
 import "package:dio/dio.dart";
+import 'package:flutter/foundation.dart';
 
 class Client{
   Dio init(token) {
@@ -21,14 +22,14 @@ class ApiInterceptors extends Interceptor {
 
     print(options.baseUrl);
     print(options.headers);
-    print(options.data);
+    debugPrint(options.data);
   }
 
   @override
   Future<dynamic> onError(DioError dioError) async  {
     print("url :  ${dioError.request.uri}");
     print("headers : ${dioError.request.headers} ");
-    print("erro : ${dioError.response} ");
+    debugPrint("erro : ${dioError.response} ");
     throw new Exception(dioError.response);
   }
 
