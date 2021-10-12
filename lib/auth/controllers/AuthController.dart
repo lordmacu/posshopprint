@@ -22,8 +22,16 @@ class AuthContoller extends GetxController{
   SharedPreferences prefs;
 
   @override
-  void onInit() {
-     _endpointProvider = new AuthProvider(_client.init(token.value));
+  void onInit() async {
+    var  prefs = await SharedPreferences.getInstance();
+
+    if(prefs.getString("token") != null){
+      _endpointProvider = new AuthProvider(_client.init(prefs.getString("token")));
+
+    }else{
+      _endpointProvider = new AuthProvider(_client.init(" "));
+    }
+
      initPRefs();
   }
 
@@ -53,11 +61,13 @@ class AuthContoller extends GetxController{
     prefs.setBool("isLogged", login);
     if(data!=null){
       prefs.setString("user", jsonEncode(data));
-      prefs.setInt("outletId",  data["user"]["outlet"]["id"]);
-      prefs.setInt("cashRegister",  data["user"]["cashRegister"]["id"]);
+      //prefs.setInt("outletId",  data["user"]["outlet"]["id"]);
+      //prefs.setInt("cashRegister",  data["user"]["cashRegister"]["id"]);
       prefs.setInt("idOrg",   data["idOrg"]);
       prefs.setString("token", data["token"]);
       token.value=data["token"];
+      outletsAvailable();
+
     }
 
     isLogged.value=login;
@@ -68,10 +78,29 @@ class AuthContoller extends GetxController{
       var data = await _endpointProvider.login(email,password);
        if(data["success"]){
         loginUserSystem(true,data["data"]);
+
         return true;
       }
     }catch(e){
       loginUserSystem(false,null);
+      return false;
+    }
+  }
+
+  outletsAvailable() async{
+    _endpointProvider = new AuthProvider(_client.init(prefs.getString("token")));
+
+    try{
+      var data = await _endpointProvider.outletAvailable();
+      if(data["success"]){
+
+        prefs = await SharedPreferences.getInstance();
+
+        ///   loginUserSystem(true,data["data"]);
+        return true;
+      }
+    }catch(e){
+     // loginUserSystem(false,null);
       return false;
     }
   }

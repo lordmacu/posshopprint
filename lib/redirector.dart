@@ -25,7 +25,7 @@ class _Redirector extends State<Redirector> {
        if(checkIfLogged){
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => Pin()),
+          MaterialPageRoute(builder: (context) => Home()),
         );
       }else{
          Navigator.push(
