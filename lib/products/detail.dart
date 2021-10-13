@@ -222,7 +222,9 @@ class DetailProduct extends StatelessWidget {
                   children: [
                     RaisedButton(
                       onPressed: () {
-                        if (_formKey.currentState.validate()) {}
+                        if (_formKey.currentState.validate()) {
+                          controllerHome.createProduct();
+                        }
                       },
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30.0),
