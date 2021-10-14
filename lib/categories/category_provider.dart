@@ -9,7 +9,7 @@ class CategoryProvider {
   Future getCategories() async {
     try {
       final response = await _client.get(
-          '/category/');
+          '/categories/');
       return json.decode(response.toString());
     } on DioError catch (ex) {
         String errorMessage = ex.message.toString();

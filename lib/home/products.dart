@@ -57,6 +57,7 @@ class Products extends StatelessWidget {
         Container(
             padding: EdgeInsets.only(left: 20, right: 20, top: 15),
             child: Obx(() => ListView.builder(
+              padding: EdgeInsets.only(bottom: 100),
                   itemCount: controllerProduct.products.length,
                   itemBuilder: (context, index) {
                     Product product = controllerProduct.products[index];

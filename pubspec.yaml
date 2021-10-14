@@ -46,7 +46,7 @@ dependencies:
   intl: 0.16.1
   currency_text_input_formatter: 1.0.4
   pinput:
-
+  flutter_switch:
 
 dev_dependencies:
   flutter_test:

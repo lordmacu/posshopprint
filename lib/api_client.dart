@@ -8,6 +8,8 @@ class Client{
     _dio.interceptors.add(new ApiInterceptors());
     _dio.options.baseUrl = "https://poschile.bbndev.com/api";
     _dio.options.headers["Authorization"] = "Bearer " + token;
+    _dio.options.headers["Accept"] = "application/json";
+    _dio.options.headers["Content-Type"] = "application/json";
 
     print("este es el token  ${token}");
 
@@ -29,6 +31,7 @@ class ApiInterceptors extends Interceptor {
   Future<dynamic> onError(DioError dioError) async  {
     print("url :  ${dioError.request.uri}");
     print("headers : ${dioError.request.headers} ");
+    print("method : ${dioError.request.method} ");
     print("erro : ${dioError.error} ");
     print("erro : ${dioError.message} ");
     throw new Exception(dioError.response);

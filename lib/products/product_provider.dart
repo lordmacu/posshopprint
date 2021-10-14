@@ -14,11 +14,9 @@ class ProductProvider {
     var outletId="${prefs.getInt("outletId")}";
     print("este es el outlet Id  ${outletId}");
     try {
-   /*   final response = await _client.get(
-          '/items?outlet_id=31&category_id=13&itemsPerPage=10&page=1');*/
-      //outletId
+
       final response = await _client.get(
-          '/items?devMode=true&itemsPerPage=5&page=1');
+          '/items?devMode=true&itemsPerPage=20&page=1');
 
       return json.decode(response.toString());
     } on DioError catch (ex) {
@@ -33,9 +31,10 @@ class ProductProvider {
     var outletId="${prefs.getInt("outletId")}";
     print("este es el outlet Id  ${outletId}");
     try {
-      /*   final response = await _client.get(
-          '/items?outlet_id=31&category_id=13&itemsPerPage=10&page=1');*/
-      //outletId
+
+    /*  final response = await _client.post(
+          '/items',data: product);*/
+
       final response = await _client.post(
           '/items',data: product);
 
