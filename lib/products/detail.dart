@@ -284,14 +284,21 @@ class DetailProduct extends StatelessWidget {
                 }
               }
 
-    if(controllerHome.selectedCategory.value==0){
-      helpers.defaultAlert(context, "warning", "Error en creación", "Por favor seleccione la categoría");
-      canSubmit=false;
-    }
+            if(controllerHome.selectedCategory.value==0){
+              helpers.defaultAlert(context, "warning", "Error en creación", "Por favor seleccione la categoría");
+              canSubmit=false;
+            }
 
               if(canSubmit){
 
-                await controllerHome.createProduct();
+                if(controllerHome.item_id.value!=0){
+                  await controllerHome.createProduct();
+
+                }else{
+                  await controllerHome.updateProduct();
+
+                }
+
 
                 controllerHome.resetCreationProduct();
                 controllerHome.panelController.value.close();

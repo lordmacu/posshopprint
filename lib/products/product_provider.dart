@@ -25,16 +25,30 @@ class ProductProvider {
     }
   }
 
+  Future updateProduct(product,id) async {
+    prefs = await SharedPreferences.getInstance();
+
+    var outletId="${prefs.getInt("outletId")}";
+
+    try {
+
+      final response = await _client.post(
+          '/items/${id}',data: product);
+
+      return json.decode(response.toString());
+    } on DioError catch (ex) {
+      String errorMessage = ex.message.toString();
+      throw new Exception(errorMessage);
+    }
+  }
+
+
   Future createProduct(product) async {
     prefs = await SharedPreferences.getInstance();
 
     var outletId="${prefs.getInt("outletId")}";
     print("este es el outlet Id  ${outletId}");
     try {
-
-    /*  final response = await _client.post(
-          '/items',data: product);*/
-
       final response = await _client.post(
           '/items',data: product);
 
@@ -45,24 +59,6 @@ class ProductProvider {
     }
   }
 
-  Future updateProduct(product,id) async {
-    prefs = await SharedPreferences.getInstance();
-
-    var outletId="${prefs.getInt("outletId")}";
-    print("este es el outlet Id  ${outletId}");
-    try {
-      /*   final response = await _client.get(
-          '/items?outlet_id=31&category_id=13&itemsPerPage=10&page=1');*/
-      //outletId
-      final response = await _client.post(
-          '/items',data: product);
-
-      return json.decode(response.toString());
-    } on DioError catch (ex) {
-      String errorMessage = ex.message.toString();
-      throw new Exception(errorMessage);
-    }
-  }
 
 
 

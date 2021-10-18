@@ -117,14 +117,55 @@ class ProductContoller extends GetxController {
 
       print("aquiii el objeto  ${productObject}");
       var data=null;
-    /*  if(item_id == 0){
-        data = await _endpointProvider.createProduct(productObject);
-      }else{
-        data = await _endpointProvider.updateProduct(productObject,item_id);
 
-      }*/
    data = await _endpointProvider.createProduct(productObject);
    getProducts();
+
+      if (data["success"]) {
+        return true;
+      }
+    } catch (e) {
+      print("aqui esta el error ${e.toString()}");
+      return false;
+    }
+  }
+
+  Future updateProduct() async {
+    var prefs = await SharedPreferences.getInstance();
+
+    var outlet=prefs.getInt("outletId");
+    try {
+
+
+      var productObject={
+        "item_name": item_name.value,
+        "article": reference.value,
+        "representacion": isImagen.value ?  "color_y_forma" : "imagen",
+        "color": color.value,
+        "shape":  shape.value,
+        "allOutlets": allOutlets.value,
+        "divisible": divisible.value ? "1" : "0",
+        "keepCount": keepCount.value,
+        "salePrice": salePrice.value,
+        "primeCost": primeCost.value,
+        "type": type.value,
+        "idCategory":selectedCategory.value,
+        "outlets": [
+          {
+            "checkbox": "1",
+            "outlet_id": "${outlet}",
+            "precio": salePrice
+          }
+        ],
+
+      };
+
+
+      print("aquiii el objeto  ${productObject}");
+      var data=null;
+      data = await _endpointProvider.updateProduct(productObject,item_id);
+
+      getProducts();
 
       if (data["success"]) {
         return true;
