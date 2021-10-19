@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:poshop/categories/controllers/CategoryController.dart';
 import 'package:poshop/products/controllers/ProductContoller.dart';
 import 'package:poshop/products/detail.dart';
@@ -8,6 +9,17 @@ import 'package:get/get.dart';
 
 class ProductsList extends StatelessWidget {
   ProductContoller controllerHome = Get.put(ProductContoller());
+
+  formatedNumber(number) {
+    var formatCurrency;
+       formatCurrency = new NumberFormat.currency(
+          customPattern: "\u00A4#,##0.00\u00A0",
+          symbol: "",
+          decimalDigits: 0,
+          locale: "es");
+
+    return formatCurrency.format(number);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,6 +71,8 @@ class ProductsList extends StatelessWidget {
                 itemBuilder: (BuildContext context,int index){
                   Product product = controllerHome.products[index];
 
+                  print("aquiii el producto ${product}");
+
                   return GestureDetector(
                     onTap: () {
                       controllerHome.isOpenCreator.value = true;
@@ -95,7 +109,7 @@ class ProductsList extends StatelessWidget {
                                   Container(
                                     height: 80,
                                     child: Image.network(
-                                      "https://m.media-amazon.com/images/I/61ccMD0XMBL._AC_UY625_.jpg",
+                                      product.image== null ? "https://m.media-amazon.com/images/I/61ccMD0XMBL._AC_UY625_.jpg" :  product.image,
                                       fit: BoxFit.cover,
                                     ),
                                   ),
@@ -153,7 +167,7 @@ class ProductsList extends StatelessWidget {
                                                         EdgeInsets.only(right: 3),
                                                       ),
                                                       Text(
-                                                        "${product.salesPrice}",
+                                                        "${formatedNumber(product.salesPrice)}",
                                                         style: TextStyle(
                                                             fontWeight:
                                                             FontWeight.bold,

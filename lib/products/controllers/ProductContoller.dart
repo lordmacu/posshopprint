@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:dio/dio.dart' as dio;
+import 'package:dio/dio.dart' as dios;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -46,6 +46,7 @@ class ProductContoller extends GetxController {
   var idCategory = "0".obs;
   var formKey = GlobalKey<FormState>().obs;
   var image = "".obs;
+  var imageUpload = "".obs;
 
   var isImagen=false.obs;
 
@@ -64,6 +65,9 @@ class ProductContoller extends GetxController {
   resetCreationProduct(){
 
     formKey.value.currentState.reset();
+    isFormSelected.value=false;
+    isSelectedColor.value=false;
+      selectedColor.value = 0xffffffff;
 
      item_name.value = "";
      item_id.value = "0";
@@ -81,6 +85,7 @@ class ProductContoller extends GetxController {
      type.value = "0";
      outlets.value = [];
      idCategory.value = "0";
+     isImagen.value=false;
 
   }
 
@@ -113,9 +118,12 @@ class ProductContoller extends GetxController {
         ],
 
       };
+      if(!isImagen.value){
+
+        productObject["image"]=imageUpload.value;
+      }
 
 
-      print("aquiii el objeto  ${productObject}");
       var data=null;
 
    data = await _endpointProvider.createProduct(productObject);
@@ -130,10 +138,23 @@ class ProductContoller extends GetxController {
     }
   }
 
+
+
+  Future uploadImage() async {
+
+    return  await _endpointProvider.uploadImage(image.value);
+
+  }
+
   Future updateProduct() async {
     var prefs = await SharedPreferences.getInstance();
 
     var outlet=prefs.getInt("outletId");
+
+
+
+
+
     try {
 
 
@@ -150,6 +171,7 @@ class ProductContoller extends GetxController {
         "primeCost": primeCost.value,
         "type": type.value,
         "idCategory":selectedCategory.value,
+        "image":imageUpload,
         "outlets": [
           {
             "checkbox": "1",
@@ -159,6 +181,10 @@ class ProductContoller extends GetxController {
         ],
 
       };
+
+      if(!isImagen.value){
+        productObject["image"]=imageUpload.value;
+      }
 
 
       print("aquiii el objeto  ${productObject}");
@@ -190,7 +216,7 @@ class ProductContoller extends GetxController {
               Product(dataJson[i]["id"], dataJson[i]["item_name"]);
           product.type = dataJson[i]["type"];
           product.color = dataJson[i]["color"];
-          product.image = dataJson[i]["wareImgName"];
+          product.image = dataJson[i]["imagen_url"];
           product.categoryId = dataJson[i]["idCategory"];
           product.barCode = dataJson[i]["barcode"];
           product.freePrice = dataJson[i]["freePrice"];

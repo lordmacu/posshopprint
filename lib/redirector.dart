@@ -4,6 +4,7 @@ import 'package:poshop/auth/controllers/AuthController.dart';
 import 'package:get/get.dart';
 import 'package:poshop/auth/pin.dart';
 import 'package:poshop/home/home.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Redirector extends StatefulWidget{
   @override
@@ -15,7 +16,16 @@ class Redirector extends StatefulWidget{
 class _Redirector extends State<Redirector> {
   AuthContoller controllerAuth = Get.put(AuthContoller());
 
+
+
   checkLogged() async{
+
+    var  prefs = await SharedPreferences.getInstance();
+
+
+    prefs.setString("url","https://poschile.bbndev.com/api");
+
+
     await controllerAuth.setToken();
     var checkIfLogged= await controllerAuth.checkIfLogged();
     print("aquiii esta la cosa  ${checkIfLogged} ");

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:masonry_grid/masonry_grid.dart';
 import 'package:poshop/cart/controllers/CartController.dart';
 import 'package:poshop/cart/model/Cart.dart';
@@ -49,6 +50,17 @@ class Products extends StatelessWidget {
     return isInCart;
   }
 
+  formatedNumber(number) {
+    var formatCurrency;
+    formatCurrency = new NumberFormat.currency(
+        customPattern: "\u00A4#,##0.00\u00A0",
+        symbol: "",
+        decimalDigits: 0,
+        locale: "es");
+
+    return formatCurrency.format(number);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -91,7 +103,7 @@ class Products extends StatelessWidget {
                                   Container(
                                     height: 80,
                                     child: Image.network(
-                                      "https://m.media-amazon.com/images/I/61ccMD0XMBL._AC_UY625_.jpg",
+                                      product.image== null ? "https://m.media-amazon.com/images/I/61ccMD0XMBL._AC_UY625_.jpg" :  product.image,
                                       fit: BoxFit.cover,
                                     ),
                                   ),
@@ -151,7 +163,7 @@ class Products extends StatelessWidget {
                                                         right: 3),
                                                   ),
                                                   Text(
-                                                    "${product.salesPrice}",
+                                                    "${formatedNumber(product.salesPrice)}",
                                                     style: TextStyle(
                                                         fontWeight:
                                                             FontWeight.bold,

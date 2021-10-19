@@ -19,10 +19,10 @@ class DetailProduct extends StatelessWidget {
    ProductContoller controllerHome = Get.find();
   CategoryContoller controllerCategory = Get.find();
   WidgetsHelper helpers = WidgetsHelper();
+   var loadingHud;
 
   void getImage(context) async{
-  /*  final ImagePicker _picker = ImagePicker();
-   var image = await _picker.getImage(source: ImageSource.gallery);*/
+
 
     selectImage(context);
   }
@@ -44,7 +44,17 @@ class DetailProduct extends StatelessWidget {
 
                  var image = await _picker.getImage(source: ImageSource.gallery);
                  controllerHome.image.value=image.path;
+                 loadingHud.show();
+
+                  var imageFinal = await controllerHome.uploadImage();
+                 controllerHome.imageUpload.value=imageFinal;
+
+
+
+                 loadingHud.dismiss();
+
                  Navigator.of(context).pop();
+
 
                },
                label: "Gallería",
@@ -57,6 +67,15 @@ class DetailProduct extends StatelessWidget {
                onPressed: () async {
 
                  var image = await _picker.getImage(source: ImageSource.camera);
+
+                  controllerHome.image.value=image.path;
+                 loadingHud.show();
+
+                var imageFinal = await controllerHome.uploadImage();
+                 controllerHome.imageUpload.value=imageFinal;
+
+
+                 loadingHud.dismiss();
 
 
                  Navigator.of(context).pop();
@@ -259,6 +278,7 @@ class DetailProduct extends StatelessWidget {
   }
   @override
   Widget build(BuildContext context) {
+    loadingHud = helpers.initLoading(context);
     FocusScopeNode currentFocus = FocusScope.of(context);
 
     // TODO: implement build
@@ -288,18 +308,12 @@ class DetailProduct extends StatelessWidget {
               helpers.defaultAlert(context, "warning", "Error en creación", "Por favor seleccione la categoría");
               canSubmit=false;
             }
-
               if(canSubmit){
-
                 if(controllerHome.item_id.value!=0){
                   await controllerHome.createProduct();
-
                 }else{
                   await controllerHome.updateProduct();
-
                 }
-
-
                 controllerHome.resetCreationProduct();
                 controllerHome.panelController.value.close();
 
@@ -437,7 +451,7 @@ class DetailProduct extends StatelessWidget {
                                               "Escribe el precio del producto"),
                                           inputFormatters: [
                                             TextInputMask(
-                                                mask: '\$! !9+.999',
+                                                mask: '\$! !9+.99',
                                                 placeholder: '0',
                                                 maxPlaceHolders: 3,
                                                 reverse: true)
@@ -539,6 +553,9 @@ class DetailProduct extends StatelessWidget {
                                 padding: 8.0,
                                 showOnOff: true,
                                 onToggle: (val) {
+                                  if(val){
+                                    controllerHome.imageUpload.value="";
+                                  }
 
                                   controllerHome.isImagen.value= val;
                                 },
@@ -674,9 +691,9 @@ class DetailProduct extends StatelessWidget {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
 
-                                      Text(
-                                        "Seleccionar imágen",
-                                      ),
+                                      Obx(()=>Expanded(child: Text(
+                                        controllerHome.imageUpload.value == "" ?  "Seleccionar imágen" : controllerHome.imageUpload.value,
+                                      ))),
                                       Container(
                                         margin: EdgeInsets.only(left: 10),
                                         child: Icon(
