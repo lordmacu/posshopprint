@@ -17,6 +17,10 @@ class Checkout extends StatelessWidget{
   final CurrencyTextInputFormatter _formatter = CurrencyTextInputFormatter();
 
   formatedNumber(number) {
+
+    number = number.replaceAll(".", "");
+
+
     var numberText= int.parse(number);
     var formatCurrency;
     formatCurrency = new NumberFormat.currency(
@@ -84,13 +88,9 @@ class Checkout extends StatelessWidget{
                         color: Color(
                             0xff298dcf).withOpacity(0.9),
                         borderRadius: BorderRadius.circular(20)
-
                     ),
-
-
                     child: Text("\$ ${formatedNumber(controllerCheckout.valueCheckout.value)}",style: TextStyle(color: Colors.white,fontSize: 25),),
                   ),
-
                 ],
               )),
               Row(
@@ -101,7 +101,6 @@ class Checkout extends StatelessWidget{
                       controllerCheckout.valueCheckout.value="${value}";
                     },
                     keyboardType: TextInputType.number,
-
                     inputFormatters: [
                       CurrencyTextInputFormatter()
                     ],
@@ -151,17 +150,13 @@ class Checkout extends StatelessWidget{
                         borderRadius: new BorderRadius.circular(30.0),
                       ),
                       color:Color(0xff298dcf) ,
-
                       onPressed: (){
                         controllerCheckout.typePayment.value=2;
-
                         _panelController.open();
-
                       },
                       child: Row(
                         children: [
                           Container(
-
                             child: Icon(Icons.credit_card,color: Colors.white,),
                             margin: EdgeInsets.only(right: 10),
                           ),
@@ -173,8 +168,6 @@ class Checkout extends StatelessWidget{
                 ),
                 padding: EdgeInsets.only(left: 20,right: 20),
               )
-
-
             ],
           ),
         ),

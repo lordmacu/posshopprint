@@ -661,7 +661,7 @@ class DetailProduct extends StatelessWidget {
                             ),
                             Container(
 
-                              margin: EdgeInsets.only(top:20),
+                              margin: EdgeInsets.only(top:20,bottom: 50),
                               padding: EdgeInsets.only(left: 20,right: 20,bottom: 10),
                               width: double.infinity,
                               child: RaisedButton(
