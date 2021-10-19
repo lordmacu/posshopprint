@@ -718,7 +718,7 @@ class DetailProduct extends StatelessWidget {
                                 ),
                                 color: Color(0xff298dcf),
                                 child: Text(
-                                  "Crear producto",
+                                  controllerHome.item_id=="0" ? "Crear producto" : "Actualizar producto",
                                   style: TextStyle(color: Colors.white, fontSize: 17),
                                 ),
                               ),
