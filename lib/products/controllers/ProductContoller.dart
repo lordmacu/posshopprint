@@ -86,6 +86,7 @@ class ProductContoller extends GetxController {
      outlets.value = [];
      idCategory.value = "0";
      isImagen.value=false;
+    imageUpload.value="";
 
   }
 

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:poshop/checkout/card.dart';
 import 'package:poshop/checkout/cash.dart';
 import 'package:poshop/checkout/controllers/CheckoutController.dart';
@@ -11,9 +12,21 @@ import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 
 class Checkout extends StatelessWidget{
-  CheckoutContoller controllerCheckout = Get.put(CheckoutContoller());
+  CheckoutContoller controllerCheckout = Get.find();
 
   final CurrencyTextInputFormatter _formatter = CurrencyTextInputFormatter();
+
+  formatedNumber(number) {
+    var numberText= int.parse(number);
+    var formatCurrency;
+    formatCurrency = new NumberFormat.currency(
+        customPattern: "\u00A4#,##0.00\u00A0",
+        symbol: "",
+        decimalDigits: 0,
+        locale: "es");
+
+    return formatCurrency.format(numberText);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +88,7 @@ class Checkout extends StatelessWidget{
                     ),
 
 
-                    child: Text("\$ ${controllerCheckout.formatedNumber(controllerCheckout.valueCheckout.value)}",style: TextStyle(color: Colors.white,fontSize: 25),),
+                    child: Text("\$ ${formatedNumber(controllerCheckout.valueCheckout.value)}",style: TextStyle(color: Colors.white,fontSize: 25),),
                   ),
 
                 ],

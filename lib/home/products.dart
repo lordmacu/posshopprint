@@ -6,6 +6,7 @@ import 'package:masonry_grid/masonry_grid.dart';
 import 'package:poshop/cart/controllers/CartController.dart';
 import 'package:poshop/cart/model/Cart.dart';
 import 'package:poshop/checkout/checkout.dart';
+import 'package:poshop/checkout/controllers/CheckoutController.dart';
 
 import 'package:poshop/home/controllers/HomeController.dart';
 import 'package:poshop/products/controllers/ProductContoller.dart';
@@ -15,6 +16,7 @@ class Products extends StatelessWidget {
   HomeContoller controllerHome = Get.find();
   ProductContoller controllerProduct = Get.put(ProductContoller());
   CartContoller controlelrCart = Get.put(CartContoller());
+  CheckoutContoller controllerCheckout = Get.put(CheckoutContoller());
 
   Cart checkItemCart(Product product) {
     Cart isInCart = null;
@@ -357,7 +359,7 @@ class Products extends StatelessWidget {
                                   )),
                               Container(
                                 child: Text(
-                                  "\$${(items[i].product.salesPrice*items[i].numberItem)}",
+                                  "\$${(formatedNumber(items[i].product.salesPrice*items[i].numberItem))}",
                                   style: TextStyle(
                                       fontSize: 15,
                                       fontWeight: FontWeight.bold),
@@ -394,6 +396,7 @@ class Products extends StatelessWidget {
                             if (!controllerHome.isShowPayment.value) {
                               controllerHome.isShowPayment.value = true;
                             } else {
+
                               var data = await Get.to(Checkout());
                             }
                           },
@@ -441,11 +444,13 @@ class Products extends StatelessWidget {
                                     var items=controlelrCart.items;
                                     var total= 0;
                                     for(var i =0  ; i  < items.length ; i++ ){
-                                      total=total+(items[i].product.primeCost*items[i].numberItem);
+                                      total=total+(items[i].product.salesPrice*items[i].numberItem);
                                     }
 
+                                    controllerCheckout.valueCheckout.value="${total}";
+
                                     return Text(
-                                      "\$${total}",
+                                      "\$${formatedNumber(total)}",
                                       style: TextStyle(color: Colors.white),
                                       textAlign: TextAlign.center,
                                     );

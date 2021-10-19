@@ -283,56 +283,7 @@ class DetailProduct extends StatelessWidget {
 
     // TODO: implement build
     return Scaffold(
-      bottomNavigationBar: Container(
-        padding: EdgeInsets.only(left: 20,right: 20,bottom: 10),
-         width: double.infinity,
-        child: RaisedButton(
-          padding: EdgeInsets.only(top: 15, bottom: 15),
-          onPressed: () async {
 
-            if (controllerHome.formKey.value.currentState.validate()) {
-              var canSubmit=true;
-
-              if(controllerHome.isImagen.value){
-                if(!controllerHome.isFormSelected.value){
-                  helpers.defaultAlert(context, "warning", "Error en creación", "Por favor seleccione una forma");
-                  canSubmit=false;
-                }
-                if(!controllerHome.isSelectedColor.value){
-                  helpers.defaultAlert(context, "warning", "Error en creación", "Por favor seleccione el color");
-                  canSubmit=false;
-                }
-              }
-
-            if(controllerHome.selectedCategory.value==0){
-              helpers.defaultAlert(context, "warning", "Error en creación", "Por favor seleccione la categoría");
-              canSubmit=false;
-            }
-              if(canSubmit){
-                if(controllerHome.item_id.value!=0){
-                  await controllerHome.createProduct();
-                }else{
-                  await controllerHome.updateProduct();
-                }
-                controllerHome.resetCreationProduct();
-                controllerHome.panelController.value.close();
-
-              }
-
-            }
-          },
-
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(30.0),
-          ),
-          color: Color(0xff298dcf),
-          child: Text(
-            "Crear producto",
-            style: TextStyle(color: Colors.white, fontSize: 17),
-          ),
-        ),
-      )
-      ,
       body: Container(
 
         padding: EdgeInsets.only(top: 20, left: 20, right: 20),
@@ -451,7 +402,7 @@ class DetailProduct extends StatelessWidget {
                                               "Escribe el precio del producto"),
                                           inputFormatters: [
                                             TextInputMask(
-                                                mask: '\$! !9+.99',
+                                                mask: '\$! !9+',
                                                 placeholder: '0',
                                                 maxPlaceHolders: 3,
                                                 reverse: true)
@@ -483,7 +434,7 @@ class DetailProduct extends StatelessWidget {
                                               "Escribe el coste del producto"),
                                           inputFormatters: [
                                             TextInputMask(
-                                                mask: '\$! !9+.999',
+                                                mask: '\$! !9+',
                                                 placeholder: '0',
                                                 maxPlaceHolders: 3,
                                                 reverse: true)
@@ -547,7 +498,7 @@ class DetailProduct extends StatelessWidget {
 
                                 value: controllerHome.isImagen.value,
                                 activeText: "Color y forma",
-                                inactiveText: "Imágen",
+                                inactiveText: "Imagen",
                                 width: controllerHome.isImagen.value ? 150 : 110,
                                 borderRadius: 30.0,
                                 padding: 8.0,
@@ -707,6 +658,57 @@ class DetailProduct extends StatelessWidget {
                                   onPressed: () {
                                     getImage(context);
                                   }) ,
+                            ),
+                            Container(
+
+                              margin: EdgeInsets.only(top:20),
+                              padding: EdgeInsets.only(left: 20,right: 20,bottom: 10),
+                              width: double.infinity,
+                              child: RaisedButton(
+                                padding: EdgeInsets.only(top: 15, bottom: 15),
+                                onPressed: () async {
+
+                                  if (controllerHome.formKey.value.currentState.validate()) {
+                                    var canSubmit=true;
+
+                                    if(controllerHome.isImagen.value){
+                                      if(!controllerHome.isFormSelected.value){
+                                        helpers.defaultAlert(context, "warning", "Error en creación", "Por favor seleccione una forma");
+                                        canSubmit=false;
+                                      }
+                                      if(!controllerHome.isSelectedColor.value){
+                                        helpers.defaultAlert(context, "warning", "Error en creación", "Por favor seleccione el color");
+                                        canSubmit=false;
+                                      }
+                                    }
+
+                                    if(controllerHome.selectedCategory.value==0){
+                                      helpers.defaultAlert(context, "warning", "Error en creación", "Por favor seleccione la categoría");
+                                      canSubmit=false;
+                                    }
+                                    if(canSubmit){
+                                      if(controllerHome.item_id.value!=0){
+                                        await controllerHome.createProduct();
+                                      }else{
+                                        await controllerHome.updateProduct();
+                                      }
+                                      controllerHome.resetCreationProduct();
+                                      controllerHome.panelController.value.close();
+
+                                    }
+
+                                  }
+                                },
+
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(30.0),
+                                ),
+                                color: Color(0xff298dcf),
+                                child: Text(
+                                  "Crear producto",
+                                  style: TextStyle(color: Colors.white, fontSize: 17),
+                                ),
+                              ),
                             )
 
                           ],

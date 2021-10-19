@@ -15,7 +15,7 @@ class CheckoutContoller extends GetxController{
 
   var valueCheckout= "10000".obs;
   var isPanelOpen= false.obs;
-
+  var totalCart=0.obs;
   var typePayment= 1.obs;
   @override
   void onInit() async{
