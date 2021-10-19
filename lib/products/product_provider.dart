@@ -38,7 +38,7 @@ class ProductProvider {
 
     try {
 
-      final response = await _client.post(
+      final response = await _client.put(
           '/items/${id}',data: product);
 
       return json.decode(response.toString());

@@ -16,6 +16,22 @@ class Product{
   String _color;
   String _shape;
   String _barCode;
+  String _reference;
+  String _representation;
+
+
+  String get representation => _representation;
+
+  set representation(String value) {
+    _representation = value;
+  }
+
+  String get reference => _reference;
+
+  set reference(String value) {
+    _reference = value;
+  }
+
   int _idUserCreated;
   int _idUserUpdate;
   int _cartNumber;
@@ -52,9 +68,10 @@ class Product{
 
   Category get category => _category;
 
+
   @override
   String toString() {
-    return 'Product{_id: $_id, _idOrg: $_idOrg, _idDefaultSupplier: $_idDefaultSupplier, _type: $_type, _keepCount: $_keepCount, _divisible: $_divisible, _freePrice: $_freePrice, _itemNme: $_itemNme, _salesPrice: $_salesPrice, _primeCost: $_primeCost, _purchaseCost: $_purchaseCost, _article: $_article, _color: $_color, _shape: $_shape, _barCode: $_barCode, _idUserCreated: $_idUserCreated, _idUserUpdate: $_idUserUpdate, _image: $_image, _category: $_category}';
+    return 'Product{_id: $_id, _idOrg: $_idOrg, _idDefaultSupplier: $_idDefaultSupplier, _type: $_type, _keepCount: $_keepCount, _divisible: $_divisible, _freePrice: $_freePrice, _itemNme: $_itemNme, _salesPrice: $_salesPrice, _primeCost: $_primeCost, _purchaseCost: $_purchaseCost, _article: $_article, _color: $_color, _shape: $_shape, _barCode: $_barCode, _reference: $_reference, _idUserCreated: $_idUserCreated, _idUserUpdate: $_idUserUpdate, _cartNumber: $_cartNumber, _categoryId: $_categoryId, _image: $_image, _category: $_category}';
   }
 
   set category(Category value) {

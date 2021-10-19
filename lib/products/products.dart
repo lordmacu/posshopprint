@@ -71,12 +71,13 @@ class ProductsList extends StatelessWidget {
                 itemBuilder: (BuildContext context,int index){
                   Product product = controllerHome.products[index];
 
-                  print("aquiii el producto ${product}");
 
                   return GestureDetector(
                     onTap: () {
                       controllerHome.isOpenCreator.value = true;
                       controllerHome.panelController.value.open();
+                      controllerHome.setProduct(product);
+
                     },
                     child: Container(
                         margin: EdgeInsets.only(left: 20, right: 20),
@@ -132,7 +133,7 @@ class ProductsList extends StatelessWidget {
                                             ),
                                             Container(
                                               child: Text(
-                                                "Categoría",
+                                                product.category != null ? product.category.name : "Categoría",
                                                 style: TextStyle(
                                                     fontWeight: FontWeight.bold,
                                                     fontSize: 15,

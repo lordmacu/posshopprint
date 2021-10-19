@@ -307,6 +307,7 @@ class DetailProduct extends StatelessWidget {
 
                           children: [
                             TextFormField(
+                              controller: controllerHome.nameController,
                               onChanged: (value){
                                 controllerHome.item_name.value=value;
                               },
@@ -339,10 +340,10 @@ class DetailProduct extends StatelessWidget {
                                           child: Row(
                                             children: [
                                               Expanded(
-                                                  child: Text(
+                                                  child: Obx(()=>Text(
                                                     controllerHome.selectedCategory.value == 0 ?  "Categoría" :controllerHome.selectedCategoryName.value  ,
                                                     style: TextStyle(color: Color(0xff298dcf)),
-                                                  )),
+                                                  ))),
                                               Icon(
                                                 Icons.keyboard_arrow_down_rounded,
                                                 color: Color(0xff298dcf),
@@ -353,7 +354,7 @@ class DetailProduct extends StatelessWidget {
                                       )),
                                   Expanded(
                                       child: Container(
-                                        child: FlutterSwitch(
+                                        child: Obx(()=>FlutterSwitch(
 
                                           value: controllerHome.divisible.value,
                                           activeText: "Unidad",
@@ -367,7 +368,7 @@ class DetailProduct extends StatelessWidget {
                                             controllerHome.divisible.value=val;
 
                                           },
-                                        ),
+                                        )),
                                       ))
                                 ],
                               ),
@@ -379,7 +380,9 @@ class DetailProduct extends StatelessWidget {
                                   Expanded(
                                       child: Container(
                                         padding: EdgeInsets.only(right: 5),
-                                        child: TextFormField(
+                                        child:TextFormField(
+                                          controller: controllerHome.priceController,
+
                                           keyboardType: TextInputType.number,
 
                                           validator: (value) {
@@ -413,6 +416,8 @@ class DetailProduct extends StatelessWidget {
                                       child: Container(
                                         padding: EdgeInsets.only(left: 5),
                                         child: TextFormField(
+                                          controller: controllerHome.costController,
+
                                           keyboardType: TextInputType.number,
 
                                           onChanged: (value){
@@ -452,6 +457,8 @@ class DetailProduct extends StatelessWidget {
                                       child: Container(
                                         margin: EdgeInsets.only(right: 5),
                                         child: TextFormField(
+                                          controller: controllerHome.referenceController,
+
                                           onChanged: (value){
                                             controllerHome.reference.value="${value}";
 
@@ -472,7 +479,9 @@ class DetailProduct extends StatelessWidget {
                                   Expanded(
                                       child: Container(
                                         margin: EdgeInsets.only(left: 5),
-                                        child: TextFormField(
+                                        child:TextFormField(
+                                          controller: controllerHome.barCodeController,
+
                                           onChanged: (value){
                                             controllerHome.barcode.value="${value}";
                                           },
@@ -687,11 +696,15 @@ class DetailProduct extends StatelessWidget {
                                       canSubmit=false;
                                     }
                                     if(canSubmit){
-                                      if(controllerHome.item_id.value!=0){
-                                        await controllerHome.createProduct();
+                                     if(controllerHome.item_id.value =="0"){
+                                       print("aquiii el item id ${controllerHome.item_id.value}");
+
+                                       await controllerHome.createProduct();
                                       }else{
                                         await controllerHome.updateProduct();
-                                      }
+
+
+                                     }
                                       controllerHome.resetCreationProduct();
                                       controllerHome.panelController.value.close();
 
