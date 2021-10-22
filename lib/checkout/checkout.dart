@@ -102,7 +102,7 @@ class Checkout extends StatelessWidget{
                     },
                     keyboardType: TextInputType.number,
                     inputFormatters: [
-                      CurrencyTextInputFormatter()
+
                     ],
                     decoration: InputDecoration(
                         labelText: "Efectivo recibido",
@@ -138,7 +138,7 @@ class Checkout extends StatelessWidget{
                         children: [
                           Container(
 
-                            child: Icon(Icons.money,color: Colors.white,),
+                            child: Icon(Icons.monetization_on,color: Colors.white,),
                             margin: EdgeInsets.only(right: 10),
                           ),
                           Text("Efectivo",style: TextStyle(color: Colors.white))

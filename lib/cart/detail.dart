@@ -149,7 +149,7 @@ class DetailProduct extends StatelessWidget {
               onPressed: () => print("notifications"),
               label: "Categorias",
               icon: Icon(
-                Icons.circle,
+                Icons.check_circle,
                 color: Colors.grey,
               ),
             ),
@@ -157,7 +157,7 @@ class DetailProduct extends StatelessWidget {
               onPressed: () => print("notifications"),
               label: "Categorias",
               icon: Icon(
-                Icons.circle,
+                Icons.check_circle,
                 color: Colors.grey,
               ),
             ),
@@ -165,7 +165,7 @@ class DetailProduct extends StatelessWidget {
               onPressed: () => print("notifications"),
               label: "Categorias",
               icon: Icon(
-                Icons.circle,
+                Icons.check_circle,
                 color: Colors.grey,
               ),
             ),
@@ -173,7 +173,7 @@ class DetailProduct extends StatelessWidget {
               onPressed: () => print("notifications"),
               label: "Categorias",
               icon: Icon(
-                Icons.circle,
+                Icons.check_circle,
                 color: Colors.grey,
               ),
             ),
@@ -181,7 +181,7 @@ class DetailProduct extends StatelessWidget {
               onPressed: () => print("notifications"),
               label: "Categorias",
               icon: Icon(
-                Icons.circle,
+                Icons.check_circle,
                 color: Colors.grey,
               ),
             ),
@@ -189,7 +189,7 @@ class DetailProduct extends StatelessWidget {
               onPressed: () => print("notifications"),
               label: "Categorias",
               icon: Icon(
-                Icons.circle,
+                Icons.check_circle,
                 color: Colors.grey,
               ),
             ),
@@ -289,7 +289,7 @@ class DetailProduct extends StatelessWidget {
                                                   style: TextStyle(color: Colors.white),
                                                 )),
                                             Icon(
-                                              Icons.keyboard_arrow_down_rounded,
+                                              Icons.keyboard_arrow_down,
                                               color: Colors.white,
                                             )
                                           ],
@@ -500,7 +500,7 @@ class DetailProduct extends StatelessWidget {
                                                   textAlign: TextAlign.center,
                                                 )),
                                             Icon(
-                                              Icons.keyboard_arrow_down_rounded,
+                                              Icons.keyboard_arrow_down,
                                               color: Colors.white,
                                             )
                                           ],
@@ -528,7 +528,7 @@ class DetailProduct extends StatelessWidget {
                                                 )),
                                             Icon(
                                               Icons
-                                                  .keyboard_arrow_down_rounded,
+                                                  .keyboard_arrow_down,
                                             )
                                           ],
                                         )
@@ -552,7 +552,7 @@ class DetailProduct extends StatelessWidget {
                                               ),
                                               Icon(
                                                 Icons
-                                                    .keyboard_arrow_down_rounded,
+                                                    .keyboard_arrow_down,
                                               )
                                             ],
                                           ),

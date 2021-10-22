@@ -59,7 +59,7 @@ class Home extends StatelessWidget {
                   child: Row(
                     children: [
                       Icon(
-                        Icons.shopping_cart_outlined,
+                        Icons.shopping_cart,
                         color: Color(0xff298dcf),
                       ),
                       Container(

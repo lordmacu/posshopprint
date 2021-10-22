@@ -88,7 +88,7 @@ class DropdownWithSearch<T> extends StatelessWidget {
                       style: selectedItemStyle != null
                           ? selectedItemStyle
                           : TextStyle(fontSize: 14))),
-              Icon(Icons.keyboard_arrow_down_rounded)
+              Icon(Icons.keyboard_arrow_down)
             ],
           ),
         ),

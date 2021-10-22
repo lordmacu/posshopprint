@@ -65,8 +65,8 @@ class CashPanel extends StatelessWidget{
 
                 decoration: InputDecoration(
                     prefixIcon: Icon(Icons.email),
-                    labelText: "Efectivo recibido",
-                    hintText: "Escribe el valor a cobrar"),
+                    labelText: "Email",
+                    hintText: "Escribe el email"),
                 // The validator receives the text that the user has entered.
                 validator: (value) {
                   if (value == null || value.isEmpty) {

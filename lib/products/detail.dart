@@ -59,7 +59,7 @@ class DetailProduct extends StatelessWidget {
                },
                label: "Gallería",
                icon: Icon(
-                 Icons.image_outlined,
+                 Icons.image,
                  color: Colors.black,
                ),
              ),
@@ -261,7 +261,7 @@ class DetailProduct extends StatelessWidget {
             },
             label: controllerCategory.items[i].name,
             icon: Icon(
-              Icons.circle,
+              Icons.check_circle,
               color: controllerHome.selectedCategory == controllerCategory.items[i].id ? Color(int.parse(color)) : Colors.grey.withOpacity(0.5),
             ),
           ));
@@ -345,7 +345,7 @@ class DetailProduct extends StatelessWidget {
                                                     style: TextStyle(color: Color(0xff298dcf)),
                                                   ))),
                                               Icon(
-                                                Icons.keyboard_arrow_down_rounded,
+                                                Icons.keyboard_arrow_down,
                                                 color: Color(0xff298dcf),
                                               )
                                             ],
@@ -575,7 +575,7 @@ class DetailProduct extends StatelessWidget {
                                                     textAlign: TextAlign.center,
                                                   )),
                                               Icon(
-                                                Icons.keyboard_arrow_down_rounded,
+                                                Icons.keyboard_arrow_down,
                                                 color: !controllerHome.isSelectedColor
                                                     .value ? Color(0xff298dcf) : Colors.white,
                                               )
@@ -606,7 +606,7 @@ class DetailProduct extends StatelessWidget {
                                                   )),
                                               Icon(
                                                 Icons
-                                                    .keyboard_arrow_down_rounded,
+                                                    .keyboard_arrow_down,
                                               )
                                             ],
                                           )
@@ -630,7 +630,7 @@ class DetailProduct extends StatelessWidget {
                                                 ),
                                                 Icon(
                                                   Icons
-                                                      .keyboard_arrow_down_rounded,
+                                                      .keyboard_arrow_down,
                                                 )
                                               ],
                                             ),
