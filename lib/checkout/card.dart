@@ -65,6 +65,21 @@ class CardPanel extends StatelessWidget{
             ],
           ),
         ),
+        Container(
+          margin: EdgeInsets.only(top: 40),
+          child: RaisedButton(
+            shape: new RoundedRectangleBorder(
+              borderRadius: new BorderRadius.circular(30.0),
+            ),
+            color:Color(0xff298dcf) ,
+
+            onPressed: (){
+
+
+            },
+            child:Text("Nueva Venta",style: TextStyle(color: Colors.white)),
+          ),
+        )
 
       ],
     );

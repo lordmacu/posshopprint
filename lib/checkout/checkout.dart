@@ -2,9 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:poshop/cart/controllers/CartController.dart';
 import 'package:poshop/checkout/card.dart';
 import 'package:poshop/checkout/cash.dart';
 import 'package:poshop/checkout/controllers/CheckoutController.dart';
+import 'package:poshop/checkout/divide.dart';
 import 'package:poshop/helpers/MoneyTextInputFormatted.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
@@ -13,6 +15,7 @@ import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 class Checkout extends StatelessWidget{
   CheckoutContoller controllerCheckout = Get.find();
+  CartContoller controllerCart = Get.find();
 
   final CurrencyTextInputFormatter _formatter = CurrencyTextInputFormatter();
 
@@ -39,6 +42,22 @@ class Checkout extends StatelessWidget{
     return Scaffold(
       appBar: AppBar(
         title: Text("Cobrar"),
+        actions: [
+          Padding(
+              padding: EdgeInsets.only(right: 20.0,top: 20,bottom: 20),
+              child: GestureDetector(
+                onTap: () {
+                  controllerCheckout.setPayments();
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Divide()),
+                  );
+
+                },
+                child: Text("Dividir"),
+              )
+          ),
+        ],
       ),
 
       body: SlidingUpPanel(
@@ -51,22 +70,7 @@ class Checkout extends StatelessWidget{
           child:  Obx(()=>Column(
             children: [
               controllerCheckout.typePayment.value == 1 ? CashPanel() : CardPanel(),
-              Container(
-                margin: EdgeInsets.only(top: 40),
-                child: RaisedButton(
-                  shape: new RoundedRectangleBorder(
-                    borderRadius: new BorderRadius.circular(30.0),
-                  ),
-                  color:Color(0xff298dcf) ,
 
-                  onPressed: (){
-
-                    Get.back(result: 'success');
-
-                  },
-                  child:Text("Nueva Venta",style: TextStyle(color: Colors.white)),
-                ),
-              )
             ],
           )),
         ),
@@ -98,7 +102,7 @@ class Checkout extends StatelessWidget{
                   Expanded(child: TextFormField(
                     onChanged: (value){
 
-                      controllerCheckout.valueCheckout.value="${value}";
+                      controllerCheckout.totalCheckout.value=int.parse("${value}");
                     },
                     keyboardType: TextInputType.number,
                     inputFormatters: [

@@ -18,4 +18,9 @@ class Cart{
   set product(Product value) {
     _product = value;
   }
+
+  @override
+  String toString() {
+    return 'Cart{_numberItem: $_numberItem, _product: $_product}';
+  }
 }

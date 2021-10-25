@@ -22,7 +22,7 @@ class CartContoller extends GetxController {
 
   Future setTickets() async {
     try {
-      var data = await _endpointProvider.setTickets();
+      var data = await _endpointProvider.setTickets(items,totalCart);
 
       if (data["success"]) {
         return true;

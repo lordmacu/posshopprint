@@ -396,6 +396,7 @@ class Products extends StatelessWidget {
                             if (!controllerHome.isShowPayment.value) {
                               controllerHome.isShowPayment.value = true;
                             } else {
+                              controllerCheckout.setPayments();
 
                               var data = await Get.to(Checkout());
                             }
