@@ -51,6 +51,9 @@ class ProductContoller extends GetxController {
   var image = "".obs;
   var imageUpload = "".obs;
 
+  var code = "".obs;
+
+
   final nameController = TextEditingController();
   final priceController = TextEditingController();
   final costController = TextEditingController();

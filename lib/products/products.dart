@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:poshop/categories/controllers/CategoryController.dart';
+import 'package:poshop/products/barcode.dart';
 import 'package:poshop/products/controllers/ProductContoller.dart';
 import 'package:poshop/products/detail.dart';
 import 'package:poshop/products/model/Product.dart';
@@ -27,16 +28,37 @@ class ProductsList extends StatelessWidget {
     return Scaffold(
       floatingActionButton: Obx(() => Visibility(
           visible: !controllerHome.isOpenCreator.value,
-          child: FloatingActionButton(
-            // isExtended: true,
-            child: Icon(Icons.add),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              FloatingActionButton(
+                heroTag: "btn1",
 
-            backgroundColor: Color(0xff298dcf),
-            onPressed: () {
-              controllerHome.isOpenCreator.value = true;
+                // isExtended: true,
+                child: Icon(Icons.bar_chart),
 
-              controllerHome.panelController.value.open();
-             },
+                backgroundColor: Color(0xff298dcf),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Barcode()),
+                  );
+                },
+              ),
+              FloatingActionButton(
+                heroTag: "btn2",
+
+                // isExtended: true,
+                child: Icon(Icons.add),
+
+                backgroundColor: Color(0xff298dcf),
+                onPressed: () {
+                  controllerHome.isOpenCreator.value = true;
+
+                  controllerHome.panelController.value.open();
+                },
+              )
+            ],
           ))),
       body: SlidingUpPanel(
 
