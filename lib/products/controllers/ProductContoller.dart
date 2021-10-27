@@ -201,37 +201,42 @@ class ProductContoller extends GetxController {
 
 
        if (data["success"]) {
+
         var dataJson=data["data"];
+        if(dataJson!=null){
+          Product product =
+          Product(dataJson["id"], dataJson["item_name"]);
+          product.type = dataJson["type"];
+          product.color = dataJson["color"];
+          product.image = dataJson["imagen_url"];
+          product.categoryId = dataJson["idCategory"];
+          product.barCode = dataJson["barcode"];
+          product.freePrice = dataJson["freePrice"];
+          product.divisible = dataJson["divisible"];
+          product.idDefaultSupplier = dataJson["idDefaultSupplier"];
+          product.idOrg = dataJson["idOrg"];
+          product.idUserCreated = dataJson["id_user_created"];
+          product.idUserUpdate = dataJson["id_user_updated"];
+          product.primeCost = dataJson["primeCost"];
+          product.keepCount = dataJson["keepCount"];
+          product.purchaseCost = dataJson["purchaseCost"];
+          product.salesPrice = dataJson["salePrice"];
+          product.shape = dataJson["shape"];
+          product.reference = dataJson["article"];
+          product.representation = dataJson["representation"];
 
-         Product product =
-         Product(dataJson["id"], dataJson["item_name"]);
-         product.type = dataJson["type"];
-         product.color = dataJson["color"];
-         product.image = dataJson["imagen_url"];
-         product.categoryId = dataJson["idCategory"];
-         product.barCode = dataJson["barcode"];
-         product.freePrice = dataJson["freePrice"];
-         product.divisible = dataJson["divisible"];
-         product.idDefaultSupplier = dataJson["idDefaultSupplier"];
-         product.idOrg = dataJson["idOrg"];
-         product.idUserCreated = dataJson["id_user_created"];
-         product.idUserUpdate = dataJson["id_user_updated"];
-         product.primeCost = dataJson["primeCost"];
-         product.keepCount = dataJson["keepCount"];
-         product.purchaseCost = dataJson["purchaseCost"];
-         product.salesPrice = dataJson["salePrice"];
-         product.shape = dataJson["shape"];
-         product.reference = dataJson["article"];
-         product.representation = dataJson["representation"];
-
-         if(dataJson["category"]!=null){
-           var category= cat.Category(dataJson["category"]["id"], 1, dataJson["category"]["name"], dataJson["category"]["color"]);
-           product.category = category;
-         }
+          if(dataJson["category"]!=null){
+            var category= cat.Category(dataJson["category"]["id"], 1, dataJson["category"]["name"], dataJson["category"]["color"]);
+            product.category = category;
+          }
 
 
 
-        return product;
+          return product;
+        }else{
+          return null;
+        }
+
       }
     } catch (e) {
       print("aqui esta el error ${e.toString()}");

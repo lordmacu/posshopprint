@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:intl/intl.dart';
 import 'package:poshop/categories/controllers/CategoryController.dart';
+import 'package:poshop/helpers/widgetsHelper.dart';
 import 'package:poshop/products/barcode.dart';
 import 'package:poshop/products/controllers/ProductContoller.dart';
 import 'package:poshop/products/detail.dart';
@@ -11,7 +12,8 @@ import 'package:get/get.dart';
 
 class ProductsList extends StatelessWidget {
   ProductContoller controllerHome = Get.put(ProductContoller());
-
+  WidgetsHelper helpers = WidgetsHelper();
+  var loadingHud;
   formatedNumber(number) {
     var formatCurrency;
        formatCurrency = new NumberFormat.currency(
@@ -25,6 +27,7 @@ class ProductsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    loadingHud = helpers.initLoading(context);
 
     return Scaffold(
       floatingActionButton: Obx(() => Visibility(
@@ -47,10 +50,24 @@ class ProductsList extends StatelessWidget {
                       ScanMode.BARCODE);
 
                   controllerHome.barcode.value=barcodeScanRes;
+                  loadingHud.show();
+
                   Product product= await controllerHome.getProductByCode(barcodeScanRes);
-                  controllerHome.isOpenCreator.value = true;
-                  controllerHome.panelController.value.open();
-                  controllerHome.setProduct(product);
+                  print("aquyii esta el producto ${product}");
+                  if(product!=null){
+                    loadingHud.dismiss();
+                    controllerHome.isOpenCreator.value = true;
+                    controllerHome.panelController.value.open();
+                    controllerHome.setProduct(product);
+
+                  }else{
+                    loadingHud.dismiss();
+                    helpers.defaultAlert(context, "error", "Error al encontrar producto",
+                        "Por favor verifique el código de barras o la existencia del producto");
+                  }
+
+
+
 
 
                 },
