@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:intl/intl.dart';
 import 'package:poshop/categories/controllers/CategoryController.dart';
 import 'package:poshop/products/barcode.dart';
@@ -38,11 +39,20 @@ class ProductsList extends StatelessWidget {
                 child: Icon(Icons.bar_chart),
 
                 backgroundColor: Color(0xff298dcf),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => Barcode()),
-                  );
+                onPressed: () async {
+                  String barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
+                      "#ff6666",
+                      "Cancel",
+                      false,
+                      ScanMode.BARCODE);
+
+                  controllerHome.barcode.value=barcodeScanRes;
+                  Product product= await controllerHome.getProductByCode(barcodeScanRes);
+                  controllerHome.isOpenCreator.value = true;
+                  controllerHome.panelController.value.open();
+                  controllerHome.setProduct(product);
+
+
                 },
               ),
               FloatingActionButton(

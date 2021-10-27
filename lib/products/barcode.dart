@@ -27,15 +27,9 @@ class Barcode extends StatelessWidget {
             RaisedButton(
               padding: EdgeInsets.only(top: 15, bottom: 15),
               onPressed: () async {
-                String barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
-                    "#ff6666",
-                    "Cancel",
-                    false,
-                    ScanMode.BARCODE);
 
-                controllerProduct.barcode.value=barcodeScanRes;
 
-                print("aquii bar  ${barcodeScanRes}");
+
               },
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(30.0),
