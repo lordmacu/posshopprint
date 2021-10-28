@@ -19,6 +19,7 @@ class CheckoutContoller extends GetxController {
   var typePayment = 1.obs;
   var email = "".obs;
   var paymentTypesString=[].obs;
+  var paymentCheckout=[].obs;
 
   RxList<Payment> paymentItems = RxList<Payment>();
   RxList<Payment> paymentCheckoutsItems = RxList<Payment>();
@@ -58,9 +59,8 @@ class CheckoutContoller extends GetxController {
 
   setPayments() {
     paymentCheckoutsItems.clear();
-    var midValue= int.parse(valueCheckout.value)/2;
-    paymentCheckoutsItems.add(Payment(paymentItems[0].id, paymentItems[0].name, midValue));
-    paymentCheckoutsItems.add(Payment(paymentItems[0].id, paymentItems[0].name, midValue));
+
+    paymentCheckoutsItems.add(Payment(paymentItems[0].id, paymentItems[0].name, double.parse(valueCheckout.value)));
 
     print("aquiii setpayments");
   }

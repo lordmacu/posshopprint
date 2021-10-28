@@ -35,6 +35,54 @@ class CashPanel extends StatelessWidget{
     return regExp.hasMatch(em);
   }
 
+  List<Widget> getPayments(){
+
+    List<Widget> widgets=[];
+    for( var i =0  ; i< controllerCheckout.paymentCheckoutsItems.length ; i ++){
+
+         widgets.add(Column(
+          children: [
+            Container(
+              margin: EdgeInsets.only(top: 30),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+
+                  Container(//controllerCheckout.totalCheckout.value
+                    child: Column(
+
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          child: Text("\$ ${formatedNumber("${controllerCheckout.paymentCheckoutsItems[i].price.toInt()}")}",style: TextStyle(fontSize: 19,fontWeight: FontWeight.bold),),
+                        ),
+                        Container(
+                          child: Text("Pagado"),
+                        )
+                      ],
+                    ),
+                  ),
+                  Container(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Container(
+                          child: Text("${controllerCheckout.paymentCheckoutsItems[i].name}",style: TextStyle(fontSize: 19,fontWeight: FontWeight.bold),),
+                        ),
+
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            )],
+        ));
+    }
+    return widgets;
+  }
+
   @override
   Widget build(BuildContext context) {
 
@@ -45,46 +93,9 @@ class CashPanel extends StatelessWidget{
       child: Column(
 
         children: [
-          Container(
-            margin: EdgeInsets.only(top: 20),
-            child: Text("Efectivo",style:TextStyle(fontSize: 25,fontWeight: FontWeight.bold),),
-          ),
-          Container(
-            margin: EdgeInsets.only(top: 30),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Container(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        child: Text("\$ ${formatedNumber(controllerCheckout.valueCheckout.value)}",style: TextStyle(fontSize: 23,fontWeight: FontWeight.bold),),
-                      ),
-                      Container(
-                        child: Text("Total pagado"),
-                      )
-                    ],
-                  ),
-                ),
-                Container(//controllerCheckout.totalCheckout.value
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Container(
-                        child: Text("\$ ${formatedNumber("${controllerCheckout.totalCheckout.value}")}",style: TextStyle(fontSize: 23,fontWeight: FontWeight.bold),),
-                      ),
-                      Container(
-                        child: Text("Total pagado"),
-                      )
-                    ],
-                  ),
-                )
-              ],
-            ),
-          ),
+          Obx(()=>Column(
+            children: getPayments(),
+          )),
           Container(
             margin: EdgeInsets.only(top: 20),
             child: Row(

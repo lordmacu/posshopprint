@@ -1,4 +1,5 @@
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -143,10 +144,7 @@ class Divide extends StatelessWidget {
                         padding: EdgeInsets.only(left: 10,right: 10),
                         child: Row(
                           children: [
-                            Container(
 
-                              child: Icon(Icons.delete),
-                            ),
                             Expanded(child: Container(
                               margin: EdgeInsets.only(left: 15,right: 15),
 
@@ -230,7 +228,18 @@ class Divide extends StatelessWidget {
                                 ],
                               ),
                             )),
-                            Container(
+                            controllerCheckout.paymentCheckoutsItems.length>1 ? InkWell(
+                              child: Container(
+                                child: Icon(Icons.delete,color: Colors.redAccent,),
+                              ),
+                              onTap: (){
+                                controllerCheckout.paymentCheckoutsItems.removeAt(index);
+                                controllerCheckout.paymentCheckoutsItems.refresh();
+                                controllerCheckout.recalculatePayments();
+
+                              },
+                            ): Container(),
+                           /* Container(
 
                               child: RaisedButton(
                                 padding: EdgeInsets.only(top: 10, bottom: 10),
@@ -247,13 +256,31 @@ class Divide extends StatelessWidget {
                                   style: TextStyle(color: Colors.white, fontSize: 17),
                                 ),
                               ),
-                            )
+                            )*/
 
                           ],
                         ),
                       ),
                     ));
               }))
+          ),
+          Container(
+            padding: EdgeInsets.only(left: 20,right: 20,bottom: 10),
+            width: double.infinity,
+            child: RaisedButton(
+              shape: new RoundedRectangleBorder(
+                borderRadius: new BorderRadius.circular(30.0),
+              ),
+              color:Color(0xff298dcf) ,
+
+              onPressed: (){
+
+                Get.back(result: 'success');
+
+
+              },
+              child:Text("Cobrar",style: TextStyle(color: Colors.white)),
+            ),
           )
         ],
       ),

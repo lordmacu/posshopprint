@@ -7,6 +7,7 @@ import 'package:poshop/checkout/card.dart';
 import 'package:poshop/checkout/cash.dart';
 import 'package:poshop/checkout/controllers/CheckoutController.dart';
 import 'package:poshop/checkout/divide.dart';
+import 'package:poshop/checkout/models/Payment.dart';
 import 'package:poshop/helpers/MoneyTextInputFormatted.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
@@ -35,6 +36,33 @@ class Checkout extends StatelessWidget{
     return formatCurrency.format(numberText);
   }
 
+  List<Widget> getPayments(_panelController){
+
+    List<Widget> paymentsLocal=[];
+        for( var i =0  ; i< controllerCheckout.paymentItems.length ; i ++){
+          paymentsLocal.add(Container(
+            padding: EdgeInsets.only(left: 5,right: 5),
+            child: RaisedButton(
+              shape: new RoundedRectangleBorder(
+                borderRadius: new BorderRadius.circular(30.0),
+              ),
+              color:Color(0xff298dcf) ,
+
+              onPressed: (){
+
+                controllerCheckout.typePayment.value=2;
+                controllerCheckout.paymentCheckoutsItems.clear();
+                controllerCheckout.paymentCheckoutsItems.add(Payment(controllerCheckout.paymentItems[i].id, controllerCheckout.paymentItems[i].name, double.parse(controllerCheckout.valueCheckout.value)));
+
+                _panelController.open();
+              },
+              child: Text(" ${controllerCheckout.paymentItems[i].name}",style: TextStyle(color: Colors.white)),
+            ),
+          ));
+        }
+    return paymentsLocal;
+  }
+
   @override
   Widget build(BuildContext context) {
     PanelController _panelController = PanelController();
@@ -46,12 +74,10 @@ class Checkout extends StatelessWidget{
           Padding(
               padding: EdgeInsets.only(right: 20.0,top: 20,bottom: 20),
               child: GestureDetector(
-                onTap: () {
+                onTap: () async {
                   controllerCheckout.setPayments();
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => Divide()),
-                  );
+                  var data = await Get.to(Divide());
+                  _panelController.open();
 
                 },
                 child: Text("Dividir"),
@@ -67,12 +93,7 @@ class Checkout extends StatelessWidget{
          minHeight: 0,
         panel: Container(
           padding: EdgeInsets.only(left: 20,right: 20),
-          child:  Obx(()=>Column(
-            children: [
-              controllerCheckout.typePayment.value == 1 ? CashPanel() : CardPanel(),
-
-            ],
-          )),
+          child:  CashPanel(),
         ),
         body: Container(
 
@@ -124,52 +145,13 @@ class Checkout extends StatelessWidget{
               Container(
                 margin: EdgeInsets.only(top: 30),
 
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    RaisedButton(
-                      shape: new RoundedRectangleBorder(
-                        borderRadius: new BorderRadius.circular(30.0),
-                      ),
-                      color:Color(0xff298dcf) ,
+                child: Obx(()=>Wrap(
+                  alignment: WrapAlignment.spaceBetween,
+                  direction: Axis.horizontal,
 
-                      onPressed: (){
 
-                        controllerCheckout.typePayment.value=1;
-                        _panelController.open();
-                      },
-                      child: Row(
-                        children: [
-                          Container(
-
-                            child: Icon(Icons.monetization_on,color: Colors.white,),
-                            margin: EdgeInsets.only(right: 10),
-                          ),
-                          Text("Efectivo",style: TextStyle(color: Colors.white))
-                        ],
-                      ),
-                    ),
-                    RaisedButton(
-                      shape: new RoundedRectangleBorder(
-                        borderRadius: new BorderRadius.circular(30.0),
-                      ),
-                      color:Color(0xff298dcf) ,
-                      onPressed: (){
-                        controllerCheckout.typePayment.value=2;
-                        _panelController.open();
-                      },
-                      child: Row(
-                        children: [
-                          Container(
-                            child: Icon(Icons.credit_card,color: Colors.white,),
-                            margin: EdgeInsets.only(right: 10),
-                          ),
-                          Text("Tarjeta",style: TextStyle(color: Colors.white))
-                        ],
-                      ),
-                    )
-                  ],
-                ),
+                  children:getPayments(_panelController),
+                )),
                 padding: EdgeInsets.only(left: 20,right: 20),
               )
             ],
