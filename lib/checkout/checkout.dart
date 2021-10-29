@@ -16,10 +16,13 @@ import 'package:sliding_up_panel/sliding_up_panel.dart';
 class Checkout extends StatelessWidget {
   CheckoutContoller controllerCheckout = Get.find();
   CartContoller controllerCart = Get.find();
+  TextEditingController textContoller= TextEditingController();
 
   final CurrencyTextInputFormatter _formatter = CurrencyTextInputFormatter();
 
   formatedNumber(number) {
+
+    try{
     number = number.replaceAll(".", "");
 
     var numberText = int.parse(number);
@@ -31,6 +34,13 @@ class Checkout extends StatelessWidget {
         locale: "es");
 
     return formatCurrency.format(numberText);
+    }catch(e){
+      print("aquiiifallo el numero  ${number}");
+    }
+  }
+
+  canPressPayment(){
+    return controllerCheckout.totalCheckout.value>= double.parse (controllerCheckout.valueCheckout.value);
   }
 
   List<Widget> getPayments(_panelController) {
@@ -43,7 +53,7 @@ class Checkout extends StatelessWidget {
             borderRadius: new BorderRadius.circular(30.0),
           ),
           color: Color(0xff298dcf),
-          onPressed: () {
+          onPressed: canPressPayment() ?   () {
             controllerCheckout.typePayment.value = 2;
             controllerCheckout.paymentCheckoutsItems.clear();
             controllerCheckout.paymentCheckoutsItems.add(Payment(
@@ -55,7 +65,7 @@ class Checkout extends StatelessWidget {
                 controllerCheckout.totalCheckout.value));
 
             _panelController.open();
-          },
+          }: null,
           child: Text(" ${controllerCheckout.paymentItems[i].name}",
               style: TextStyle(color: Colors.white)),
         ),
@@ -100,28 +110,35 @@ class Checkout extends StatelessWidget {
           padding: EdgeInsets.only(left: 20, right: 20, top: 20),
           child: Column(
             children: [
-              Obx(() => Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Container(
-                        padding: EdgeInsets.only(
-                            left: 20, right: 20, bottom: 10, top: 10),
-                        margin: EdgeInsets.only(bottom: 30),
-                        decoration: BoxDecoration(
-                            color: Color(0xff298dcf).withOpacity(0.9),
-                            borderRadius: BorderRadius.circular(20)),
-                        child: Text(
-                          "\$ ${formatedNumber(controllerCheckout.valueCheckout.value)}",
-                          style: TextStyle(color: Colors.white, fontSize: 25),
-                        ),
+              Obx(() =>GestureDetector(
+                onTap: (){
+                  textContoller.text=formatedNumber(controllerCheckout.valueCheckout.value);
+                  controllerCheckout.totalCheckout.value=double.parse(controllerCheckout.valueCheckout.value);
+                },
+                child:  Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                      padding: EdgeInsets.only(
+                          left: 20, right: 20, bottom: 10, top: 10),
+                      margin: EdgeInsets.only(bottom: 30),
+                      decoration: BoxDecoration(
+                          color: Color(0xff298dcf).withOpacity(0.9),
+                          borderRadius: BorderRadius.circular(20)),
+                      child: Text(
+                        "\$ ${formatedNumber(controllerCheckout.valueCheckout.value)}",
+                        style: TextStyle(color: Colors.white, fontSize: 25),
                       ),
-                    ],
-                  )),
+                    ),
+                  ],
+                ),
+              )),
               Row(
                 children: [
                   Expanded(
                       child: TextFormField(
+                        controller: textContoller,
                     onChanged: (value) {
                       value= value.replaceAll("\$", "");
                       value= value.replaceAll(" ", "");

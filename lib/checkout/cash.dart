@@ -3,10 +3,12 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:poshop/cart/controllers/CartController.dart';
 import 'package:poshop/checkout/controllers/CheckoutController.dart';
+import 'package:poshop/home/controllers/HomeController.dart';
 
 class CashPanel extends StatelessWidget{
   CheckoutContoller controllerCheckout = Get.find();
   CartContoller controllerCart=  Get.find();
+  HomeContoller controllerHome = Get.find();
 
   final _formKey = GlobalKey<FormState>();
 
@@ -161,6 +163,10 @@ class CashPanel extends StatelessWidget{
 
                 if (_formKey.currentState.validate()) {
                   controllerCart.setTickets();
+                  controllerCheckout.paymentCheckoutsItems.clear();
+                  controllerCheckout.valueCheckout.value="";
+                  controllerCart.items.clear();
+                  controllerHome.isShowPayment.value=false;
                   Get.back(result: 'success');
                 }
               },

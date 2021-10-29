@@ -1,12 +1,15 @@
 import 'dart:convert';
 import 'package:dio/dio.dart';
+import 'package:get/get.dart';
 import 'package:poshop/cart/model/Cart.dart';
+import 'package:poshop/checkout/controllers/CheckoutController.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CartProvider {
   Dio _client;
 
   CartProvider(this._client);
+  CheckoutContoller controllerCheckout = Get.find();
 
   Future setTickets(List<Cart> items,total) async {
     var prefs = await SharedPreferences.getInstance();
@@ -23,20 +26,26 @@ class CartProvider {
         "quantity":"${items[i].numberItem}",
         "amount":"${localTotal}",
       });
-
       totalCart+=localTotal;
-
     }
 
-    var data ={
+    var itemsPayment=[];
+
+    for(var i =0; i<controllerCheckout.paymentCheckoutsItems.length; i++) {
+      itemsPayment.add({"id":controllerCheckout.paymentCheckoutsItems[i].id,"amount":controllerCheckout.paymentCheckoutsItems[i].price});
+    }
+
+      var data ={
       "total":"${totalCart}",
-      "email":"f",
+      "email":controllerCheckout.email.value,
       "cashregister_id":prefs.getInt("cashierId"),
     //  "client_id":"1",
-      "items":itemsSave
+        "items":itemsSave,
+        "payments":itemsPayment,
+
     };
 
-    print("items  ${data}   total  ${totalCart}");
+    print("items  ${data}   total  ${totalCart}  ${controllerCheckout.paymentCheckoutsItems}");
     try {
 
 

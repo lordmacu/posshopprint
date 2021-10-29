@@ -87,6 +87,7 @@ class AuthContoller extends GetxController{
     }
   }
 
+
   outletsAvailable() async{
     prefs = await SharedPreferences.getInstance();
 
@@ -97,13 +98,17 @@ class AuthContoller extends GetxController{
       if(data["success"]){
 
         prefs = await SharedPreferences.getInstance();
-        prefs.setString("outlet", jsonEncode(data["data"][0]));
-        prefs.setInt("outletId", data["data"][0]["id"]);
-        prefs.setString("cashier", jsonEncode(data["data"][0]["cashregisters_inactives"][0]));
-        prefs.setInt("cashierId", data["data"][0]["cashregisters_inactives"][0]["id"]);
 
-        print("aquiii esta la cosa ");
-        cashRegister();
+        if(data["data"]!=null){
+          prefs.setString("outlet", jsonEncode(data["data"][0]));
+          prefs.setInt("outletId", data["data"][0]["id"]);
+          prefs.setString("cashier", jsonEncode(data["data"][0]["cashregisters_inactives"][0]));
+          prefs.setInt("cashierId", data["data"][0]["cashregisters_inactives"][0]["id"]);
+
+          print("aquiii esta la cosa ${prefs.getInt("cashierId")}");
+          cashRegister();
+        }
+
         return true;
       }
     }catch(e){
