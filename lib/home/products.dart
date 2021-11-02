@@ -389,97 +389,99 @@ class Products extends StatelessWidget {
                   ): Container()),
                 )
                     : Container()),
-                Stack(
+                Obx(()=>  Stack(
                   children: [
-                    Obx(() => GestureDetector(
-                          onTap: () async {
-                            if (!controllerHome.isShowPayment.value) {
-                              controllerHome.isShowPayment.value = true;
-                            } else {
-                              controllerCheckout.setPayments();
+                    GestureDetector(
+                      onTap: () async {
 
-                              var data = await Get.to(Checkout());
-                            }
-                          },
-                          child: Container(
-                            padding: EdgeInsets.only(top: 10, bottom: 10),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.only(
-                                  bottomRight: Radius.circular(10),
-                                  bottomLeft: Radius.circular(10),
-                                  topRight: Radius.circular(
-                                      controllerHome.isShowPayment.value
-                                          ? 0
-                                          : 10),
-                                  topLeft: Radius.circular(
-                                      controllerHome.isShowPayment.value
-                                          ? 0
-                                          : 10)),
-                              color: Color(0xff298dcf),
+
+                        if (!controllerHome.isShowPayment.value) {
+                          controllerHome.isShowPayment.value = true;
+                        } else {
+                          controllerCheckout.setPayments();
+
+                          var data = await Get.to(Checkout());
+                        }
+                      },
+                      child: Container(
+                        padding: EdgeInsets.only(top: 10, bottom: 10),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.only(
+                              bottomRight: Radius.circular(10),
+                              bottomLeft: Radius.circular(10),
+                              topRight: Radius.circular(
+                                  controllerHome.isShowPayment.value
+                                      ? 0
+                                      : 10),
+                              topLeft: Radius.circular(
+                                  controllerHome.isShowPayment.value
+                                      ? 0
+                                      : 10)),
+                          color: Color(0xff298dcf),
+                        ),
+                        width: double.infinity,
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            !controllerHome.isShowPayment.value
+                                ? Text(
+                              "Cobrar",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.bold),
+                              textAlign: TextAlign.center,
+                            )
+                                : Text(
+                              "Pagar",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.bold),
+                              textAlign: TextAlign.center,
                             ),
-                            width: double.infinity,
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                !controllerHome.isShowPayment.value
-                                    ? Text(
-                                        "Cobrar",
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 22,
-                                            fontWeight: FontWeight.bold),
-                                        textAlign: TextAlign.center,
-                                      )
-                                    : Text(
-                                        "Pagar",
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 22,
-                                            fontWeight: FontWeight.bold),
-                                        textAlign: TextAlign.center,
-                                      ),
-                                Container(
-                                  margin: EdgeInsets.only(top: 3),
-                                  child: Obx((){
+                            Container(
+                              margin: EdgeInsets.only(top: 3),
+                              child: Obx((){
 
-                                    var items=controlelrCart.items;
-                                    var total= 0;
-                                    for(var i =0  ; i  < items.length ; i++ ){
-                                      total=total+(items[i].product.salesPrice*items[i].numberItem);
-                                    }
+                                var items=controlelrCart.items;
+                                var total= 0;
+                                for(var i =0  ; i  < items.length ; i++ ){
+                                  total=total+(items[i].product.salesPrice*items[i].numberItem);
+                                }
 
-                                    controllerCheckout.valueCheckout.value="${total}";
+                                controllerCheckout.valueCheckout.value="${total}";
 
-                                    return Text(
-                                      "\$${formatedNumber(total)}",
-                                      style: TextStyle(color: Colors.white),
-                                      textAlign: TextAlign.center,
-                                    );
-                                  }),
-                                )
-                              ],
-                            ),
-                          ),
-                        )),
+                                return Text(
+                                  "\$${formatedNumber(total)}",
+                                  style: TextStyle(color: Colors.white),
+                                  textAlign: TextAlign.center,
+                                );
+                              }),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
                     GestureDetector(
                       onTap: () {
                         controllerHome.isShowPayment.value =
-                            !controllerHome.isShowPayment.value;
+                        !controllerHome.isShowPayment.value;
                       },
                       child: Obx(() => Container(
-                            color: Colors.transparent,
-                            child: Icon(
-                              controllerHome.isShowPayment.value
-                                  ? Icons.remove
-                                  : Icons.add,
-                              color: Colors.white,
-                            ),
-                            height: 65,
-                            width: 65,
-                          )),
+                        color: Colors.transparent,
+                        child: Icon(
+                          controllerHome.isShowPayment.value
+                              ? Icons.remove
+                              : Icons.add,
+                          color: Colors.white,
+                        ),
+                        height: 65,
+                        width: 65,
+                      )),
                     ),
                   ],
-                )
+                ))
               ],
             ),
           ),
@@ -488,3 +490,5 @@ class Products extends StatelessWidget {
     ));
   }
 }
+
+

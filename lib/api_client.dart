@@ -9,7 +9,7 @@ class Client{
     _dio.options.baseUrl = "https://poschile.bbndev.com/api";
     _dio.options.headers["Authorization"] = "Bearer " + token;
     _dio.options.headers["Accept"] = "application/json";
-    _dio.options.headers["Content-Type"] = "application/json";
+   // _dio.options.headers["Content-Type"] = "application/json";
 
     print("este es el token  ${token}");
 
