@@ -11,12 +11,14 @@ import 'package:poshop/checkout/controllers/CheckoutController.dart';
 import 'package:poshop/home/controllers/HomeController.dart';
 import 'package:poshop/products/controllers/ProductContoller.dart';
 import 'package:poshop/products/model/Product.dart';
+import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 class Products extends StatelessWidget {
   HomeContoller controllerHome = Get.find();
   ProductContoller controllerProduct = Get.put(ProductContoller());
   CartContoller controlelrCart = Get.put(CartContoller());
   CheckoutContoller controllerCheckout = Get.put(CheckoutContoller());
+
 
   Cart checkItemCart(Product product) {
     Cart isInCart = null;
@@ -65,12 +67,18 @@ class Products extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+
+
     return Expanded(
         child: Stack(
       children: [
         Container(
             padding: EdgeInsets.only(left: 20, right: 20, top: 15),
-            child: Obx(() => ListView.builder(
+            child: Obx(() => ScrollablePositionedList.builder(
+
+              itemScrollController: controllerHome.itemScrollController.value,
+              itemPositionsListener:  controllerHome.itemPositionsListener.value,
               padding: EdgeInsets.only(bottom: 100),
                   itemCount: controllerProduct.products.length,
                   itemBuilder: (context, index) {
@@ -94,7 +102,7 @@ class Products extends StatelessWidget {
                                 spreadRadius: 5,
                                 blurRadius: 7,
                                 offset:
-                                    Offset(0, 3), // changes position of shadow
+                                Offset(0, 3), // changes position of shadow
                               ),
                             ],
                           ),
@@ -111,215 +119,198 @@ class Products extends StatelessWidget {
                                   ),
                                   Expanded(
                                       child: Container(
-                                    padding: EdgeInsets.only(left: 20),
-                                    child: Column(
-                                      mainAxisSize: MainAxisSize.max,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Container(
-                                          child: Text(
-                                            "${product.itemNme}",
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 17),
-                                          ),
-                                        ),
-                                        Container(
-                                          child: Text(
-                                            product.category != null ? product.category.name : "Categoría",
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 14,
-                                                color: Colors.grey
-                                                    .withOpacity(0.6)),
-                                          ),
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
+                                        padding: EdgeInsets.only(left: 20),
+                                        child: Column(
                                           mainAxisSize: MainAxisSize.max,
+                                          mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                           children: [
                                             Container(
-                                              margin: EdgeInsets.only(top: 10),
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Container(
-                                                    child: Text(
-                                                      "\$",
-                                                      style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          fontSize: 15,
-                                                          color: Colors.grey
-                                                              .withOpacity(
-                                                                  0.9)),
-                                                    ),
-                                                    margin: EdgeInsets.only(
-                                                        right: 3),
-                                                  ),
-                                                  Text(
-                                                    "${formatedNumber(product.salesPrice)}",
-                                                    style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        fontSize: 17),
-                                                  )
-                                                ],
+                                              child: Text(
+                                                "${product.itemNme}",
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 17),
                                               ),
                                             ),
-                                          ],
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.end,
-                                          children: [
                                             Container(
-                                              padding: EdgeInsets.only(
-                                                  left: 4,
-                                                  right: 4,
-                                                  top: 2,
-                                                  bottom: 2),
-                                              margin: EdgeInsets.only(top: 5),
-                                              decoration: BoxDecoration(
-                                                  borderRadius:
+                                              child: Text(
+                                                product.category != null ? product.category.name : "Categoría",
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 14,
+                                                    color: Colors.grey
+                                                        .withOpacity(0.6)),
+                                              ),
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                              mainAxisSize: MainAxisSize.max,
+                                              children: [
+                                                Container(
+                                                  margin: EdgeInsets.only(top: 10),
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                    crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                    children: [
+                                                      Container(
+                                                        child: Text(
+                                                          "\$",
+                                                          style: TextStyle(
+                                                              fontWeight:
+                                                              FontWeight.bold,
+                                                              fontSize: 15,
+                                                              color: Colors.grey
+                                                                  .withOpacity(
+                                                                  0.9)),
+                                                        ),
+                                                        margin: EdgeInsets.only(
+                                                            right: 3),
+                                                      ),
+                                                      Text(
+                                                        "${formatedNumber(product.salesPrice)}",
+                                                        style: TextStyle(
+                                                            fontWeight:
+                                                            FontWeight.bold,
+                                                            fontSize: 17),
+                                                      )
+                                                    ],
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                              MainAxisAlignment.end,
+                                              children: [
+                                                Container(
+                                                  padding: EdgeInsets.only(
+                                                      left: 4,
+                                                      right: 4,
+                                                      top: 2,
+                                                      bottom: 2),
+                                                  margin: EdgeInsets.only(top: 5),
+                                                  decoration: BoxDecoration(
+                                                      borderRadius:
                                                       BorderRadius.all(
                                                           Radius.circular(30)),
-                                                  color: Colors.grey
-                                                      .withOpacity(0.2)),
-                                              width: 90,
-                                              child: Row(
-                                                mainAxisAlignment:
+                                                      color: Colors.grey
+                                                          .withOpacity(0.2)),
+                                                  width: 90,
+                                                  child: Row(
+                                                    mainAxisAlignment:
                                                     MainAxisAlignment
                                                         .spaceBetween,
-                                                children: [
-                                                  InkWell(
-                                                    child: Container(
-                                                      child: Icon(
-                                                        Icons.remove,
-                                                        color: Colors.white,
-                                                        size: 20,
-                                                      ),
-                                                      decoration: BoxDecoration(
-                                                          color: Color(
+                                                    children: [
+                                                      InkWell(
+                                                        child: Container(
+                                                          child: Icon(
+                                                            Icons.remove,
+                                                            color: Colors.white,
+                                                            size: 20,
+                                                          ),
+                                                          decoration: BoxDecoration(
+                                                              color: Color(
                                                                   0xff298dcf)
-                                                              .withOpacity(0.8),
-                                                          borderRadius:
+                                                                  .withOpacity(0.8),
+                                                              borderRadius:
                                                               BorderRadius.all(
                                                                   Radius
                                                                       .circular(
-                                                                          50))),
-                                                    ),
-                                                    onTap: () {
-                                                      Cart isInCart =
+                                                                      50))),
+                                                        ),
+                                                        onTap: () {
+                                                          Cart isInCart =
                                                           checkItemCart(
                                                               product);
 
-                                                      if (isInCart == null) {
+                                                          if (isInCart == null) {
 
-                                                        isInCart = addEmptyCart(product);
-                                                      }
-                                                      if (isInCart.numberItem >
-                                                          0) {
-                                                        isInCart.numberItem =
-                                                            isInCart.numberItem -
-                                                                1;
+                                                            isInCart = addEmptyCart(product);
+                                                          }
+                                                          if (isInCart.numberItem >
+                                                              0) {
+                                                            isInCart.numberItem =
+                                                                isInCart.numberItem -
+                                                                    1;
 
-                                                        int cartIndex =
-                                                        checkItemCartIndex(
-                                                            product);
+                                                            int cartIndex =
+                                                            checkItemCartIndex(
+                                                                product);
 
-                                                        controlelrCart.items[
-                                                        cartIndex] = isInCart;
-                                                        print("aquiii esta mayor en cero");
+                                                            controlelrCart.items[
+                                                            cartIndex] = isInCart;
+                                                            print("aquiii esta mayor en cero");
 
-                                                      }
+                                                          }
 
-                                                      if (isInCart.numberItem == 0) {
-                                                        print("aquiii esta en cero");
-                                                        int cartIndex =
-                                                        checkItemCartIndex(
-                                                            product);
-                                                        controlelrCart.items.removeAt(cartIndex);
-                                                      }
+                                                          if (isInCart.numberItem == 0) {
+                                                            print("aquiii esta en cero");
+                                                            int cartIndex =
+                                                            checkItemCartIndex(
+                                                                product);
+                                                            controlelrCart.items.removeAt(cartIndex);
+                                                          }
 
 
-                                                    },
-                                                  ),
-                                                  Container(child: Obx(() {
-                                                    Cart isInCart =
+                                                        },
+                                                      ),
+                                                      Container(child: Obx(() {
+                                                        Cart isInCart =
                                                         checkItemCart(product);
 
-                                                    if (isInCart == null) {
-                                                      return Text(
-                                                        "0",
-                                                        style: TextStyle(
-                                                            fontSize: 20),
-                                                      );
-                                                    } else {
-                                                      int cartIndex =
+                                                        if (isInCart == null) {
+                                                          return Text(
+                                                            "0",
+                                                            style: TextStyle(
+                                                                fontSize: 20),
+                                                          );
+                                                        } else {
+                                                          int cartIndex =
                                                           checkItemCartIndex(
                                                               product);
 
-                                                      return Text(
-                                                        "${controlelrCart.items[cartIndex].numberItem}",
-                                                        style: TextStyle(
-                                                            fontSize: 20),
-                                                      );
-                                                    }
-                                                  })),
-                                                  InkWell(
-                                                    onTap: () {
-                                                      Cart isInCart =
-                                                          checkItemCart(
-                                                              product);
-
-                                                      if (isInCart == null) {
-                                                        isInCart = addEmptyCart(product);
-                                                      }
-
-                                                      isInCart.numberItem =
-                                                          isInCart.numberItem +
-                                                              1;
-
-                                                      int cartIndex =
-                                                          checkItemCartIndex(
-                                                              product);
-
-                                                      controlelrCart.items[
-                                                          cartIndex] = isInCart;
-                                                    },
-                                                    child: Container(
-                                                      child: Icon(
-                                                        Icons.add,
-                                                        color: Colors.white,
-                                                        size: 20,
-                                                      ),
-                                                      decoration: BoxDecoration(
-                                                          color: Color(
+                                                          return Text(
+                                                            "${controlelrCart.items[cartIndex].numberItem}",
+                                                            style: TextStyle(
+                                                                fontSize: 20),
+                                                          );
+                                                        }
+                                                      })),
+                                                      InkWell(
+                                                        onTap: () {
+                                                          controlelrCart.addItemCart(product);
+                                                        },
+                                                        child: Container(
+                                                          child: Icon(
+                                                            Icons.add,
+                                                            color: Colors.white,
+                                                            size: 20,
+                                                          ),
+                                                          decoration: BoxDecoration(
+                                                              color: Color(
                                                                   0xff298dcf)
-                                                              .withOpacity(0.8),
-                                                          borderRadius:
+                                                                  .withOpacity(0.8),
+                                                              borderRadius:
                                                               BorderRadius.all(
                                                                   Radius
                                                                       .circular(
-                                                                          50))),
-                                                    ),
+                                                                      50))),
+                                                        ),
+                                                      ),
+                                                    ],
                                                   ),
-                                                ],
-                                              ),
+                                                )
+                                              ],
                                             )
                                           ],
-                                        )
-                                      ],
-                                    ),
-                                  ))
+                                        ),
+                                      ))
                                 ],
                               ),
                             ],

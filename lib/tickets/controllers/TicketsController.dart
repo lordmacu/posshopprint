@@ -35,7 +35,7 @@ class TicketsContoller extends GetxController{
         List<Ticket> productsLocal = [];
 
         for (var i = 0; i < dataJson.length; i++) {
-          Ticket ticket = Ticket(_id, _total, _email, _code, _payments, _items);
+          //Ticket ticket = Ticket(_id, _total, _email, _code, _payments, _items);
 
         }
 
