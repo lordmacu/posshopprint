@@ -20,7 +20,11 @@ class HomeContoller extends GetxController{
   var isShowPayment=false.obs;
 
   jumpToIndex(index){
-    itemScrollController.value.jumpTo(index: index);
+
+    itemScrollController.value.scrollTo(
+        index: index,
+        duration: Duration(seconds: 1),
+        curve: Curves.easeInOutCubic);
 
   }
 
