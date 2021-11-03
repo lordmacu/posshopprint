@@ -15,9 +15,9 @@ import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 class Products extends StatelessWidget {
   HomeContoller controllerHome = Get.find();
-  ProductContoller controllerProduct = Get.put(ProductContoller());
-  CartContoller controlelrCart = Get.put(CartContoller());
-  CheckoutContoller controllerCheckout = Get.put(CheckoutContoller());
+  ProductContoller controllerProduct = Get.find();
+  CartContoller controlelrCart =Get.find();
+  CheckoutContoller controllerCheckout = Get.find();
 
 
   Cart checkItemCart(Product product) {
@@ -76,6 +76,7 @@ class Products extends StatelessWidget {
         Container(
             padding: EdgeInsets.only(left: 20, right: 20, top: 15),
             child: Obx(() => ScrollablePositionedList.builder(
+              addAutomaticKeepAlives: false,
 
               itemScrollController: controllerHome.itemScrollController.value,
               itemPositionsListener:  controllerHome.itemPositionsListener.value,

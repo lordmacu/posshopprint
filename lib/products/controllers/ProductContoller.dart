@@ -5,6 +5,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:poshop/categories/models/Category.dart';
+import 'package:poshop/home/controllers/HomeController.dart';
+import 'package:poshop/home/controllers/LoadingController.dart';
 import 'package:poshop/products/model/Product.dart';
 
 import 'package:poshop/products/product_provider.dart';
@@ -18,6 +20,7 @@ import 'package:poshop/categories/models/Category.dart' as cat;
 class ProductContoller extends GetxController {
 
   Rx<PanelController> panelController = PanelController().obs;
+  LoadingController controllerLoading = Get.put(LoadingController());
 
   var isOpenCreator= false.obs;
   var indificualTicket = false.obs;
@@ -68,7 +71,15 @@ class ProductContoller extends GetxController {
   SharedPreferences prefs;
 
   @override
+  void onReady() async {
+    print("cargando otra vez");
+
+  }
+
+  @override
   void onInit() async {
+
+    print("cargando otra vez");
     var prefs = await SharedPreferences.getInstance();
     _endpointProvider =
         new ProductProvider(_client.init(prefs.getString("token")));
@@ -362,6 +373,8 @@ class ProductContoller extends GetxController {
   }
 
   getProducts() async {
+
+    controllerLoading.isLoading.value=true;
     try {
       var data = await _endpointProvider.getProducts();
 
@@ -402,10 +415,13 @@ class ProductContoller extends GetxController {
         }
 
         products.assignAll(productsLocal);
+        controllerLoading.isLoading.value=false;
 
         return true;
       }
     } catch (e) {
+      controllerLoading.isLoading.value=false;
+
       print("aqui esta el error ${e}");
       return false;
     }

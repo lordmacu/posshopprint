@@ -5,6 +5,9 @@ import 'package:poshop/home/products.dart';
 
 class Cart extends StatelessWidget{
   @override
+  bool get wantKeepAlive => null;
+
+  @override
   Widget build(BuildContext context) {
 
     return Column(

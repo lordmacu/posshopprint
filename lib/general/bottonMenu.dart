@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:masonry_grid/masonry_grid.dart';
 import 'package:bubble_bottom_bar/bubble_bottom_bar.dart';
@@ -6,12 +8,15 @@ import 'package:poshop/controllers/MenuController.dart';
 import 'package:poshop/categories/categories.dart';
 import 'package:get/get.dart';
 import 'package:pop_bottom_menu/pop_bottom_menu.dart';
+import 'package:poshop/home/controllers/HomeController.dart';
+import 'package:poshop/home/controllers/LoadingController.dart';
 import 'package:poshop/redirector.dart';
 
 class BottomMenu extends StatelessWidget {
   MenuContoller controller = Get.find();
   AuthContoller controllerAuth = Get.find();
-
+  HomeContoller  controllerHome = Get.find();
+  LoadingController controllerLoading = Get.find();
   void _showMenu(context) {
     showModalBottomSheet(
       backgroundColor: Colors.transparent,
@@ -87,7 +92,16 @@ class BottomMenu extends StatelessWidget {
           onTap: (value) {
             print("asdfa   sd as  ${value} ");
             if (value < 3) {
+              controllerLoading.isLoading.value=true;
+
+              new Timer(const Duration(milliseconds: 500), ()=>{
+              controllerLoading.isLoading.value=false
+
+              });
+
               controller.positionMenu.value = value;
+              controllerHome.controller.animateTo(value,duration: Duration(seconds: 2),curve: Curves.bounceIn);
+
             } else {
               _showMenu(context);
             }

@@ -4,6 +4,9 @@ import 'package:bubble_bottom_bar/bubble_bottom_bar.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:get/get.dart';
 import 'package:poshop/cart/controllers/CartController.dart';
+import 'package:poshop/checkout/controllers/CheckoutController.dart';
+import 'package:poshop/home/controllers/LoadingController.dart';
+import 'package:poshop/products/controllers/ProductContoller.dart';
 import 'package:poshop/categories/controllers/CategoryController.dart';
 import 'package:poshop/controllers/MenuController.dart';
 import 'package:pop_bottom_menu/pop_bottom_menu.dart';
@@ -18,11 +21,18 @@ import 'package:poshop/products/model/Product.dart';
 import 'package:poshop/products/products.dart';
 import 'package:poshop/tickets/tickets.dart';
 
-class Home extends StatelessWidget {
+class Home extends StatelessWidget   {
+
+
+
   MenuContoller controller = Get.put(MenuContoller());
   HomeContoller  controllerHome = Get.put(HomeContoller());
   CategoryContoller controllerCategory = Get.put(CategoryContoller());
   CartContoller controlelrCart = Get.put(CartContoller());
+  ProductContoller controllerProduct = Get.put(ProductContoller());
+  LoadingController controllerLoading = Get.put(LoadingController());
+
+   CheckoutContoller controllerCheckout = Get.put(CheckoutContoller());
 
   var loadingHud;
   WidgetsHelper helpers = WidgetsHelper();
@@ -45,16 +55,19 @@ class Home extends StatelessWidget {
 
     loadingHud = helpers.initLoading(context);
 
-    return Scaffold(
+    return WillPopScope(child: Scaffold(
 
 
         backgroundColor: Colors.white,
+
         appBar: AppBar(
+          automaticallyImplyLeading: false,
+
           iconTheme: IconThemeData(color: Color(0xff298dcf)),
           backgroundColor: Colors.white,
           elevation: 0,
           title: Text(
-            "",
+            "PosShop",
             style: TextStyle(color: Colors.black87),
           ),
           actions: [
@@ -104,19 +117,19 @@ class Home extends StatelessWidget {
 
                 loadingHud.show();
 
-               var indexProduct= await controllerHome.findProductIndex(barcodeScanRes);
+                var indexProduct= await controllerHome.findProductIndex(barcodeScanRes);
                 loadingHud.dismiss();
 
-               print("este es el idex mano  ${indexProduct}");
+                print("este es el idex mano  ${indexProduct}");
 
-               if(indexProduct["product"]!=null){
-                 controlelrCart.addItemCart(indexProduct["product"]);
+                if(indexProduct["product"]!=null){
+                  controlelrCart.addItemCart(indexProduct["product"]);
 
-                 controllerHome.jumpToIndex(indexProduct["index"]);
-               }else{
-                 helpers.defaultAlert(context, "error", "Error al encontrar producto",
-                     "Por favor verificar si el producto existe o si el código de barras es el indicado");
-               }
+                  controllerHome.jumpToIndex(indexProduct["index"]);
+                }else{
+                  helpers.defaultAlert(context, "error", "Error al encontrar producto",
+                      "Por favor verificar si el producto existe o si el código de barras es el indicado");
+                }
 
 
               },
@@ -148,7 +161,40 @@ class Home extends StatelessWidget {
             )
           ],
         ),
-        body: Obx(()=>getScreen()),
-        bottomNavigationBar: BottomMenu() );
+        body: Stack(
+          children: [
+
+            Obx(()=>DefaultTabController(length: 3,
+
+                initialIndex: controller.positionMenu.value,
+
+                child: TabBarView(
+                  controller: controllerHome.controller,
+                  children: [
+                    Cart(),
+                    Tickets(),
+                    ProductsList()
+                  ],
+                )
+            )),
+           Obx(()=> controllerLoading.isLoading.value ? Container(
+             width: double.infinity,
+             height: double.infinity,
+             color: Colors.black45,
+             child: Column(
+               mainAxisAlignment: MainAxisAlignment.center,
+               crossAxisAlignment: CrossAxisAlignment.center,
+               children: [
+                 CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Colors.white)),
+                 Container(
+                   margin: EdgeInsets.only(top: 10),
+                   child: Text("Cargando...",style: TextStyle(color: Colors.white),),
+                 )
+               ],
+             ),
+           ): Container()),
+          ],
+        ),
+        bottomNavigationBar: BottomMenu() ), onWillPop:  () async => false);
   }
 }
