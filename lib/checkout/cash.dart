@@ -159,10 +159,10 @@ class CashPanel extends StatelessWidget{
               ),
               color:Color(0xff298dcf) ,
 
-              onPressed: (){
+              onPressed: () async{
 
                 if (_formKey.currentState.validate()) {
-                  controllerCart.setTickets();
+                  await controllerCart.setTickets();
                   controllerCheckout.paymentCheckoutsItems.clear();
                   controllerCheckout.valueCheckout.value="";
                   controllerCart.items.clear();

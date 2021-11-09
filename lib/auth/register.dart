@@ -17,9 +17,9 @@ class Register extends StatelessWidget{
     var isLoggedApi = await controllerAuth.register();
     loadingHud.dismiss();
 
-    if (!isLoggedApi) {
-      helpers.defaultAlert(context, "error", "Error al ingresar",
-          "Por favor verifique la contraseña o el email.");
+    if (isLoggedApi!="ok") {
+      helpers.defaultAlert(context, "error", "${isLoggedApi["message"]}",
+          "${isLoggedApi["data"]}");
     } else {
       Navigator.push(
         context,

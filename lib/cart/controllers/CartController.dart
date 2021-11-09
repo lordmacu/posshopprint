@@ -79,15 +79,15 @@ class CartContoller extends GetxController {
 
 
   Future setTickets() async {
-    try {
+    //try {
       var data = await _endpointProvider.setTickets(items,totalCart);
 
       if (data["success"]) {
         return true;
       }
-    } catch (e) {
-      print("aqui esta el error ${e.toString()}");
+    /*} catch (e) {
+      print("aqui esta el error cart ${e.toString()}");
       return false;
-    }
+    }*/
   }
 }

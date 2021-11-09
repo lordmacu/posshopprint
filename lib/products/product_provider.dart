@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:path/path.dart';
@@ -13,6 +14,7 @@ class ProductProvider {
 
   ProductProvider(this._client);
   SharedPreferences prefs;
+  var random = new Random();
 
   Future getProducts() async {
     prefs = await SharedPreferences.getInstance();
@@ -22,7 +24,7 @@ class ProductProvider {
     try {
 
       final response = await _client.get(
-          '/items?devMode=true&itemsPerPage=20&page=1');
+          '/items?devMode=true&itemsPerPage=20&page=1?_dc=${DateTime.now().millisecondsSinceEpoch}');
 
       return json.decode(response.toString());
     } on DioError catch (ex) {

@@ -78,13 +78,16 @@ class ProductContoller extends GetxController {
 
   @override
   void onInit() async {
-
-    print("cargando otra vez");
     var prefs = await SharedPreferences.getInstance();
-    _endpointProvider =
-        new ProductProvider(_client.init(prefs.getString("token")));
-    getProducts();
+
+    print("cargando otra vez  ${prefs.getString("token")}");
+
+    _endpointProvider = new ProductProvider(_client.init(prefs.getString("token")));
+
   }
+
+
+
 
   setProduct(Product product){
     print("product ${product}");
@@ -250,7 +253,7 @@ class ProductContoller extends GetxController {
 
       }
     } catch (e) {
-      print("aqui esta el error ${e.toString()}");
+      print("aqui esta el error uno ${e.toString()}");
       return null;
     }
   }
@@ -300,7 +303,7 @@ class ProductContoller extends GetxController {
         return true;
       }
     } catch (e) {
-      print("aqui esta el error ${e.toString()}");
+      print("aqui esta el error dos ${e.toString()}");
       return false;
     }
   }
@@ -367,15 +370,20 @@ class ProductContoller extends GetxController {
         return true;
       }
     } catch (e) {
-      print("aqui esta el error ${e.toString()}");
+      print("aqui esta el error tres ${e.toString()}");
       return false;
     }
   }
 
   getProducts() async {
+    var prefs = await SharedPreferences.getInstance();
+     _endpointProvider =
+    new ProductProvider(_client.init(prefs.getString("token")));
+
+    print("cargando otra veddddz  ${prefs.getString("token")}");
 
     controllerLoading.isLoading.value=true;
-    try {
+   try {
       var data = await _endpointProvider.getProducts();
 
       if (data["success"]) {
@@ -417,13 +425,13 @@ class ProductContoller extends GetxController {
         products.assignAll(productsLocal);
         controllerLoading.isLoading.value=false;
 
-        return true;
+        return data;
       }
-    } catch (e) {
+   } catch (e) {
       controllerLoading.isLoading.value=false;
 
-      print("aqui esta el error ${e}");
-      return false;
+      print("aqui esta el error cuatro ${e.toString()}");
+      return e.toString();
     }
   }
 }

@@ -59,11 +59,21 @@ class AuthContoller extends GetxController{
     prefs = await SharedPreferences.getInstance();
 
     prefs.setBool("isLogged", login);
+
+    print("esta es la data del login   ${data}");
     if(data!=null){
       prefs.setString("user", jsonEncode(data));
       //prefs.setInt("outletId",  data["user"]["outlet"]["id"]);
       //prefs.setInt("cashRegister",  data["user"]["cashRegister"]["id"]);
-      prefs.setInt("idOrg",   data["idOrg"]);
+
+
+          prefs.setInt("idOrg", data["user"]["idOrg"]);
+
+
+
+
+
+
       prefs.setString("token", data["token"]);
       token.value=data["token"];
       outletsAvailable();
@@ -79,11 +89,11 @@ class AuthContoller extends GetxController{
        if(data["success"]){
         loginUserSystem(true,data["data"]);
 
-        return true;
+        return "ok";
       }
     }catch(e){
       loginUserSystem(false,null);
-      return false;
+      return replaceExeptionText(e.message);
     }
   }
 
@@ -113,10 +123,11 @@ class AuthContoller extends GetxController{
       }
     }catch(e){
       prefs = await SharedPreferences.getInstance();
-      prefs.setString("outlet", null);
-      prefs.setString("outletId", null);
-      prefs.setString("cashier", null);
-      prefs.setString("cashierId", null);
+      prefs.setString("outlet", "");
+      prefs.setInt("outletId", 0);
+      prefs.setString("cashier", "");
+      prefs.setInt("cashierId", 0);
+      //prefs.clear();
 
       print("error : ${e}");
 
@@ -165,14 +176,18 @@ class AuthContoller extends GetxController{
       print("esta es la data ${data}");
       if(data["success"]){
         loginUserSystem(true,data["data"]);
-        return true;
+        return "ok";
       }
     }catch(e){
-      print("esta es la data ${e}");
 
-      loginUserSystem(false,null);
-      return false;
+    loginUserSystem(false,null);
+     return replaceExeptionText(e.message);
+
     }
+  }
+
+  replaceExeptionText(String text){
+   return  jsonDecode(text.replaceAll("Exception: ", ""));
   }
 
 }

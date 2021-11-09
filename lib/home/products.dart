@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:masonry_grid/masonry_grid.dart';
@@ -73,13 +74,14 @@ class Products extends StatelessWidget {
     return Expanded(
         child: Stack(
       children: [
+
+
+
         Container(
             padding: EdgeInsets.only(left: 20, right: 20, top: 15),
-            child: Obx(() => ScrollablePositionedList.builder(
-              addAutomaticKeepAlives: false,
+            child: Obx(() => controllerHome.itemScrollController.value!=null ? ListView.builder(
 
-              itemScrollController: controllerHome.itemScrollController.value,
-              itemPositionsListener:  controllerHome.itemPositionsListener.value,
+
               padding: EdgeInsets.only(bottom: 100),
                   itemCount: controllerProduct.products.length,
                   itemBuilder: (context, index) {
@@ -318,7 +320,7 @@ class Products extends StatelessWidget {
                           ),
                         ));
                   },
-                ))),
+                ): Container())),
         Align(
           alignment: Alignment.bottomCenter,
           child: Container(
@@ -435,20 +437,29 @@ class Products extends StatelessWidget {
                             Container(
                               margin: EdgeInsets.only(top: 3),
                               child: Obx((){
+                                if(controlelrCart.items.length>0){
+                                  var items=controlelrCart.items;
+                                  var total= 0;
+                                  for(var i =0  ; i  < items.length ; i++ ){
+                                    total=total+(items[i].product.salesPrice*items[i].numberItem);
+                                  }
 
-                                var items=controlelrCart.items;
-                                var total= 0;
-                                for(var i =0  ; i  < items.length ; i++ ){
-                                  total=total+(items[i].product.salesPrice*items[i].numberItem);
+                                  controllerCheckout.valueCheckout.value="${total}";
+
+                                  return Text(
+                                    "\$${formatedNumber(total)}",
+                                    style: TextStyle(color: Colors.white),
+                                    textAlign: TextAlign.center,
+                                  );
+                                }else{
+                                  return Text(
+                                    "\$ 0",
+                                    style: TextStyle(color: Colors.white),
+                                    textAlign: TextAlign.center,
+                                  );
                                 }
 
-                                controllerCheckout.valueCheckout.value="${total}";
 
-                                return Text(
-                                  "\$${formatedNumber(total)}",
-                                  style: TextStyle(color: Colors.white),
-                                  textAlign: TextAlign.center,
-                                );
                               }),
                             )
                           ],

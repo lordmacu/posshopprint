@@ -1,6 +1,7 @@
 
 import 'package:get/get.dart';
 import 'package:poshop/api_client.dart';
+import 'package:poshop/checkout/models/PaymentSimple.dart';
 import 'package:poshop/tickets/model/Ticket.dart';
 import 'package:poshop/tickets/ticket_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -26,16 +27,29 @@ class TicketsContoller extends GetxController{
   }
 
   getTickets() async {
-    try {
+   // try {
       var data = await _endpointProvider.getTickets();
 
       if (data["success"]) {
-        var dataJsonGeneral = (data["data"]);
-        var dataJson = dataJsonGeneral["data"];
-        List<Ticket> productsLocal = [];
+        var dataJson = (data["data"]);
+
+        print("getticketssssss  ${dataJson}");
+
+
+         List<Ticket> productsLocal = [];
 
         for (var i = 0; i < dataJson.length; i++) {
-          //Ticket ticket = Ticket(_id, _total, _email, _code, _payments, _items);
+          var payments=dataJson[i]["payments"];
+
+          List<PaymentSimple> paymentsSimple=[];
+
+          for(var p=0; p<payments.length; p++){
+            print("payyyments  ${payments}");
+            paymentsSimple.add( PaymentSimple(payments["name"], payments["amount"],  payments["method"]));
+
+          }
+
+         Ticket ticket = Ticket(dataJson[i]["id"], dataJson[i]["total"], dataJson[i]["email"], dataJson[i]["code"], dataJson[i]["payments"], dataJson[i]["items"]);
 
         }
 
@@ -43,10 +57,10 @@ class TicketsContoller extends GetxController{
 
         return true;
       }
-    } catch (e) {
-      print("aqui esta el error ${e}");
+   /* } catch (e) {
+      print("aqui esta el error cinco ${e}");
       return false;
-    }
+    }*/
   }
 
 }

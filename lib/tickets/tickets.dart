@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:poshop/tickets/controllers/TicketsController.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 class Tickets extends StatelessWidget {
+
+  TicketsContoller controllerTicket= Get.put(TicketsContoller());
+
   @override
   Widget build(BuildContext context) {
     PanelController _panelController = PanelController();

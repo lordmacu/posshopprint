@@ -40,7 +40,15 @@ class Checkout extends StatelessWidget {
   }
 
   canPressPayment(){
-    return controllerCheckout.totalCheckout.value>= double.parse (controllerCheckout.valueCheckout.value);
+
+    print("aquii la cosa  dfasdfa sdfas d  ${controllerCheckout.valueCheckout.value}");
+
+    if(controllerCheckout.valueCheckout.value!=""){
+      return controllerCheckout.totalCheckout.value>= double.parse (controllerCheckout.valueCheckout.value);
+
+    }else{
+      return false;
+    }
   }
 
   List<Widget> getPayments(_panelController) {
@@ -169,12 +177,12 @@ class Checkout extends StatelessWidget {
               ),
               Container(
                 margin: EdgeInsets.only(top: 30),
-                child: Obx(() => Wrap(
+                child: Obx(() => controllerCheckout.paymentItems.length > 0 ? Wrap(
                       alignment: WrapAlignment.spaceBetween,
                       direction: Axis.horizontal,
                       children: getPayments(
                           controllerCheckout.panelControllerCheckout.value),
-                    )),
+                    ): Container()),
                 padding: EdgeInsets.only(left: 20, right: 20),
               )
             ],

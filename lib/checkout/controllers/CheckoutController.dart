@@ -128,7 +128,7 @@ class CheckoutContoller extends GetxController {
 
       print(" asdfasdf  ${paymentItems}");
     } catch (e) {
-      print("aqui esta el error ${e}");
+      print("aqui esta el error check ${e}");
       return false;
     }
   }
