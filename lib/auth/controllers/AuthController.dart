@@ -67,7 +67,7 @@ class AuthContoller extends GetxController{
       //prefs.setInt("cashRegister",  data["user"]["cashRegister"]["id"]);
 
 
-          prefs.setInt("idOrg", data["user"]["idOrg"]);
+          prefs.setInt("idOrg", data["idOrg"]);
 
 
 
