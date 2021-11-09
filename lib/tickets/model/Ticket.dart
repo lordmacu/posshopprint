@@ -1,4 +1,5 @@
 import 'package:poshop/categories/models/Category.dart';
+import 'package:poshop/checkout/models/ItemSimple.dart';
 import 'package:poshop/checkout/models/Payment.dart';
 import 'package:poshop/checkout/models/PaymentSimple.dart';
 
@@ -8,7 +9,7 @@ class Ticket{
   String _email;
   String _code;
   List<PaymentSimple> _payments;
-  List _items;
+  List<ItemSimple> _items;
 
   int get id => _id;
 
@@ -40,12 +41,13 @@ class Ticket{
     _payments = value;
   }
 
-  List get items => _items;
-
-  set items(List value) {
-    _items = value;
-  }
 
   Ticket(this._id, this._total, this._email, this._code, this._payments,
       this._items);
+
+  List<ItemSimple> get items => _items;
+
+  set items(List<ItemSimple> value) {
+    _items = value;
+  }
 }

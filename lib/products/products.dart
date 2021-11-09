@@ -11,7 +11,7 @@ import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:get/get.dart';
 
 class ProductsList extends StatelessWidget {
-  ProductContoller controllerHome = Get.put(ProductContoller());
+  ProductsContoller controllerHome = Get.put(ProductsContoller());
   WidgetsHelper helpers = WidgetsHelper();
   var loadingHud;
   formatedNumber(number) {

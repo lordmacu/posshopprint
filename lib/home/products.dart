@@ -16,7 +16,7 @@ import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 class Products extends StatelessWidget {
   HomeContoller controllerHome = Get.find();
-  ProductContoller controllerProduct = Get.find();
+  ProductsContoller controllerProduct = Get.find();
   CartContoller controlelrCart =Get.find();
   CheckoutContoller controllerCheckout = Get.find();
 

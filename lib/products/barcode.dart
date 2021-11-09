@@ -10,7 +10,7 @@ import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 
 class Barcode extends StatelessWidget {
 
-  ProductContoller controllerProduct= ProductContoller();
+  ProductsContoller controllerProduct= ProductsContoller();
 
   @override
   Widget build(BuildContext context) {

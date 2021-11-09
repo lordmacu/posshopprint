@@ -13,7 +13,7 @@ import 'package:poshop/products/controllers/ProductContoller.dart';
 class CategoryContoller extends GetxController{
 
   AuthContoller controllerAuth=AuthContoller();
-  ProductContoller controllerProduct = Get.find();
+  ProductsContoller controllerProduct = Get.find();
 
   var isPanelOpen=false.obs;
   var categorySelect=0.obs;

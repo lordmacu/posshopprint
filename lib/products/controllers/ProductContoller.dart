@@ -17,7 +17,7 @@ import 'dart:developer';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:poshop/categories/models/Category.dart' as cat;
 
-class ProductContoller extends GetxController {
+class ProductsContoller extends GetxController {
 
   Rx<PanelController> panelController = PanelController().obs;
   LoadingController controllerLoading = Get.put(LoadingController());

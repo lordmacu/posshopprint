@@ -29,7 +29,7 @@ class Home extends StatelessWidget   {
   HomeContoller  controllerHome = Get.put(HomeContoller());
   CategoryContoller controllerCategory = Get.put(CategoryContoller());
   CartContoller controlelrCart = Get.put(CartContoller());
-  ProductContoller controllerProduct = Get.put(ProductContoller());
+  ProductsContoller controllerProduct = Get.put(ProductsContoller());
   LoadingController controllerLoading = Get.put(LoadingController());
 
    CheckoutContoller controllerCheckout = Get.put(CheckoutContoller());

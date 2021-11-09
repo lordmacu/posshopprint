@@ -9,7 +9,7 @@ import 'package:image_picker/image_picker.dart';
 
 class DetailProduct extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
-  ProductContoller controllerHome = Get.find();
+  ProductsContoller controllerHome = Get.find();
 
   void getImage() async{
     final ImagePicker _picker = ImagePicker();

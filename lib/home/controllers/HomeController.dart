@@ -8,7 +8,7 @@ import 'package:poshop/products/model/Product.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 class HomeContoller extends GetxController  with SingleGetTickerProviderMixin{
-  ProductContoller controllerProduct = Get.put(ProductContoller());
+  ProductsContoller  controllerProduct = Get.put(ProductsContoller());
 
   LoadingController controllerLoading = Get.find();
 

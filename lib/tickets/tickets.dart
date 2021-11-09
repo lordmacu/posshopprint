@@ -1,12 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:poshop/tickets/controllers/TicketsController.dart';
+import 'package:poshop/tickets/model/Ticket.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 class Tickets extends StatelessWidget {
 
   TicketsContoller controllerTicket= Get.put(TicketsContoller());
 
+  formatedNumber(number) {
+    var formatCurrency;
+    formatCurrency = new NumberFormat.currency(
+        customPattern: "\u00A4#,##0.00\u00A0",
+        symbol: "",
+        decimalDigits: 0,
+        locale: "es");
+
+    return formatCurrency.format(number);
+  }
   @override
   Widget build(BuildContext context) {
     PanelController _panelController = PanelController();
@@ -211,9 +223,10 @@ class Tickets extends StatelessWidget {
                         borderRadius: BorderRadius.all(Radius.circular(25.0)))),
               ),
             ),
-            Expanded(child: ListView.builder(
-              itemCount: 50,
+            Expanded(child: Obx(()=>ListView.builder(
+              itemCount: controllerTicket.tickets.length,
               itemBuilder: (context, index) {
+                Ticket ticket= controllerTicket.tickets[index];
                 return GestureDetector(
                   onTap: () {
                     _panelController.open();
@@ -255,21 +268,13 @@ class Tickets extends StatelessWidget {
                                           children: [
                                             Container(
                                               child: Text(
-                                                "Producto",
+                                                "${(ticket.email)}",
                                                 style: TextStyle(
                                                     fontWeight: FontWeight.bold,
                                                     fontSize: 20),
                                               ),
                                             ),
-                                            Container(
-                                              child: Text(
-                                                "Categoría",
-                                                style: TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 15,
-                                                    color: Colors.grey.withOpacity(0.6)),
-                                              ),
-                                            ),
+
 
                                           ],
                                         ),
@@ -297,7 +302,7 @@ class Tickets extends StatelessWidget {
                                               margin: EdgeInsets.only(right: 3),
                                             ),
                                             Text(
-                                              "5.000.000",
+                                              "${formatedNumber(ticket.total)}",
                                               style: TextStyle(
                                                   fontWeight: FontWeight.bold,
                                                   fontSize: 20),
@@ -312,7 +317,7 @@ class Tickets extends StatelessWidget {
                             ),
                             Divider(
 
-                               color: Colors.grey.withOpacity(0.4),
+                              color: Colors.grey.withOpacity(0.4),
                               height: 1,
 
                             ),
@@ -324,10 +329,10 @@ class Tickets extends StatelessWidget {
                                 children: [
                                   Container(
                                     child: Text(
-                                      "#15312",
+                                      "#${(ticket.code)}",
                                       style: TextStyle(
                                           fontWeight: FontWeight.bold,
-                                          fontSize: 15,
+                                          fontSize: 11,
                                           color: Colors.grey.withOpacity(0.6)),
                                     ),
                                   ),  Container(
@@ -348,7 +353,7 @@ class Tickets extends StatelessWidget {
                       )),
                 );
               },
-            ))
+            )))
           ],
         ),
       ),

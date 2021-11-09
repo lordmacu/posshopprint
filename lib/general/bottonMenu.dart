@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:masonry_grid/masonry_grid.dart';
 import 'package:bubble_bottom_bar/bubble_bottom_bar.dart';
 import 'package:poshop/auth/controllers/AuthController.dart';
+import 'package:poshop/cart/controllers/ProductContoller.dart';
 import 'package:poshop/controllers/MenuController.dart';
 import 'package:poshop/categories/categories.dart';
 import 'package:get/get.dart';
@@ -11,12 +12,15 @@ import 'package:pop_bottom_menu/pop_bottom_menu.dart';
 import 'package:poshop/home/controllers/HomeController.dart';
 import 'package:poshop/home/controllers/LoadingController.dart';
 import 'package:poshop/redirector.dart';
+import 'package:poshop/tickets/controllers/TicketsController.dart';
 
 class BottomMenu extends StatelessWidget {
   MenuContoller controller = Get.find();
   AuthContoller controllerAuth = Get.find();
   HomeContoller  controllerHome = Get.find();
+  TicketsContoller  controllerTicket = Get.put(TicketsContoller());
   LoadingController controllerLoading = Get.find();
+  ProductContoller controllerProduct = Get.put(ProductContoller());
   void _showMenu(context) {
     showModalBottomSheet(
       backgroundColor: Colors.transparent,
@@ -89,19 +93,30 @@ class BottomMenu extends StatelessWidget {
     return Obx(() => BubbleBottomBar(
           opacity: .2,
           currentIndex: controller.positionMenu.value,
-          onTap: (value) {
+          onTap: (value)  async{
             print("asdfa   sd as  ${value} ");
+
+
+
             if (value < 3) {
               controllerLoading.isLoading.value=true;
 
-              new Timer(const Duration(milliseconds: 500), ()=>{
-              controllerLoading.isLoading.value=false
 
-              });
 
               controller.positionMenu.value = value;
               controllerHome.controller.animateTo(value,duration: Duration(seconds: 2),curve: Curves.bounceIn);
+              controllerLoading.isLoading.value=true;
 
+              if(value==1){
+                await controllerTicket.getTickets();
+              }
+              if(value==2){
+                await controllerProduct.getProducts();
+              }
+              if(value==0){
+                await controllerProduct.getProducts();
+              }
+              controllerLoading.isLoading.value=false;
             } else {
               _showMenu(context);
             }

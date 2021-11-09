@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:poshop/cart/controllers/ProductContoller.dart';
 import 'package:poshop/products/controllers/ProductContoller.dart';
 import 'package:poshop/products/detail.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';

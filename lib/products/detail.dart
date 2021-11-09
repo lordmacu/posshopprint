@@ -16,7 +16,7 @@ class DetailProduct extends StatelessWidget {
 
 
 
-   ProductContoller controllerHome = Get.find();
+   ProductsContoller controllerHome = Get.find();
   CategoryContoller controllerCategory = Get.find();
   WidgetsHelper helpers = WidgetsHelper();
    var loadingHud;

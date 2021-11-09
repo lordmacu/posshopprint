@@ -1,23 +1,23 @@
 class DiscountSimple{
-   String _name;
-  int _quantity;
-  int _ammout;
+  int _discount_id;
+  int _totalDiscount;
 
-   String get name => _name;
+  int get discount_id => _discount_id;
 
-  set name(String value) {
-    _name = value;
+  set discount_id(int value) {
+    _discount_id = value;
   }
 
-   int get quantity => _quantity;
+  int get totalDiscount => _totalDiscount;
 
-   int get ammout => _ammout;
-
-  set ammout(int value) {
-    _ammout = value;
+  set totalDiscount(int value) {
+    _totalDiscount = value;
   }
 
-  set quantity(int value) {
-    _quantity = value;
+  DiscountSimple(this._discount_id, this._totalDiscount);
+
+  @override
+  String toString() {
+    return 'DiscountSimple{_discount_id: $_discount_id, _totalDiscount: $_totalDiscount}';
   }
 }
