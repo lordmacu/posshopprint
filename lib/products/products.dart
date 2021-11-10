@@ -3,6 +3,7 @@ import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:intl/intl.dart';
 import 'package:poshop/categories/controllers/CategoryController.dart';
 import 'package:poshop/helpers/widgetsHelper.dart';
+import 'package:poshop/printer/priter.dart';
 import 'package:poshop/products/barcode.dart';
 import 'package:poshop/products/controllers/ProductContoller.dart';
 import 'package:poshop/products/detail.dart';
@@ -43,32 +44,11 @@ class ProductsList extends StatelessWidget {
 
                 backgroundColor: Color(0xff298dcf),
                 onPressed: () async {
-                  String barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
-                      "#ff6666",
-                      "Cancel",
-                      false,
-                      ScanMode.BARCODE);
 
-                  controllerHome.barcode.value=barcodeScanRes;
-                  loadingHud.show();
-
-                  Product product= await controllerHome.getProductByCode(barcodeScanRes);
-                  print("aquyii esta el producto ${product}");
-                  if(product!=null){
-                    loadingHud.dismiss();
-                    controllerHome.isOpenCreator.value = true;
-                    controllerHome.panelController.value.open();
-                    controllerHome.setProduct(product);
-
-                  }else{
-                    loadingHud.dismiss();
-                    helpers.defaultAlert(context, "error", "Error al encontrar producto",
-                        "Por favor verifique el código de barras o la existencia del producto");
-                  }
-
-
-
-
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Printer()),
+                  );
 
                 },
               ),
