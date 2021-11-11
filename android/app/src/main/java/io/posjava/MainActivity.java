@@ -195,14 +195,17 @@ public class MainActivity extends FlutterActivity {
     }
 
     public void preinit(){
+        Log.i(TAG,"antes:");
 
         handler = new HandlerUtils.MyHandler(iHandlerIntent);
 
+        Log.i(TAG,"uno:" );
 
         Intent intent=new Intent();
         intent.setPackage("com.iposprinter.iposprinterservice");
         intent.setAction("com.iposprinter.iposprinterservice.IPosPrintService");
         bindService(intent, connectService, Context.BIND_AUTO_CREATE);
+        Log.i(TAG,"dos:");
 
 
         IntentFilter printerStatusFilter = new IntentFilter();
@@ -297,22 +300,8 @@ public class MainActivity extends FlutterActivity {
                                 Log.i(TAG,"aqui espichando");
 
                                 preinit();
-                                new ServiceConnection() {
-                                    @Override
-                                    public void onServiceConnected(ComponentName name, IBinder service) {
-                                        mIPosPrinterService = IPosPrinterService.Stub.asInterface(service);
 
-                                    }
 
-                                    @Override
-                                    public void onServiceDisconnected(ComponentName name) {
-                                        mIPosPrinterService = null;
-                                    }
-                                };
-                                reinit();
-                               // printerInit();
-
-                                fullTest();
                             }else if (call.method.equals("printerinit")) {
 
                             } else {
@@ -340,15 +329,24 @@ public class MainActivity extends FlutterActivity {
     }
 
     private ServiceConnection connectService = new ServiceConnection() {
+
+
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
             mIPosPrinterService = IPosPrinterService.Stub.asInterface(service);
+            Log.i(TAG,"cnecteddfasdfasdfa ");
+
+            reinit();
+
+            fullTest();
 
         }
 
         @Override
         public void onServiceDisconnected(ComponentName name) {
             mIPosPrinterService = null;
+            Log.i(TAG,"discnecteddfasdfasdfa ");
+
         }
     };
 
