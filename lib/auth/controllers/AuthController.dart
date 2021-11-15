@@ -83,6 +83,8 @@ class AuthContoller extends GetxController{
     isLogged.value=login;
   }
 
+
+
   login() async{
     try{
       var data = await _endpointProvider.login(email,password);

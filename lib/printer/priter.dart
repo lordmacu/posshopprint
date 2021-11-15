@@ -32,13 +32,27 @@ class Printer extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Impresoras"),
+        title: Text("Impresoras v2"),
       ),
       body: Container(
         child:Column(
           children: [
+            Obx(()=>Container(
+              child:Text(" comenzo a verificar  ${controllerPrinter.isPrintScaned.value}") ,
+            )),
+           Obx(()=> Container(
+             child:Text(" impresoras detectadas  ${controllerPrinter.devices.length} ${controllerPrinter.devices}") ,
+           )),
+            Container(
+              child: RaisedButton(
+                onPressed: (){
+                  controllerPrinter.startSscan();
+                },
+                child: Text("detectar scaner"),
+              ),
+            ),
 
-            Expanded(child:  ListView.builder(
+            Expanded(child:  Obx(()=>ListView.builder(
                 itemCount: controllerPrinter.devices.length,
                 itemBuilder: (BuildContext context, int index) {
                   return InkWell(
@@ -74,7 +88,12 @@ class Printer extends StatelessWidget {
                       ],
                     ),
                   );
-                }))
+                }))),
+            Expanded(child:  Obx(()=>ListView.builder(
+                itemCount: controllerPrinter.devicesBluethot.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return Text("impresora  bluetooth ${controllerPrinter.devicesBluethot[index]["name"]}  ${controllerPrinter.devicesBluethot[index]["rssi"]}");
+                })))
           ],
         ),
       ),
