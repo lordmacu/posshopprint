@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:poshop/api_client.dart';
 import 'package:poshop/checkout/models/DiscountSimple.dart';
 import 'package:poshop/checkout/models/ItemSimple.dart';
@@ -6,12 +7,16 @@ import 'package:poshop/checkout/models/PaymentSimple.dart';
 import 'package:poshop/tickets/model/Ticket.dart';
 import 'package:poshop/tickets/ticket_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 class TicketsContoller extends GetxController {
   var indificualTicket = false.obs;
   var categorySelect = 0.obs;
 
   RxList<Ticket> tickets = RxList<Ticket>();
+  Rx<Ticket> TicketIndividual= Rx<Ticket>();
+  Rx<int> indexTicket= Rx<int>();
+  var panelController = PanelController().obs;
 
   Client _client = new Client();
   var _endpointProvider;
@@ -61,14 +66,23 @@ class TicketsContoller extends GetxController {
               items[t]["amount"], discountsSimple));
         }
 
-        Ticket ticket = Ticket(
-            dataJson[i]["id"],
-            dataJson[i]["total"],
-            dataJson[i]["email"],
-            dataJson[i]["code"],
-            paymentsSimple,
-            itemsSimple);
 
+        DateTime parseDate =
+        new DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parse(dataJson[i]["date"]);
+        var inputDate = DateTime.parse(parseDate.toString());
+        var outputFormat = DateFormat('MM/dd/yyyy hh:mm a');
+        var outputDate = outputFormat.format(inputDate);
+
+        print("asdfasdf asd datetime  ${outputDate}");
+
+        Ticket ticket = Ticket();
+        ticket.id=dataJson[i]["id"];
+        ticket.total=dataJson[i]["total"];
+        ticket.email=dataJson[i]["email"];
+        ticket.code=dataJson[i]["code"];
+        ticket.date=outputDate;
+        ticket.payments=paymentsSimple;
+        ticket.items=itemsSimple;
         itemsLocal.add(ticket);
       }
 

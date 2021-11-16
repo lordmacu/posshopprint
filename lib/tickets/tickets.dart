@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:poshop/checkout/models/ItemSimple.dart';
 import 'package:poshop/tickets/controllers/TicketsController.dart';
 import 'package:poshop/tickets/model/Ticket.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
@@ -21,192 +22,212 @@ class Tickets extends StatelessWidget {
   }
   @override
   Widget build(BuildContext context) {
-    PanelController _panelController = PanelController();
 
     return Scaffold(
       body: SlidingUpPanel(
         backdropTapClosesPanel: true,
         backdropEnabled: true,
-        controller: _panelController,
+        controller: controllerTicket.panelController.value,
         minHeight: 0,
 
-        panel: Container(
-          padding: EdgeInsets.only(top: 20, left: 20, right: 20),
-          child: Column(
-            children: [
-              Container(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
+        panel: Obx((){
+
+          if(controllerTicket.indexTicket.value!=null){
+            Ticket ticket= controllerTicket.tickets[controllerTicket.indexTicket.value];
+
+            print("asdfasdf a ${ticket}");
+
+            var totalFinal=0;
+
+            return Container(
+              padding: EdgeInsets.only(top: 20, left: 20, right: 20),
+              child: controllerTicket.indexTicket.value != null ? Column(
+                children: [
+                  Container(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "#${ticket.id}",
+                              style: TextStyle(fontSize: 25, color: Colors.grey),
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(top: 5),
+                              child: Text(
+                                "${ticket.date}",
+                                style: TextStyle(fontSize: 12, color: Colors.grey),
+                              ),
+                            )
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            RaisedButton(
+                              onPressed: () {},
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30.0),
+                              ),
+                              color: Color(0xff298dcf),
+                              child: Text(
+                                "Reembolsar",
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(left: 5),
+                              width: 60,
+                              child: RaisedButton(
+
+                                onPressed: () {},
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(30.0),
+                                ),
+                                color: Colors.white,
+                                child: Icon(Icons.email,color:  Color(0xff298dcf),),
+                              ),
+                            )
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(bottom: 10, top: 10),
+                    height: 1,
+                    child: null,
+                    color: Colors.grey.withOpacity(0.3),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(top: 10),
+                    child: Column(
                       children: [
                         Text(
-                          "#15312",
-                          style: TextStyle(fontSize: 25, color: Colors.grey),
+                          "\$${formatedNumber(ticket.total)}",
+                          style: TextStyle(fontSize: 40),
                         ),
                         Container(
                           margin: EdgeInsets.only(top: 5),
+                          padding: EdgeInsets.only(
+                              left: 10, right: 10, top: 5, bottom: 5),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            color: Color(0xff298dcf).withOpacity(0.7),
+                          ),
                           child: Text(
-                            "08/09/2021 8:30am",
-                            style: TextStyle(fontSize: 12, color: Colors.grey),
+                            "Total",
+                            style: TextStyle(fontSize: 20, color: Colors.white),
                           ),
                         )
                       ],
                     ),
-                    Row(
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(top: 20),
+                    child: Row(
                       children: [
-                        RaisedButton(
-                          onPressed: () {},
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30.0),
-                          ),
-                          color: Color(0xff298dcf),
-                          child: Text(
-                            "Reembolsar",
-                            style: TextStyle(color: Colors.white),
-                          ),
+                        Text(
+                          "Cajero:",
+                          style: TextStyle(fontSize: 16),
                         ),
                         Container(
                           margin: EdgeInsets.only(left: 5),
-                          width: 60,
-                          child: RaisedButton(
-
-                            onPressed: () {},
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30.0),
-                            ),
-                            color: Colors.white,
-                            child: Icon(Icons.email,color:  Color(0xff298dcf),),
-                           ),
+                          child: Text(
+                            "Propietario",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 16),
+                          ),
                         )
                       ],
-                    )
-                  ],
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.only(bottom: 10, top: 10),
-                height: 1,
-                child: null,
-                color: Colors.grey.withOpacity(0.3),
-              ),
-              Container(
-                margin: EdgeInsets.only(top: 10),
-                child: Column(
-                  children: [
-                    Text(
-                      "\$10.000",
-                      style: TextStyle(fontSize: 40),
                     ),
-                    Container(
-                      margin: EdgeInsets.only(top: 5),
-                      padding: EdgeInsets.only(
-                          left: 10, right: 10, top: 5, bottom: 5),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        color: Color(0xff298dcf).withOpacity(0.7),
+                  ),
+
+                  Expanded(
+                      child: Container(
+                        child: ListView.builder(
+                            itemCount: ticket.items.length,
+                            itemBuilder: (context, index) {
+                              ItemSimple itemSimple = ticket.items[index];
+
+
+                              return Container(
+                                padding: EdgeInsets.only(top: 20,bottom: 20),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Column(
+
+                                      children: [
+                                        Container(
+                                          child: Text("${itemSimple.name}"),
+                                        ),
+                                        Container(
+                                          child: Text("${itemSimple.quantity} X \$${formatedNumber(itemSimple.ammout)}"),
+                                        ),
+
+                                      ],
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                    ),
+                                    Container(
+                                      child: Text("\$${formatedNumber(itemSimple.ammout*itemSimple.quantity)}"),
+                                    )
+                                  ],
+                                ),
+                              );
+                            }),
+                      )),
+                  Column(
+                    children: [
+                      Container(
+                        margin: EdgeInsets.only(bottom: 10, top: 10),
+                        height: 1,
+                        child: null,
+                        color:  Color(0xff298dcf),
                       ),
-                      child: Text(
-                        "Total",
-                        style: TextStyle(fontSize: 20, color: Colors.white),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.only(top: 20),
-                child: Row(
-                  children: [
-                    Text(
-                      "Cajero:",
-                      style: TextStyle(fontSize: 16),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(left: 5),
-                      child: Text(
-                        "Propietario",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 16),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-              
-              Expanded(
-                  child: Container(
-                child: ListView.builder(
-                    itemCount: 50,
-                    itemBuilder: (context, index) {
-                      return Container(
-                        padding: EdgeInsets.only(top: 20,bottom: 20),
+                      Container(
+                        padding: EdgeInsets.only(bottom: 10),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Container(
-                                  child: Text("Primer Articulo"),
-                                ),
-                                Container(
-                                  child: Text("1 X 10.000,00"),
-                                )
+                                Text("Total",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20),),
+                              /*  Container(
+                                  margin: EdgeInsets.only(top: 5),
+                                  child: Text("Efectivo",style: TextStyle(fontSize: 18),),
+                                )*/
                               ],
                             ),
-                            Container(
-                              child: Text("10.000,00"),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Text("\$${formatedNumber(ticket.total)}",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20),),
+                                /*Container(
+                                  margin: EdgeInsets.only(top: 5),
+                                  child: Text("10.000,00",style: TextStyle(fontSize: 18),),
+                                )*/
+                              ],
                             )
                           ],
                         ),
-                      );
-                    }),
-              )),
-             Column(
-               children: [
-                 Container(
-                   margin: EdgeInsets.only(bottom: 10, top: 10),
-                   height: 1,
-                   child: null,
-                   color:  Color(0xff298dcf),
-                 ),
-                 Container(
-                   padding: EdgeInsets.only(bottom: 10),
-                   child: Row(
-                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                     children: [
-                       Column(
-                         mainAxisAlignment: MainAxisAlignment.start,
-                         crossAxisAlignment: CrossAxisAlignment.start,
-                         children: [
-                           Text("Total",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20),),
-                           Container(
-                             margin: EdgeInsets.only(top: 5),
-                             child: Text("Efectivo",style: TextStyle(fontSize: 18),),
-                           )
-                         ],
-                       ),
-                       Column(
-                         mainAxisAlignment: MainAxisAlignment.end,
-                         crossAxisAlignment: CrossAxisAlignment.end,
-                         children: [
-                           Text("10.000,00",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20),),
-                           Container(
-                             margin: EdgeInsets.only(top: 5),
-                             child: Text("10.000,00",style: TextStyle(fontSize: 18),),
-                           )
-                         ],
-                       )
-                     ],
-                   ),
-                 )
-               ],
-             )
-            ],
-          ),
-        ),
+                      )
+                    ],
+                  )
+                ],
+              ): Container(),
+            );
+          }else{
+            return Container();
+          }
+
+        }),
         body: Column(
           children: [
             Padding(
@@ -229,7 +250,12 @@ class Tickets extends StatelessWidget {
                 Ticket ticket= controllerTicket.tickets[index];
                 return GestureDetector(
                   onTap: () {
-                    _panelController.open();
+                    controllerTicket.indexTicket.value=index;
+
+                    print("aquii esta el ticket  ${ticket}");
+
+                    controllerTicket.panelController.value.open();
+
                   },
                   child: Container(
                       padding:
@@ -302,7 +328,7 @@ class Tickets extends StatelessWidget {
                                               margin: EdgeInsets.only(right: 3),
                                             ),
                                             Text(
-                                              "${formatedNumber(ticket.total)}",
+                                              "\$${formatedNumber(ticket.total)}",
                                               style: TextStyle(
                                                   fontWeight: FontWeight.bold,
                                                   fontSize: 20),
@@ -329,15 +355,15 @@ class Tickets extends StatelessWidget {
                                 children: [
                                   Container(
                                     child: Text(
-                                      "#${(ticket.code)}",
+                                      "#${(ticket.id)}",
                                       style: TextStyle(
                                           fontWeight: FontWeight.bold,
-                                          fontSize: 11,
+                                          fontSize: 13,
                                           color: Colors.grey.withOpacity(0.6)),
                                     ),
                                   ),  Container(
                                     child: Text(
-                                      "08/09/2021 8:30am",
+                                      "${(ticket.date)}",
                                       style: TextStyle(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 13,

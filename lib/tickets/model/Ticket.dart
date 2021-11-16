@@ -10,6 +10,13 @@ class Ticket{
   String _code;
   List<PaymentSimple> _payments;
   List<ItemSimple> _items;
+  String _date;
+
+  String get date => _date;
+
+  set date(String value) {
+    _date = value;
+  }
 
   int get id => _id;
 
@@ -42,8 +49,10 @@ class Ticket{
   }
 
 
-  Ticket(this._id, this._total, this._email, this._code, this._payments,
-      this._items);
+  @override
+  String toString() {
+    return 'Ticket{_id: $_id, _total: $_total, _email: $_email, _code: $_code, _payments: $_payments, _items: $_items, _date: $_date}';
+  }
 
   List<ItemSimple> get items => _items;
 

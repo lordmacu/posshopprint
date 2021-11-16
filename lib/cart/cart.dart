@@ -28,7 +28,7 @@ class ProductsList extends StatelessWidget {
         controller: _panelController,
         minHeight: 0,
 
-        panel: DetailProduct(),
+        panel: Container(),
 
         body: Column(
           children: [

@@ -141,6 +141,8 @@ public class MainActivity extends FlutterActivity {
         @Override
         public void handlerIntent(Message msg)
         {
+            Log.i(TAG,"#### printerStatusdevolver"+msg.what);
+
             switch (msg.what)
             {
                 case MSG_TEST:
