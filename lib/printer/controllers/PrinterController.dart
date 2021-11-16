@@ -35,6 +35,7 @@ class PrinterContoller extends GetxController {
 
   var printerManager = PrinterBluetoothManager();
   var isPrintScaned=false.obs;
+  static const platform = MethodChannel('samples.flutter.dev/battery');
 
   RxList<PrinterBluetooth> devices = RxList<PrinterBluetooth>();
 
@@ -42,51 +43,26 @@ class PrinterContoller extends GetxController {
 
   @override
   void onInit() async {
-    FlutterBlue flutterBlue = FlutterBlue.instance;
-    flutterBlue.startScan(timeout: Duration(seconds: 4));
-
-    var subscription = flutterBlue.scanResults.listen((results) {
-      // do something with scan results
-      for (ScanResult r in results) {
-        devicesBluethot.add({"name":r.device.name,"rssi":r.rssi});
-      }
-    });
-
-    printerManager.scanResults.listen((dev) async {
-
-      print("scaninng  ${dev.toString()}");
-      devices.value = dev;
-    });
-    printerManager.startScan(Duration(seconds: 20));
 
 
-    flutterBlue.stopScan();
 
-    //printerManager.startScan(Duration(seconds: 4));
+  }
+
+
+  Future<void> _getBatteryLevel() async {
+    String batteryLevel;
+    try {
+      final int result = await platform.invokeMethod('getBatteryLevel');
+
+    } on PlatformException catch (e) {
+
+    }
 
 
   }
 
   startSscan(){
-    isPrintScaned.value=true;
-
-    try{
-      printerManager.stopScan();
-
-      printerManager.scanResults.listen((dev) async {
-
-        print("scaninng  ${dev.toString()}");
-        devices.value = dev;
-      });
-
-      printerManager.startScan(Duration(seconds: 20));
-
-    }catch(e){
-      printerManager.stopScan();
-      printerManager.startScan(Duration(seconds: 20));
-
-    }
-
+    _getBatteryLevel();
 
   }
 

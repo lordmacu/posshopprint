@@ -52,48 +52,7 @@ class Printer extends StatelessWidget {
               ),
             ),
 
-            Expanded(child:  Obx(()=>ListView.builder(
-                itemCount: controllerPrinter.devices.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return InkWell(
-                    onTap: () => controllerPrinter.testPrint(controllerPrinter.devices[index]),
-                    child: Column(
-                      children: <Widget>[
-                        Container(
-                          height: 60,
-                          padding: EdgeInsets.only(left: 10),
-                          alignment: Alignment.centerLeft,
-                          child: Row(
-                            children: <Widget>[
-                              Icon(Icons.print),
-                              SizedBox(width: 10),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: <Widget>[
-                                    Text(controllerPrinter.devices[index].name ?? ''),
-                                    Text(controllerPrinter.devices[index].address),
-                                    Text(
-                                      'Click para imprimir',
-                                      style: TextStyle(color: Colors.grey[700]),
-                                    ),
-                                  ],
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                        Divider(),
-                      ],
-                    ),
-                  );
-                }))),
-            Expanded(child:  Obx(()=>ListView.builder(
-                itemCount: controllerPrinter.devicesBluethot.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return Text("impresora  bluetooth ${controllerPrinter.devicesBluethot[index]["name"]}  ${controllerPrinter.devicesBluethot[index]["rssi"]}");
-                })))
+
           ],
         ),
       ),
