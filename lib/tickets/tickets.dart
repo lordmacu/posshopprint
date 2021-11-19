@@ -362,6 +362,8 @@ class Tickets extends StatelessWidget {
                                           color: Colors.grey.withOpacity(0.6)),
                                     ),
                                   ),  Container(
+
+
                                     child: Text(
                                       "${(ticket.date)}",
                                       style: TextStyle(

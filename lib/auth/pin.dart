@@ -42,6 +42,10 @@ class Pin extends StatelessWidget {
     }
   }
 
+
+
+
+
   @override
   Widget build(BuildContext context) {
     loadingHud = helpers.initLoading(context);
