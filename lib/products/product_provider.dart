@@ -24,7 +24,7 @@ class ProductProvider {
     try {
 
       final response = await _client.get(
-          '/items?devMode=true&itemsPerPage=20&page=1?_dc=${DateTime.now().millisecondsSinceEpoch}');
+          '/items?outlet_id=${outletId}&itemsPerPage=5&page=1&search=');
 
       return json.decode(response.toString());
     } on DioError catch (ex) {

@@ -170,7 +170,7 @@ class ProductsContoller extends GetxController {
 
   resetCreationProduct(){
 
-    formKey.value.currentState.reset();
+    // formKey.value.currentState.reset();
     isFormSelected.value=false;
     isSelectedColor.value=false;
       selectedColor.value = 0xffffffff;

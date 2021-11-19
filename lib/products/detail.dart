@@ -295,7 +295,7 @@ class DetailProduct extends StatelessWidget {
               child: Container(
                 padding: EdgeInsets.only(bottom: 20),
                 child: Form(
-                  key: controllerHome.formKey.value,
+                //  key: controllerHome.formKey.value,
                   child:Container(
 
                     child: Obx(()=>Column(
@@ -677,7 +677,7 @@ class DetailProduct extends StatelessWidget {
                                 padding: EdgeInsets.only(top: 15, bottom: 15),
                                 onPressed: () async {
 
-                                  if (controllerHome.formKey.value.currentState.validate()) {
+                               //   if (controllerHome.formKey.value.currentState.validate()) {
                                     var canSubmit=true;
 
                                     if(controllerHome.isImagen.value){
@@ -710,7 +710,7 @@ class DetailProduct extends StatelessWidget {
 
                                     }
 
-                                  }
+                                 // }
                                 },
 
                                 shape: RoundedRectangleBorder(
