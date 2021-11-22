@@ -55,4 +55,33 @@ class WidgetsHelper{
       ],
     ).show();
   }
+
+  deleteAlert(context,error,title,text){
+    AlertType errorTitle;
+    if(error=="warning"){
+      errorTitle=AlertType.warning;
+    }
+    if(error=="error"){
+      errorTitle=AlertType.error;
+    }
+    return Alert(
+      context: context,
+      type: errorTitle,
+      title:title,
+      desc: text,
+      buttons: [
+        DialogButton(
+          radius: BorderRadius.circular(20),
+          child: Text(
+            "Entendido",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () => Navigator.pop(context),
+          color:  Color(0xff298dcf),
+
+        ),
+
+      ],
+    ).show();
+  }
 }

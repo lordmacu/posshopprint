@@ -9,6 +9,7 @@ import 'package:poshop/controllers/MenuController.dart';
 import 'package:poshop/categories/categories.dart';
 import 'package:get/get.dart';
 import 'package:pop_bottom_menu/pop_bottom_menu.dart';
+import 'package:poshop/discounts/discounts.dart';
 import 'package:poshop/home/controllers/HomeController.dart';
 import 'package:poshop/home/controllers/LoadingController.dart';
 import 'package:poshop/redirector.dart';
@@ -63,6 +64,19 @@ class BottomMenu extends StatelessWidget {
                 );
               },
               label: "Categorias",
+              icon: Icon(
+                Icons.comment,
+                color: Colors.grey,
+              ),
+            ),
+            ItemPopBottomMenu(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Discounts()),
+                );
+              },
+              label: "Descuentos",
               icon: Icon(
                 Icons.comment,
                 color: Colors.grey,

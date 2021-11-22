@@ -336,6 +336,8 @@ class DetailProduct extends StatelessWidget {
                                           }
                                           return null;
                                         },
+                                        keyboardType: TextInputType.number,
+
                                         decoration: InputDecoration(
                                             labelText: "Precio",
                                             hintText:
