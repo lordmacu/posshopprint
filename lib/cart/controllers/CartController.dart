@@ -9,10 +9,13 @@ class CartContoller extends GetxController {
   RxList<Cart> items = RxList<Cart>();
 
   var totalCart = 0.obs;
+  var indexSingleCart= 0.obs;
 
   Client _client = new Client();
   var _endpointProvider;
   SharedPreferences prefs;
+
+  var dropdownvalue = 'Descuento1'.obs;
 
   @override
   void onInit() async {

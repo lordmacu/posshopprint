@@ -1,3 +1,5 @@
+import 'package:checkbox_grouped/checkbox_grouped.dart';
+import 'package:easy_mask/easy_mask.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -8,10 +10,13 @@ import 'package:poshop/cart/controllers/CartController.dart';
 import 'package:poshop/cart/model/Cart.dart';
 import 'package:poshop/checkout/checkout.dart';
 import 'package:poshop/checkout/controllers/CheckoutController.dart';
+import 'package:poshop/discounts/controllers/DiscountContoller.dart';
 
 import 'package:poshop/home/controllers/HomeController.dart';
+import 'package:poshop/home/singleCart.dart';
 import 'package:poshop/products/controllers/ProductContoller.dart';
 import 'package:poshop/products/model/Product.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 class Products extends StatelessWidget {
@@ -53,6 +58,13 @@ class Products extends StatelessWidget {
     }
 
     return isInCart;
+  }
+
+  showCart(context,index) async{
+    controlelrCart.indexSingleCart.value=index;
+    var data = await Get.to(SingleCart(index));
+
+
   }
 
   formatedNumber(number) {
@@ -338,31 +350,45 @@ class Products extends StatelessWidget {
                       List<Widget> itemsBuy=[];
                       for(var i =0  ; i  < items.length ; i++ ){
 
-                        itemsBuy.add(Container(
-                          child: Row(
-                            mainAxisAlignment:
-                            MainAxisAlignment.spaceBetween,
-                            children: [
-                              Expanded(
-                                  child: Container(
-                                    margin: EdgeInsets.only(right: 10),
-                                    child: Text(
-                                      "${items[i].product.itemNme}  x ${items[i].numberItem}",
-                                      style: TextStyle(fontSize: 15),
-                                    ),
-                                  )),
-                              Container(
-                                child: Text(
-                                  "\$${(formatedNumber(items[i].product.salesPrice*items[i].numberItem))}",
-                                  style: TextStyle(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              )
-                            ],
+                        itemsBuy.add(InkWell(
+                          onTap: (){
+                            showCart(context,i);
+                          },
+                          child: Container(
+
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(50),
+                              color: Colors.grey.withOpacity(0.1),
+
+                            ),
+                            child: Row(
+                              mainAxisAlignment:
+                              MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Expanded(
+                                    child: Container(
+
+                                      margin: EdgeInsets.only(right: 10),
+                                      child: Text(
+                                        "${items[i].product.itemNme}  x ${items[i].numberItem}",
+                                        style: TextStyle(fontSize: 15),
+                                      ),
+                                    )),
+                                Container(
+                                  child: Text(
+                                    "\$${(formatedNumber(items[i].product.salesPrice*items[i].numberItem))}",
+                                    style: TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                )
+                              ],
+                            ),
+                            padding: EdgeInsets.only(
+                                left: 10, right: 10, bottom: 8,top: 8),
+                            margin: EdgeInsets.only(bottom: 8),
                           ),
-                          margin: EdgeInsets.only(
-                              left: 10, right: 10, bottom: 10),
                         ));
                       }
 
