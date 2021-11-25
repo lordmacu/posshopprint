@@ -282,7 +282,7 @@ class Discounts extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Expanded(child: Text("${discount.name}")),
+                            Expanded(child: Text("${discount.name} ${double.parse(discount.value).toInt()} ${discount.calculationType == "PERCENT" ? '%' : ''}")),
                             Container(
                               child: Row(
                                 children: [
