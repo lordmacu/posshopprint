@@ -349,6 +349,18 @@ class Products extends StatelessWidget {
                       var total= 0;
                       List<Widget> itemsBuy=[];
                       for(var i =0  ; i  < items.length ; i++ ){
+                        
+                        
+                        var salePrice=items[i].product.salesPrice;
+                        
+                        var discounts=items[i].discount;
+                        if(discounts!=null){
+                          for(var d =0  ; d  < discounts.length ; d++ ){
+                            salePrice=salePrice-int.parse(discounts[d].total_discount);
+                          }
+
+                        }
+
 
                         itemsBuy.add(InkWell(
                           onTap: (){
@@ -377,7 +389,7 @@ class Products extends StatelessWidget {
                                     )),
                                 Container(
                                   child: Text(
-                                    "\$${(formatedNumber(items[i].product.salesPrice*items[i].numberItem))}",
+                                    "\$${(formatedNumber(salePrice*items[i].numberItem))}",
                                     style: TextStyle(
                                         fontSize: 15,
                                         fontWeight: FontWeight.bold),
@@ -466,8 +478,24 @@ class Products extends StatelessWidget {
                                 if(controlelrCart.items.length>0){
                                   var items=controlelrCart.items;
                                   var total= 0;
+
+
+
+
                                   for(var i =0  ; i  < items.length ; i++ ){
-                                    total=total+(items[i].product.salesPrice*items[i].numberItem);
+
+
+                                    var salePrice=items[i].product.salesPrice;
+
+                                    var discounts=items[i].discount;
+                                    if(discounts!=null){
+                                      for(var d =0  ; d  < discounts.length ; d++ ){
+                                        salePrice=salePrice-int.parse(discounts[d].total_discount);
+                                      }
+
+                                    }
+
+                                    total=total+(salePrice*items[i].numberItem);
                                   }
 
                                   controllerCheckout.valueCheckout.value="${total}";

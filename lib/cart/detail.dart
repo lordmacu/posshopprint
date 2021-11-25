@@ -344,9 +344,9 @@ class DetailProduct extends StatelessWidget {
                                             "Escribe el precio del producto"),
                                         inputFormatters: [
                                           TextInputMask(
-                                              mask: '\$! !9+,999.99',
+                                              mask: '\$! !9+.999',
                                               placeholder: '0',
-                                              maxPlaceHolders: 3,
+                                              maxPlaceHolders: 0,
                                               reverse: true)
                                         ],
                                       ),
@@ -355,6 +355,8 @@ class DetailProduct extends StatelessWidget {
                                     child: Container(
                                       padding: EdgeInsets.only(left: 5),
                                       child: TextFormField(
+                                        keyboardType: TextInputType.number,
+
                                         validator: (value) {
                                           if (value == null || value.isEmpty) {
                                             return 'Please enter some text';
@@ -367,9 +369,9 @@ class DetailProduct extends StatelessWidget {
                                             "Escribe el coste del producto"),
                                         inputFormatters: [
                                           TextInputMask(
-                                              mask: '\$! !9+,999.99',
+                                              mask: '\$! !9+.999',
                                               placeholder: '0',
-                                              maxPlaceHolders: 3,
+                                              maxPlaceHolders: 0,
                                               reverse: true)
                                         ],
                                       ),

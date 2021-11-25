@@ -82,22 +82,30 @@ class SingleCart extends StatelessWidget {
                 for(var s = 0; s <controllerDiscountHome.controller.selectedItem.length; s ++){
                   if(controllerDiscount.discounts[i].id==controllerDiscountHome.controller.selectedItem[s]){
 
+
                     if(controllerDiscount.discounts[i].calculationType=="AMOUNT"){
+                     // item.product.salesPrice=item.product.salesPrice-int.parse(controllerDiscount.discounts[i].value);
                       discountLocal.add(DiscountCart(controllerDiscount.discounts[i].id, "${controllerDiscount.discounts[i].value}"));
+
+
                     }else{
-                      discountLocal.add(DiscountCart(controllerDiscount.discounts[i].id, "${(item.product.salesPrice*double.parse(controllerDiscount.discounts[i].value))/100}"));
+                      var valueDiscount=(item.product.salesPrice*double.parse(controllerDiscount.discounts[i].value))/100;
+                     // item.product.salesPrice=item.product.salesPrice-valueDiscount.toInt();
+                      discountLocal.add(DiscountCart(controllerDiscount.discounts[i].id, "${valueDiscount.toInt()}"));
                     }
                   }
                 }
               }
               controlelrCart.items[indexItem].discount=discountLocal;
-              print("selected    ${discountLocal}");
+              controlelrCart.items.refresh();
+              print("selected    ${discountLocal}  item${item.product.salesPrice}");
 
             }
             }catch(e){
 
             }
-
+            Navigator.pop(context);
+            FocusScope.of(context).unfocus();
 
           },
 
