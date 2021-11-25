@@ -60,6 +60,8 @@ class CartProvider {
 
     };
 
+
+
     print("items queseenviandooooo ${data}   total  ${totalCart}  ${controllerCheckout.paymentCheckoutsItems}");
     try {
 

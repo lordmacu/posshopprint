@@ -500,6 +500,8 @@ class Products extends StatelessWidget {
 
                                   controllerCheckout.valueCheckout.value="${total}";
 
+
+
                                   return Text(
                                     "\$${formatedNumber(total)}",
                                     style: TextStyle(color: Colors.white),

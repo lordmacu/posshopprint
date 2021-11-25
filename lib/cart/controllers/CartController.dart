@@ -11,6 +11,8 @@ class CartContoller extends GetxController {
   var totalCart = 0.obs;
   var indexSingleCart= 0.obs;
 
+
+
   Client _client = new Client();
   var _endpointProvider;
   SharedPreferences prefs;

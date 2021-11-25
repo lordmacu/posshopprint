@@ -53,6 +53,7 @@ class SingleCart extends StatelessWidget {
 
 
 
+
     priceController.text="\$ ${formatedNumber(item.product.salesPrice)}";
 
     List<String> itemsText=[];
@@ -63,6 +64,8 @@ class SingleCart extends StatelessWidget {
       itemsTextValues.add(controllerDiscount.discounts[i].id);
       print(" ----------------------------- ${controllerDiscount.discounts[i].id}");
     }
+
+
 
     return Scaffold(
       bottomNavigationBar: Container(
