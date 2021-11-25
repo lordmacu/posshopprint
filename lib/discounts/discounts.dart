@@ -176,6 +176,10 @@ class Discounts extends StatelessWidget {
 
                       if (controllerDiscounts.formKey.value.currentState.validate()) {
 
+                        try{
+
+
+
                         controllerDiscounts.DiscountSingular.value.name=controllerDiscounts.nameDiscount.value;
                         controllerDiscounts.DiscountSingular.value.value=controllerDiscounts.valueDiscount.value;
                         if(controllerDiscounts.typeDiscount.value==true){
@@ -211,8 +215,12 @@ class Discounts extends StatelessWidget {
 
                         valueController.text="";
                         nameController.text="";
-
+                        }catch(e){
+                          helpers.defaultAlert(context, "error", "error",
+                              "${e.message}");
+                        }
                       }
+
 
 
 
