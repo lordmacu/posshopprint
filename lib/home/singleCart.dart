@@ -59,7 +59,7 @@ class SingleCart extends StatelessWidget {
     List<int> itemsTextValues=[];
 
     for(var i = 0; i <controllerDiscount.discounts.length; i ++){
-      itemsText.add(controllerDiscount.discounts[i].name);
+      itemsText.add("${controllerDiscount.discounts[i].name}  ${controllerDiscount.discounts[i].value} ${controllerDiscount.discounts[i].calculationType == "PERCENT" ? '%' : ''}");
       itemsTextValues.add(controllerDiscount.discounts[i].id);
       print(" ----------------------------- ${controllerDiscount.discounts[i].id}");
     }
@@ -71,7 +71,7 @@ class SingleCart extends StatelessWidget {
           padding: EdgeInsets.only(top: 15, bottom: 15),
           onPressed: () async {
 
-            try{
+          //  try{
 
 
 
@@ -85,7 +85,7 @@ class SingleCart extends StatelessWidget {
 
                     if(controllerDiscount.discounts[i].calculationType=="AMOUNT"){
                      // item.product.salesPrice=item.product.salesPrice-int.parse(controllerDiscount.discounts[i].value);
-                      discountLocal.add(DiscountCart(controllerDiscount.discounts[i].id, "${int.parse(controllerDiscount.discounts[i].value)}"));
+                      discountLocal.add(DiscountCart(controllerDiscount.discounts[i].id, "${double.parse(controllerDiscount.discounts[i].value).toInt()}"));
 
                     }else{
                       var valueDiscount=(item.product.salesPrice*double.parse(controllerDiscount.discounts[i].value))/100;
@@ -100,9 +100,9 @@ class SingleCart extends StatelessWidget {
               print("selected    ${discountLocal}  item${item.product.salesPrice}");
 
             }
-            }catch(e){
-
-            }
+            //}catch(e){
+             // print("aquiii la e ${e}");
+           // }
             Navigator.pop(context);
             FocusScope.of(context).unfocus();
 
@@ -186,8 +186,7 @@ class SingleCart extends StatelessWidget {
 
 
             Container(
-              width: 200,
-              child: SingleChildScrollView(
+               child: SingleChildScrollView(
                 child: SimpleGroupedSwitch<int>(
                   controller: controllerDiscountHome.controller,
                    itemsTitle: itemsText,
