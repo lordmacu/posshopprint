@@ -133,6 +133,13 @@ class Discounts extends StatelessWidget {
                           if (value == null || value.isEmpty) {
                             return 'Ingresa el valor';
                           }
+                          if(controllerDiscounts.typeDiscount.value){
+                            if (int.parse(value) >100) {
+                              return 'Ingresar un valor menor a 100%';
+                            }
+                          }
+
+
                           return null;
                         },
                         decoration: new InputDecoration(
