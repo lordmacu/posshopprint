@@ -133,6 +133,13 @@ class Discounts extends StatelessWidget {
                           if (value == null || value.isEmpty) {
                             return 'Ingresa el valor';
                           }
+                          if(controllerDiscounts.typeDiscount.value){
+                            if (int.parse(value) >100) {
+                              return 'Ingresar un valor menor a 100%';
+                            }
+                          }
+
+
                           return null;
                         },
                         decoration: new InputDecoration(
@@ -275,7 +282,7 @@ class Discounts extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Expanded(child: Text("${discount.name}")),
+                            Expanded(child: Text("${discount.name} ${double.parse(discount.value).toInt()} ${discount.calculationType == "PERCENT" ? '%' : ''}")),
                             Container(
                               child: Row(
                                 children: [
