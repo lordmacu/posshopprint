@@ -85,8 +85,7 @@ class SingleCart extends StatelessWidget {
 
                     if(controllerDiscount.discounts[i].calculationType=="AMOUNT"){
                      // item.product.salesPrice=item.product.salesPrice-int.parse(controllerDiscount.discounts[i].value);
-                      discountLocal.add(DiscountCart(controllerDiscount.discounts[i].id, "${controllerDiscount.discounts[i].value}"));
-
+                      discountLocal.add(DiscountCart(controllerDiscount.discounts[i].id, "${int.parse(controllerDiscount.discounts[i].value)}"));
 
                     }else{
                       var valueDiscount=(item.product.salesPrice*double.parse(controllerDiscount.discounts[i].value))/100;
