@@ -152,6 +152,7 @@ class CashPanel extends StatelessWidget{
             ),
           ),
           Container(
+
             margin: EdgeInsets.only(top: 40),
             child: RaisedButton(
               shape: new RoundedRectangleBorder(

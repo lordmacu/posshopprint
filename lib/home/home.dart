@@ -37,6 +37,7 @@ class Home extends StatelessWidget   {
   DiscountContoller controllerDiscount= Get.put(DiscountContoller());
 
   var loadingHud;
+
   WidgetsHelper helpers = WidgetsHelper();
 
   Widget getScreen(){

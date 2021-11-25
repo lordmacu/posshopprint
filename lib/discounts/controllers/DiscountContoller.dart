@@ -121,6 +121,7 @@ class DiscountContoller extends GetxController {
   }
 
   replaceExeptionText(String text){
+
     return  jsonDecode(text.replaceAll("Exception: ", ""));
   }
 
