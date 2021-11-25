@@ -59,7 +59,7 @@ class SingleCart extends StatelessWidget {
     List<int> itemsTextValues=[];
 
     for(var i = 0; i <controllerDiscount.discounts.length; i ++){
-      itemsText.add(controllerDiscount.discounts[i].name);
+      itemsText.add("${controllerDiscount.discounts[i].name}  ${controllerDiscount.discounts[i].value} ${controllerDiscount.discounts[i].calculationType == "PERCENT" ? '%' : ''}");
       itemsTextValues.add(controllerDiscount.discounts[i].id);
       print(" ----------------------------- ${controllerDiscount.discounts[i].id}");
     }
@@ -186,8 +186,7 @@ class SingleCart extends StatelessWidget {
 
 
             Container(
-              width: 200,
-              child: SingleChildScrollView(
+               child: SingleChildScrollView(
                 child: SimpleGroupedSwitch<int>(
                   controller: controllerDiscountHome.controller,
                    itemsTitle: itemsText,
