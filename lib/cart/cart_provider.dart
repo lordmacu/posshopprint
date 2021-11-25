@@ -18,18 +18,29 @@ class CartProvider {
 
 
 
-    print("aaantesdelositemsmsmsmsms  ${controllerCart.items}");
 
     var itemsSave=[];
     var totalCart=0;
     for(var i =0; i<items.length; i++){
 
       var localTotal=items[i].product.salesPrice*items[i].numberItem;
-      itemsSave.add({
+
+      var discounts=[];
+      for(var d =0; d<items[i].discount.length; d++) {
+        discounts.add({
+          "discount_id":"${items[i].discount[d].discount_Id}",
+          "total_discount":"${items[i].discount[d].total_discount}"
+        });
+      }
+
+        itemsSave.add({
         "id":"${items[i].product.id}",
         "quantity":"${items[i].numberItem}",
-        "amount":"${localTotal}",
+        "amount":"${localTotal}", "discounts":discounts
+
       });
+
+
       totalCart+=localTotal;
     }
 

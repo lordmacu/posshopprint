@@ -209,7 +209,12 @@ class Discounts extends StatelessWidget {
                              "${result["data"]}");
                        }
 
+                        valueController.text="";
+                        nameController.text="";
+
                       }
+
+
 
                     },
 

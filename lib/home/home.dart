@@ -5,6 +5,7 @@ import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:get/get.dart';
 import 'package:poshop/cart/controllers/CartController.dart';
 import 'package:poshop/checkout/controllers/CheckoutController.dart';
+import 'package:poshop/discounts/controllers/DiscountContoller.dart';
 import 'package:poshop/home/controllers/LoadingController.dart';
 import 'package:poshop/products/controllers/ProductContoller.dart';
 import 'package:poshop/categories/controllers/CategoryController.dart';
@@ -33,6 +34,7 @@ class Home extends StatelessWidget   {
   LoadingController controllerLoading = Get.put(LoadingController());
 
    CheckoutContoller controllerCheckout = Get.put(CheckoutContoller());
+  DiscountContoller controllerDiscount= Get.put(DiscountContoller());
 
   var loadingHud;
   WidgetsHelper helpers = WidgetsHelper();

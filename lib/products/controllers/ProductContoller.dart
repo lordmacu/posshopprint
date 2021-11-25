@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:poshop/categories/models/Category.dart';
+import 'package:poshop/discounts/controllers/DiscountContoller.dart';
 import 'package:poshop/home/controllers/HomeController.dart';
 import 'package:poshop/home/controllers/LoadingController.dart';
 import 'package:poshop/products/model/Product.dart';
@@ -21,6 +22,7 @@ class ProductsContoller extends GetxController {
 
   Rx<PanelController> panelController = PanelController().obs;
   LoadingController controllerLoading = Get.put(LoadingController());
+  DiscountContoller controllerDiscount= Get.put(DiscountContoller());
 
   var isOpenCreator= false.obs;
   var indificualTicket = false.obs;
@@ -426,6 +428,7 @@ class ProductsContoller extends GetxController {
         products.assignAll(productsLocal);
         controllerLoading.isLoading.value=false;
 
+        controllerDiscount.getDiscounts();
         return data;
       }
    } catch (e) {

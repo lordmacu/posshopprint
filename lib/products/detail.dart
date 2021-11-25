@@ -405,9 +405,9 @@ class DetailProduct extends StatelessWidget {
                                               "Escribe el precio del producto"),
                                           inputFormatters: [
                                             TextInputMask(
-                                                mask: '\$! !9+',
+                                                mask: '\$! !9+.999',
                                                 placeholder: '0',
-                                                maxPlaceHolders: 3,
+                                                maxPlaceHolders: 0,
                                                 reverse: true)
                                           ],
                                         ),
@@ -439,9 +439,9 @@ class DetailProduct extends StatelessWidget {
                                               "Escribe el coste del producto"),
                                           inputFormatters: [
                                             TextInputMask(
-                                                mask: '\$! !9+',
+                                                mask: '\$! !9+.999',
                                                 placeholder: '0',
-                                                maxPlaceHolders: 3,
+                                                maxPlaceHolders: 0,
                                                 reverse: true)
                                           ],
                                         ),
