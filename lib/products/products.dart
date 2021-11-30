@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
-import 'package:intl/intl.dart';
+ import 'package:intl/intl.dart';
 import 'package:poshop/categories/controllers/CategoryController.dart';
 import 'package:poshop/helpers/widgetsHelper.dart';
-import 'package:poshop/printer/priter.dart';
-import 'package:poshop/products/barcode.dart';
+ import 'package:poshop/products/barcode.dart';
 import 'package:poshop/products/controllers/ProductContoller.dart';
 import 'package:poshop/products/detail.dart';
 import 'package:poshop/products/model/Product.dart';
@@ -45,10 +43,10 @@ class ProductsList extends StatelessWidget {
                 backgroundColor: Color(0xff298dcf),
                 onPressed: () async {
 
-                  Navigator.push(
+              /*    Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => Printer()),
-                  );
+                  );*/
 
                 },
               ),
