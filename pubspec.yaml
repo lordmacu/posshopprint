@@ -48,12 +48,12 @@ dependencies:
   pinput:
   flutter_switch:
   ai_barcode: 2.1.0
-  flutter_barcode_scanner: 1.0.2
   scrollable_positioned_list: 0.1.10
   fluttertoast: 7.1.8
   esc_pos_bluetooth: 0.2.8
   flutter_blue: 0.7.1+1
   checkbox_grouped: 0.8.1
+  qrscan: 0.3.0
 
 
 dev_dependencies:

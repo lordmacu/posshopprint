@@ -6,7 +6,6 @@ import 'package:poshop/products/detail.dart';
 import 'package:poshop/products/model/Product.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:get/get.dart';
-import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 
 class Barcode extends StatelessWidget {
 

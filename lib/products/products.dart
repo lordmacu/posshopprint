@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
-import 'package:intl/intl.dart';
+ import 'package:intl/intl.dart';
 import 'package:poshop/categories/controllers/CategoryController.dart';
 import 'package:poshop/helpers/widgetsHelper.dart';
 import 'package:poshop/printer/priter.dart';

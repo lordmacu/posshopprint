@@ -1,8 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:bubble_bottom_bar/bubble_bottom_bar.dart';
-import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
-import 'package:get/get.dart';
+ import 'package:get/get.dart';
 import 'package:poshop/cart/controllers/CartController.dart';
 import 'package:poshop/checkout/controllers/CheckoutController.dart';
 import 'package:poshop/discounts/controllers/DiscountContoller.dart';
@@ -21,6 +20,7 @@ import 'package:poshop/home/products.dart';
 import 'package:poshop/products/model/Product.dart';
 import 'package:poshop/products/products.dart';
 import 'package:poshop/tickets/tickets.dart';
+import 'package:qrscan/qrscan.dart' as scanner;
 
 class Home extends StatelessWidget   {
 
@@ -111,16 +111,13 @@ class Home extends StatelessWidget   {
             ),
             InkWell(
               onTap: () async {
-                String barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
-                    "#ff6666",
-                    "Cancel",
-                    false,
-                    ScanMode.BARCODE);
+                String cameraScanResult = await scanner.scan();
+
 
 
                 loadingHud.show();
 
-                var indexProduct= await controllerHome.findProductIndex(barcodeScanRes);
+                var indexProduct= await controllerHome.findProductIndex(cameraScanResult);
                 loadingHud.dismiss();
 
                 print("este es el idex mano  ${indexProduct}");
