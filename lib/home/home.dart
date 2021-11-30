@@ -20,7 +20,7 @@ import 'package:poshop/home/products.dart';
 import 'package:poshop/products/model/Product.dart';
 import 'package:poshop/products/products.dart';
 import 'package:poshop/tickets/tickets.dart';
-import 'package:qrscan/qrscan.dart' as scanner;
+import 'package:barras/barras.dart';
 
 class Home extends StatelessWidget   {
 
@@ -111,13 +111,13 @@ class Home extends StatelessWidget   {
             ),
             InkWell(
               onTap: () async {
-                String cameraScanResult = await scanner.scan();
+                final data = await Barras.scan(context);
 
 
 
                 loadingHud.show();
 
-                var indexProduct= await controllerHome.findProductIndex(cameraScanResult);
+                var indexProduct= await controllerHome.findProductIndex(data);
                 loadingHud.dismiss();
 
                 print("este es el idex mano  ${indexProduct}");
