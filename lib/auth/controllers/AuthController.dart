@@ -65,15 +65,7 @@ class AuthContoller extends GetxController{
       prefs.setString("user", jsonEncode(data));
       //prefs.setInt("outletId",  data["user"]["outlet"]["id"]);
       //prefs.setInt("cashRegister",  data["user"]["cashRegister"]["id"]);
-
-
-          prefs.setInt("idOrg", data["idOrg"]);
-
-
-
-
-
-
+        prefs.setInt("idOrg", data["idOrg"]);
       prefs.setString("token", data["token"]);
       token.value=data["token"];
       outletsAvailable();
@@ -89,9 +81,9 @@ class AuthContoller extends GetxController{
     try{
       var data = await _endpointProvider.login(email,password);
        if(data["success"]){
-        loginUserSystem(true,data["data"]);
+     //   loginUserSystem(true,data["data"]);
 
-        return "ok";
+        return data["data"];
       }
     }catch(e){
       loginUserSystem(false,null);

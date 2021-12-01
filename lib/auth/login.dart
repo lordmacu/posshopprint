@@ -1,10 +1,14 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:loading_hud/loading_hud.dart';
 import 'package:loading_hud/loading_indicator.dart';
+import 'package:pop_bottom_menu/pop_bottom_menu.dart';
 import 'package:poshop/auth/controllers/AuthController.dart';
 import 'package:get/get.dart';
 import 'package:poshop/helpers/widgetsHelper.dart';
 import 'package:poshop/home/home.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:validators/validators.dart';
 
 class Login extends StatelessWidget {
@@ -20,15 +24,72 @@ class Login extends StatelessWidget {
     var isLoggedApi = await controllerAuth.login();
     loadingHud.dismiss();
 
-    if (isLoggedApi!="ok") {
+    if (isLoggedApi["token"]==null) {
       helpers.defaultAlert(context, "error", "${isLoggedApi["message"]}",
           "${isLoggedApi["data"]}");
     } else {
-      Navigator.push(
+
+      print("este es el array del login  ${isLoggedApi["user"]["outlets"]}");
+      _showMenu(context,isLoggedApi["user"]["outlets"]);
+      /*Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => Home()),
-      );
+      );*/
     }
+  }
+
+  void _showMenu(context,outlets) {
+
+
+    List<ItemPopBottomMenu> items=[];
+
+    for(var i =0; i < outlets.length; i ++){
+
+      for(var c =0; c < outlets[i]["cash_registers"].length; c++){
+        items.add(ItemPopBottomMenu(
+          onPressed: () async{
+            SharedPreferences prefs;
+
+            prefs = await SharedPreferences.getInstance();
+
+            prefs.setString("outlet", jsonEncode(outlets[i]));
+            prefs.setInt("outletId", outlets[i]["id"]);
+
+
+            prefs.setString("cashier", jsonEncode(outlets[i]["cash_registers"][c]));
+            prefs.setInt("cashierId", outlets[i]["cash_registers"][c]["id"]);
+            prefs.setBool("isLogged", true);
+
+            await controllerAuth.cashRegister();
+
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => Home()),
+            );
+
+          },
+          label: "${outlets[i]["name"]} ${outlets[i]["cash_registers"][c]["name"]} ",
+          icon: Icon(
+            Icons.circle,
+            color: Colors.grey,
+          ),
+        ));
+      }
+
+    }
+
+    showModalBottomSheet(
+      backgroundColor: Colors.transparent,
+      context: context,
+      builder: (context) {
+        return PopBottomMenu(
+          title: TitlePopBottomMenu(
+            label: "Seleccionar outlets",
+          ),
+          items: items,
+        );
+      },
+    );
   }
 
   @override

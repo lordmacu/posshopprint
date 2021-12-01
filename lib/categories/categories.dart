@@ -3,15 +3,23 @@ import 'package:flutter/material.dart';
 import 'package:masonry_grid/masonry_grid.dart';
 import 'package:poshop/categories/colors.dart';
 import 'package:poshop/categories/controllers/CategoryController.dart';
+import 'package:poshop/categories/models/Category.dart';
+import 'package:poshop/helpers/widgetsHelper.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:get/get.dart';
 
 class Categories extends StatelessWidget {
-  CategoryContoller controllerHome = Get.put(CategoryContoller());
+  CategoryContoller controllerCategory = Get.put(CategoryContoller());
+
+  WidgetsHelper helpers = WidgetsHelper();
+  var loadingHud;
+  TextEditingController contorllerName= TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
-    PanelController _panelController= PanelController();
+    loadingHud = helpers.initLoading(context);
+
 
     var boxWidth=(width/4)-30;
     return Scaffold(
@@ -28,8 +36,8 @@ class Categories extends StatelessWidget {
       body: Obx(()=>SlidingUpPanel(
         backdropTapClosesPanel: true,
         backdropEnabled: true,
-        controller: _panelController,
-        maxHeight:controllerHome.isPanelOpen.value ? 500 : 0 ,
+        controller: controllerCategory.panelController.value,
+        maxHeight:controllerCategory.isPanelOpen.value ? 500 : 0 ,
         minHeight: 0,
         panel: Container(
           padding: EdgeInsets.all(10),
@@ -47,7 +55,12 @@ class Categories extends StatelessWidget {
                 margin: EdgeInsets.only( left: 10 ,right: 10),
 
                 child:
+
                 TextFormField(
+                  controller:contorllerName ,
+                  onChanged: (value){
+                    controllerCategory.categoryName.value=value;
+                  },
                   decoration: InputDecoration(
                        hintText: 'Escribe el nombre de la categoría'
                   ),
@@ -69,28 +82,6 @@ class Categories extends StatelessWidget {
                 ),
               ),
               ColorsBoxes(),
-
-              Container(
-                margin: EdgeInsets.only(top: 20),
-                width: double.infinity,
-
-                child: OutlineButton(
-                  borderSide: BorderSide(
-                    color: Color(0xff298dcf) , //Color of the border
-                    style: BorderStyle.solid, //Style of the border
-                    width: 1, //width of the border
-                  ),
-
-                  shape: new RoundedRectangleBorder(
-                    borderRadius: new BorderRadius.circular(30.0),
-
-                  ),
-                   onPressed: (){
-
-                  },
-                  child: Text("Asignar artículos",style: TextStyle(color: Color(0xff298dcf)),),
-                ),
-              ),
               Container(
                 width: double.infinity,
                 child: RaisedButton(
@@ -98,11 +89,35 @@ class Categories extends StatelessWidget {
                     borderRadius: new BorderRadius.circular(30.0),
                   ),
                   color:Color(0xff298dcf) ,
+                  onPressed: () async{
 
-                  onPressed: (){
+                    var categoryName=controllerCategory.categoryName.value;
+                    var categoryColor=controllerCategory.categoryColor.value;
+                    if(categoryName.length==0){
+                      helpers.defaultAlert(context, "error", "Nombre de la categoría",
+                          "Ingresa el nombre de la categoría");
+                      return false;
+                    }
+                    print("esta es la categorya");
+
+                    if(categoryColor.length==0){
+                      helpers.defaultAlert(context, "error", "Color de la categoría",
+                          "Ingresa el color de la categoría");
+                      return false;
+
+                    }
+
+                    if(controllerCategory.categoryId.value==0){
+                     await controllerCategory.createCategories();
+                    }else{
+                     await controllerCategory.updateCategories();
+                    }
+                    controllerCategory.panelController.value.close();
+
+
 
                   },
-                  child: Text("Crear artículos",style: TextStyle(color: Colors.white)),
+                  child: Text(controllerCategory.categoryId.value==0 ? "Crear categoría" :"Actualizar categoría"  ,style: TextStyle(color: Colors.white)),
                 ),
               )
             ],
@@ -121,7 +136,7 @@ class Categories extends StatelessWidget {
                               MasonryGrid(
                                   column: 2,
                                   children: List.generate(
-                                    40,
+                                    controllerCategory.items.length+1,
                                         (i) {
                                       if (i == 0) {
 
@@ -129,16 +144,19 @@ class Categories extends StatelessWidget {
                                         return GestureDetector(
                                           onTap: (){
 
-                                            print("asdfasd");
-                                            controllerHome.isPanelOpen.value=true;
-                                            _panelController.open();
+                                             controllerCategory.isPanelOpen.value=true;
+                                             controllerCategory.categoryId.value=0;
+                                             contorllerName.text="";
+                                             controllerCategory.categoryColor.value="";
+                                             controllerCategory.categoryName.value="";
+
+                                             controllerCategory.panelController.value.open();
                                           },
                                           child: Container(
                                               padding: EdgeInsets.only(
                                                   left: 10, right: 10, top: 10, bottom: 10),
                                               width: 100,
-                                              height: 160,
-                                              child: Container(
+                                               child: Container(
                                                 padding: EdgeInsets.all(10),
                                                 decoration: BoxDecoration(
                                                   color: Colors.white,
@@ -157,72 +175,80 @@ class Categories extends StatelessWidget {
                                                     ),
                                                   ],
                                                 ),
-                                                height: 80,
+                                                height: 60,
                                                 child: Center(
                                                   child: Container(
-                                                    height: 80,
+                                                    height: 60,
                                                     child: Icon(Icons.add,color: Color(0xff298dcf),size: 45,),
                                                   ),
                                                 ),
                                               )),
                                         );
                                       } else {
-                                        return Container(
-                                            padding: EdgeInsets.only(
-                                                left: 10, right: 10, top: 10, bottom: 10),
-                                            width: 100,
-                                            height: 160,
-                                            child: Container(
-                                              padding: EdgeInsets.all(10),
-                                              decoration: BoxDecoration(
-                                                color: Colors.white,
-                                                borderRadius: BorderRadius.only(
-                                                    topLeft: Radius.circular(10),
-                                                    topRight: Radius.circular(10),
-                                                    bottomLeft: Radius.circular(10),
-                                                    bottomRight: Radius.circular(10)),
-                                                boxShadow: [
-                                                  BoxShadow(
-                                                    color: Colors.grey.withOpacity(0.2),
-                                                    spreadRadius: 5,
-                                                    blurRadius: 7,
-                                                    offset: Offset(0,
-                                                        3), // changes position of shadow
-                                                  ),
-                                                ],
-                                              ),
-                                              height: 80,
-                                              child: Column(
-                                                children: [
-                                                  Row(
-                                                    mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                    children: [
-                                                      Container(
-                                                        height: 80,
-                                                        child: Image.network(
-                                                          "https://m.media-amazon.com/images/I/61ccMD0XMBL._AC_UY625_.jpg",
-                                                          fit: BoxFit.cover,
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  Container(
-                                                    margin: EdgeInsets.only(top: 10),
-                                                    child: Row(
+                                        return GestureDetector(
+                                          onTap: (){
+                                            Category cat=controllerCategory.items[i-1];
+                                            controllerCategory.categoryName.value=cat.name;
+                                            controllerCategory.categoryColor.value=cat.color;
+                                            controllerCategory.categoryId.value=cat.id;
+                                            contorllerName.text=cat.name;
+
+                                            controllerCategory.isPanelOpen.value=true;
+                                            controllerCategory.panelController.value.open();
+
+                                          },
+                                          child: Container(
+                                              padding: EdgeInsets.only(
+                                                  left: 10, right: 10, top: 10, bottom: 10),
+                                              width: 100,
+                                              child: Container(
+                                                padding: EdgeInsets.all(10),
+                                                decoration: BoxDecoration(
+                                                  color: Color(int.parse("0xff${controllerCategory.items[i-1].color.replaceAll("#", "")}")),
+                                                  borderRadius: BorderRadius.only(
+                                                      topLeft: Radius.circular(10),
+                                                      topRight: Radius.circular(10),
+                                                      bottomLeft: Radius.circular(10),
+                                                      bottomRight: Radius.circular(10)),
+                                                  boxShadow: [
+                                                    BoxShadow(
+                                                      color: Colors.grey.withOpacity(0.2),
+                                                      spreadRadius: 5,
+                                                      blurRadius: 7,
+                                                      offset: Offset(0,
+                                                          3), // changes position of shadow
+                                                    ),
+                                                  ],
+                                                ),
+                                                child: Column(
+                                                  children: [
+                                                    Row(
                                                       mainAxisAlignment:
                                                       MainAxisAlignment.center,
                                                       children: [
-                                                        Text(
-                                                          "Categoría",
-                                                          style: TextStyle(fontSize: 17),
+                                                        Container(
+                                                          color: Color(int.parse("0xff${controllerCategory.items[i-1].color.replaceAll("#", "")}")),
+                                                          child:null,
                                                         ),
                                                       ],
                                                     ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ));
+                                                    Container(
+                                                      margin: EdgeInsets.only(top: 10),
+                                                      child: Row(
+                                                        mainAxisAlignment:
+                                                        MainAxisAlignment.center,
+                                                        children: [
+                                                          Text(
+                                                            "${controllerCategory.items[i-1].name}",
+                                                            style: TextStyle(fontSize: 17),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              )),
+                                        );
                                       }
                                     },
                                   ))
