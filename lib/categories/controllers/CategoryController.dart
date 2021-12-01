@@ -51,7 +51,29 @@ class CategoryContoller extends GetxController{
 
 
       if(data["success"]){
+        return "ok";
 
+      }
+    }catch(e){
+      return replaceExeptionText(e.message);
+
+    }
+  }
+  deleteCategories() async{
+
+    var  prefs = await SharedPreferences.getInstance();
+
+    print("getcatgegoriessss  ${prefs.getString("token")}");
+
+    try{
+      var data = await _endpointProvider.deleteCategories({
+        "id":"${categoryId}"
+      });
+      getCategories();
+
+
+      if(data["success"]){
+        return "ok";
       }
     }catch(e){
       return replaceExeptionText(e.message);
@@ -75,6 +97,7 @@ class CategoryContoller extends GetxController{
 
 
       if(data["success"]){
+        return "ok";
 
       }
     }catch(e){

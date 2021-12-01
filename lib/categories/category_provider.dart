@@ -30,6 +30,18 @@ class CategoryProvider {
     }
   }
 
+  Future deleteCategories(data) async {
+    try {
+      final response = await _client.delete(
+          '/categories/${data["id"]}');
+      return json.decode(response.toString());
+    } on DioError catch (ex) {
+      String errorMessage = ex.message.toString();
+      throw new Exception(errorMessage);
+    }
+  }
+
+
   Future updateCategories(data) async {
     try {
       final response = await _client.put(
