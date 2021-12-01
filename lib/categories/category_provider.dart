@@ -17,4 +17,31 @@ class CategoryProvider {
     }
   }
 
+
+
+  Future createCategories(data) async {
+    try {
+      final response = await _client.post(
+          '/categories',data: data);
+      return json.decode(response.toString());
+    } on DioError catch (ex) {
+      String errorMessage = ex.message.toString();
+      throw new Exception(errorMessage);
+    }
+  }
+
+  Future updateCategories(data) async {
+    try {
+      final response = await _client.put(
+          '/categories/${data["id"]}',data: {
+            "name":data["name"],
+            "color":data["color"]
+      });
+      return json.decode(response.toString());
+    } on DioError catch (ex) {
+      String errorMessage = ex.message.toString();
+      throw new Exception(errorMessage);
+    }
+  }
+
 }
