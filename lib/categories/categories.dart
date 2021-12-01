@@ -5,6 +5,7 @@ import 'package:poshop/categories/colors.dart';
 import 'package:poshop/categories/controllers/CategoryController.dart';
 import 'package:poshop/categories/models/Category.dart';
 import 'package:poshop/helpers/widgetsHelper.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:get/get.dart';
 
@@ -108,9 +109,22 @@ class Categories extends StatelessWidget {
                     }
 
                     if(controllerCategory.categoryId.value==0){
-                     await controllerCategory.createCategories();
+                    var result= await controllerCategory.createCategories();
+
+                    if(result!="ok"){
+                      helpers.defaultAlert(context, "error", "${result["message"]}",
+                          "${result["data"]}");
+                    }
+
+
+
                     }else{
-                     await controllerCategory.updateCategories();
+                      var result= await controllerCategory.updateCategories();
+                      if(result!="ok"){
+                        helpers.defaultAlert(context, "error", "${result["message"]}",
+                            "${result["data"]}");
+                      }
+
                     }
                     controllerCategory.panelController.value.close();
 
@@ -119,7 +133,59 @@ class Categories extends StatelessWidget {
                   },
                   child: Text(controllerCategory.categoryId.value==0 ? "Crear categoría" :"Actualizar categoría"  ,style: TextStyle(color: Colors.white)),
                 ),
-              )
+              ),
+              controllerCategory.categoryId.value>0 ? Container(
+                width: double.infinity,
+                child: RaisedButton(
+                  shape: new RoundedRectangleBorder(
+                    borderRadius: new BorderRadius.circular(30.0),
+                  ),
+                  color:Colors.redAccent ,
+                  onPressed: () async{
+
+
+                   Alert(
+                     context: context,
+                     type: AlertType.warning,
+                     title:"Borrar Categoría",
+                     desc: "¿Quieres borrar esta categoría?",
+                     buttons: [
+                       DialogButton(
+                         radius: BorderRadius.circular(20),
+                         child: Text(
+                           "Si",
+                           style: TextStyle(color: Colors.white, fontSize: 20),
+                         ),
+                         onPressed: () async {
+                    await controllerCategory.deleteCategories();
+
+                    controllerCategory.panelController.value.close();
+                    Navigator.pop(context);
+
+                    },
+                         color:  Colors.redAccent,
+
+                       ),
+
+                       DialogButton(
+                         radius: BorderRadius.circular(20),
+                         child: Text(
+                           "No",
+                           style: TextStyle(color: Colors.white, fontSize: 20),
+                         ),
+                         onPressed: () => Navigator.pop(context),
+                         color:  Color(0xff298dcf),
+
+                       ),
+
+                     ],
+                   ).show();
+
+
+                  },
+                  child: Text("Borrar Categoría"  ,style: TextStyle(color: Colors.white)),
+                ),
+              ): Container()
             ],
           ),
         ),
