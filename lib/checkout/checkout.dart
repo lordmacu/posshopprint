@@ -45,14 +45,14 @@ class Checkout extends StatelessWidget {
 
   canPressPayment(){
 
-    print("aquii la cosa  dfasdfa sdfas d  ${controllerCheckout.valueCheckout.value}");
+
+
 
     if(controllerCheckout.valueCheckout.value!=""){
       return controllerCheckout.totalCheckout.value>= double.parse (controllerCheckout.valueCheckout.value);
-
-    }else{
-      return false;
     }
+    return false;
+
   }
 
   List<Widget> getPayments(_panelController) {
@@ -66,6 +66,11 @@ class Checkout extends StatelessWidget {
           ),
           color: Color(0xff298dcf),
           onPressed: canPressPayment() ?   () {
+            if (textContoller.text.length > 0) {
+
+
+
+
             controllerCheckout.typePayment.value = 2;
             controllerCheckout.paymentCheckoutsItems.clear();
             controllerCheckout.paymentCheckoutsItems.add(Payment(
@@ -77,27 +82,31 @@ class Checkout extends StatelessWidget {
                 controllerCheckout.totalCheckout.value));
 
 
+            List<TaxCart> taxLocal = [];
 
 
-            List<TaxCart> taxLocal=[];
+            var tempValue = double.parse(
+                controllerCheckout.valueCheckout.value);
+            for (var i = 0; i < controllerCategory.taxes.length; i ++) {
+              for (var s = 0; s <
+                  controllerCart.controllerCheckboxes.value.selectedItem
+                      .length; s ++) {
+                if (controllerCategory.taxes[i].id ==
+                    controllerCart.controllerCheckboxes.value.selectedItem[s]) {
+                  var taxValue = (double.parse(
+                      "${controllerCategory.taxes[i].rate}") * tempValue) / 100;
 
-
-            var tempValue=double.parse(controllerCheckout.valueCheckout.value);
-            for(var i = 0; i <controllerCategory.taxes.length; i ++){
-              for(var s = 0; s <controllerCart.controllerCheckboxes.value.selectedItem.length; s ++){
-                if(controllerCategory.taxes[i].id==controllerCart.controllerCheckboxes.value.selectedItem[s]){
-
-                  var taxValue=(double.parse("${controllerCategory.taxes[i].rate}")*tempValue)/100;
-
-                  if(controllerCategory.taxes[i].type=="INCLUDED"){
-                    tempValue=tempValue-taxValue;
-                  }else{
-                    tempValue=tempValue+taxValue;
+                  if (controllerCategory.taxes[i].type == "INCLUDED") {
+                    tempValue = tempValue - taxValue;
+                  } else {
+                    tempValue = tempValue + taxValue;
                   }
 
 
-
-                  taxLocal.add(TaxCart(controllerCategory.taxes[i].id, "${double.parse("${controllerCategory.taxes[i].rate}")}",controllerCategory.taxes[i].name,"${taxValue}",controllerCategory.taxes[i].type));
+                  taxLocal.add(TaxCart(controllerCategory.taxes[i].id,
+                      "${double.parse("${controllerCategory.taxes[i].rate}")}",
+                      controllerCategory.taxes[i].name, "${taxValue}",
+                      controllerCategory.taxes[i].type));
                 }
               }
             }
@@ -105,10 +114,9 @@ class Checkout extends StatelessWidget {
             controllerCart.taxes.assignAll(taxLocal);
 
 
-
-
-
             _panelController.open();
+          }
+
           }: null,
           child: Text(" ${controllerCheckout.paymentItems[i].name}",
               style: TextStyle(color: Colors.white)),

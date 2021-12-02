@@ -148,85 +148,90 @@ class CashPanel extends StatelessWidget{
     return Form(
       key: _formKey,
 
-      child: Column(
+      child: SingleChildScrollView(
+        child: Container(
+          padding: EdgeInsets.only(bottom: 20),
+          child: Column(
 
-        children: [
+            children: [
 
-         Obx(()=> controllerCart.taxes.length> 0 ? Container(
-           margin: EdgeInsets.only(top: 20),
+              Obx(()=> controllerCart.taxes.length> 0 ? Container(
+                margin: EdgeInsets.only(top: 20),
 
-           child: Text("Impuestos",style: TextStyle(fontSize: 19,fontWeight: FontWeight.bold)),
-         ): Container()),
-          Obx(()=>Container(
+                child: Text("Impuestos",style: TextStyle(fontSize: 19,fontWeight: FontWeight.bold)),
+              ): Container()),
+              Obx(()=>Container(
 
-            margin: EdgeInsets.only(top: 20),
-            child: Column(
-              children: getTaxes(),
-            ),
-          )),
-          Obx(()=>Container(
-            margin: EdgeInsets.only(top:10),
-            child: Column(
-              children: getPayments(),
-            ),
-          )),
-
-
-          Container(
-            margin: EdgeInsets.only(top: 20),
-            child: Row(
-              children: [
-                Expanded(child: TextFormField(
-
-                  onChanged: (value){
-                    controllerCheckout.email.value=value;
-
-                  },
-
-                  keyboardType: TextInputType.emailAddress,
+                margin: EdgeInsets.only(top: 20),
+                child: Column(
+                  children: getTaxes(),
+                ),
+              )),
+              Obx(()=>Container(
+                margin: EdgeInsets.only(top:10),
+                child: Column(
+                  children: getPayments(),
+                ),
+              )),
 
 
+              Container(
+                margin: EdgeInsets.only(top: 20),
+                child: Row(
+                  children: [
+                    Expanded(child: TextFormField(
 
-                  decoration: InputDecoration(
-                      prefixIcon: Icon(Icons.email),
-                      labelText: "Email",
-                      hintText: "Escribe el email"),
-                  // The validator receives the text that the user has entered.
-                  validator: (value) {
-                    if (value == null || !isEmail(value)) {
-                      return 'Ingrese un email válido';
-                    }
-                    return null;
-                  },
-                ))
-              ],
-            ),
-          ),
-          Container(
+                      onChanged: (value){
+                        controllerCheckout.email.value=value;
 
-            margin: EdgeInsets.only(top: 40),
-            child: RaisedButton(
-              shape: new RoundedRectangleBorder(
-                borderRadius: new BorderRadius.circular(30.0),
+                      },
+
+                      keyboardType: TextInputType.emailAddress,
+
+
+
+                      decoration: InputDecoration(
+                          prefixIcon: Icon(Icons.email),
+                          labelText: "Email",
+                          hintText: "Escribe el email"),
+                      // The validator receives the text that the user has entered.
+                      validator: (value) {
+                        if (value == null || !isEmail(value)) {
+                          return 'Ingrese un email válido';
+                        }
+                        return null;
+                      },
+                    ))
+                  ],
+                ),
               ),
-              color:Color(0xff298dcf) ,
+              Container(
 
-              onPressed: () async{
+                margin: EdgeInsets.only(top: 40),
+                child: RaisedButton(
+                  shape: new RoundedRectangleBorder(
+                    borderRadius: new BorderRadius.circular(30.0),
+                  ),
+                  color:Color(0xff298dcf) ,
 
-                if (_formKey.currentState.validate()) {
-                  await controllerCart.setTickets();
-                  controllerCheckout.paymentCheckoutsItems.clear();
-                  controllerCheckout.valueCheckout.value="";
-                  controllerCart.items.clear();
-                  controllerHome.isShowPayment.value=false;
-                  Get.back(result: 'success');
-                }
-              },
-              child:Text("Nueva Venta",style: TextStyle(color: Colors.white)),
-            ),
-          )
+                  onPressed: () async{
 
-        ],
+                    if (_formKey.currentState.validate()) {
+                      await controllerCart.setTickets();
+                      controllerCheckout.paymentCheckoutsItems.clear();
+                      controllerCheckout.valueCheckout.value="";
+                      controllerCart.items.clear();
+                      controllerHome.isShowPayment.value=false;
+                      Get.back(result: 'success');
+                    }
+                  },
+                  child:Text("Nueva Venta",style: TextStyle(color: Colors.white)),
+                ),
+              )
+
+            ],
+          ),
+        ),
       ),
     );
   }

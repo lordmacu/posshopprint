@@ -243,8 +243,10 @@ class Tickets extends StatelessWidget {
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(25.0)))),
               ),
+
             ),
             Expanded(child: Obx(()=>ListView.builder(
+              padding: EdgeInsets.only(bottom: 200),
               itemCount: controllerTicket.tickets.length,
               itemBuilder: (context, index) {
                 Ticket ticket= controllerTicket.tickets[index];

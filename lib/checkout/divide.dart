@@ -298,6 +298,7 @@ class Divide extends StatelessWidget {
             ),
             Expanded(
                 child: Obx(()=>ListView.builder(
+                  padding: EdgeInsets.only(bottom: 150),
                     itemCount: controllerCheckout.paymentCheckoutsItems.length, itemBuilder: (context, index) {
 
                   List<String> itemsLocal=[];
