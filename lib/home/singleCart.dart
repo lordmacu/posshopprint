@@ -49,11 +49,6 @@ class SingleCart extends StatelessWidget {
 
     controllerDiscountHome.getItemsDiscounts();
 
-
-
-
-
-
     priceController.text="\$ ${formatedNumber(item.product.salesPrice)}";
 
     List<String> itemsText=[];
@@ -62,7 +57,6 @@ class SingleCart extends StatelessWidget {
     for(var i = 0; i <controllerDiscount.discounts.length; i ++){
       itemsText.add("${controllerDiscount.discounts[i].name}  ${controllerDiscount.discounts[i].value} ${controllerDiscount.discounts[i].calculationType == "PERCENT" ? '%' : ''}");
       itemsTextValues.add(controllerDiscount.discounts[i].id);
-      print(" ----------------------------- ${controllerDiscount.discounts[i].id}");
     }
 
 
@@ -87,12 +81,10 @@ class SingleCart extends StatelessWidget {
 
 
                     if(controllerDiscount.discounts[i].calculationType=="AMOUNT"){
-                     // item.product.salesPrice=item.product.salesPrice-int.parse(controllerDiscount.discounts[i].value);
                       discountLocal.add(DiscountCart(controllerDiscount.discounts[i].id, "${double.parse(controllerDiscount.discounts[i].value).toInt()}"));
 
                     }else{
                       var valueDiscount=(item.product.salesPrice*double.parse(controllerDiscount.discounts[i].value))/100;
-                     // item.product.salesPrice=item.product.salesPrice-valueDiscount.toInt();
                       discountLocal.add(DiscountCart(controllerDiscount.discounts[i].id, "${valueDiscount.toInt()}"));
                     }
                   }
@@ -182,10 +174,10 @@ class SingleCart extends StatelessWidget {
               ),
             ),
 
-            Container(
+            itemsTextValues.length> 0 ?  Container(
               margin: EdgeInsets.only(top: 15),
               child: Text("Descuentos"),
-            ),
+            ): Container(),
 
 
             Container(
@@ -202,7 +194,9 @@ class SingleCart extends StatelessWidget {
 
                 ),
               ),
-            )
+            ),
+
+
           ],
         ),
       ),
