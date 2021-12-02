@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:poshop/auth/controllers/AuthController.dart';
+import 'package:poshop/categories/controllers/CategoryController.dart';
+import 'package:poshop/categories/models/Category.dart';
  import 'package:poshop/helpers/countries/csc_picker.dart';
 import 'package:poshop/home/home.dart';
 import 'package:get/get.dart';
@@ -10,6 +12,7 @@ class Register extends StatelessWidget{
   AuthContoller controllerAuth = Get.put(AuthContoller());
   var loadingHud;
   WidgetsHelper helpers = WidgetsHelper();
+  CategoryContoller controllerCategory = Get.put(CategoryContoller());
 
   registerUser(context) async {
     loadingHud.show();
@@ -21,6 +24,12 @@ class Register extends StatelessWidget{
       helpers.defaultAlert(context, "error", "${isLoggedApi["message"]}",
           "${isLoggedApi["data"]}");
     } else {
+
+
+
+
+      await controllerCategory.getCategories();
+
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => Home()),

@@ -26,12 +26,16 @@ class CartProvider {
       var localTotal=items[i].product.salesPrice*items[i].numberItem;
 
       var discounts=[];
-      for(var d =0; d<items[i].discount.length; d++) {
-        discounts.add({
-          "discount_id":"${items[i].discount[d].discount_Id}",
-          "total_discount":"${items[i].discount[d].total_discount}"
-        });
+
+      if(items[i].discount!=null){
+        for(var d =0; d<items[i].discount.length; d++) {
+          discounts.add({
+            "discount_id":"${items[i].discount[d].discount_Id}",
+            "total_discount":"${items[i].discount[d].total_discount}"
+          });
+        }
       }
+
 
         itemsSave.add({
         "id":"${items[i].product.id}",
