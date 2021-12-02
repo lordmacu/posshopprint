@@ -3,14 +3,17 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:poshop/cart/controllers/CartController.dart';
 import 'package:poshop/checkout/controllers/CheckoutController.dart';
+import 'package:poshop/helpers/widgetsHelper.dart';
 import 'package:poshop/home/controllers/HomeController.dart';
 
 class CashPanel extends StatelessWidget{
   CheckoutContoller controllerCheckout = Get.find();
   CartContoller controllerCart=  Get.find();
   HomeContoller controllerHome = Get.find();
+  WidgetsHelper helpers = WidgetsHelper();
 
   final _formKey = GlobalKey<FormState>();
+  var loadingHud;
 
   formatedNumber(number) {
 
@@ -143,6 +146,7 @@ class CashPanel extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
 
+    loadingHud = helpers.initLoading(context);
 
 
     return Form(
@@ -217,11 +221,15 @@ class CashPanel extends StatelessWidget{
                   onPressed: () async{
 
                     if (_formKey.currentState.validate()) {
+                      loadingHud.show();
+
                       await controllerCart.setTickets();
                       controllerCheckout.paymentCheckoutsItems.clear();
                       controllerCheckout.valueCheckout.value="";
                       controllerCart.items.clear();
                       controllerHome.isShowPayment.value=false;
+                      loadingHud.dismiss();
+
                       Get.back(result: 'success');
                     }
                   },
