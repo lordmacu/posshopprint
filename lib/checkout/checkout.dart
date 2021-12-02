@@ -3,15 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:poshop/cart/controllers/CartController.dart';
+import 'package:poshop/categories/controllers/CategoryController.dart';
 import 'package:poshop/checkout/card.dart';
 import 'package:poshop/checkout/cash.dart';
 import 'package:poshop/checkout/controllers/CheckoutController.dart';
 import 'package:poshop/checkout/divide.dart';
 import 'package:poshop/checkout/models/Payment.dart';
 import 'package:poshop/helpers/MoneyTextInputFormatted.dart';
+import 'package:poshop/home/model/TaxCart.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
+import 'package:checkbox_grouped/checkbox_grouped.dart';
 
 class Checkout extends StatelessWidget {
   CheckoutContoller controllerCheckout = Get.find();
@@ -19,6 +22,7 @@ class Checkout extends StatelessWidget {
   TextEditingController textContoller= TextEditingController();
 
   final CurrencyTextInputFormatter _formatter = CurrencyTextInputFormatter();
+  CategoryContoller controllerCategory = Get.find();
 
   formatedNumber(number) {
 
@@ -72,6 +76,38 @@ class Checkout extends StatelessWidget {
                 controllerCheckout.paymentItems[i].balance,
                 controllerCheckout.totalCheckout.value));
 
+
+
+
+            List<TaxCart> taxLocal=[];
+
+
+            var tempValue=double.parse(controllerCheckout.valueCheckout.value);
+            for(var i = 0; i <controllerCategory.taxes.length; i ++){
+              for(var s = 0; s <controllerCart.controllerCheckboxes.value.selectedItem.length; s ++){
+                if(controllerCategory.taxes[i].id==controllerCart.controllerCheckboxes.value.selectedItem[s]){
+
+                  var taxValue=(double.parse("${controllerCategory.taxes[i].rate}")*tempValue)/100;
+
+                  if(controllerCategory.taxes[i].type=="INCLUDED"){
+                    tempValue=tempValue-taxValue;
+                  }else{
+                    tempValue=tempValue+taxValue;
+                  }
+
+
+
+                  taxLocal.add(TaxCart(controllerCategory.taxes[i].id, "${double.parse("${controllerCategory.taxes[i].rate}")}",controllerCategory.taxes[i].name,"${taxValue}",controllerCategory.taxes[i].type));
+                }
+              }
+            }
+
+            controllerCart.taxes.assignAll(taxLocal);
+
+
+
+
+
             _panelController.open();
           }: null,
           child: Text(" ${controllerCheckout.paymentItems[i].name}",
@@ -82,8 +118,20 @@ class Checkout extends StatelessWidget {
     return paymentsLocal;
   }
 
+
+
   @override
   Widget build(BuildContext context) {
+
+    List<int> taxesTextValues=[];
+    List<String> taxesText=[];
+
+    for(var i = 0; i <controllerCategory.taxes.length; i ++){
+      taxesText.add("${controllerCategory.taxes[i].name} ${controllerCategory.taxes[i].rate}%");
+      taxesTextValues.add(controllerCategory.taxes[i].id);
+    }
+
+
     return Scaffold(
       appBar: AppBar(
         title: Text("Cobrar"),
@@ -118,6 +166,7 @@ class Checkout extends StatelessWidget {
           padding: EdgeInsets.only(left: 20, right: 20, top: 20),
           child: Column(
             children: [
+
               Obx(() =>GestureDetector(
                 onTap: (){
                   textContoller.text=formatedNumber(controllerCheckout.valueCheckout.value);
@@ -142,6 +191,30 @@ class Checkout extends StatelessWidget {
                   ],
                 ),
               )),
+              taxesTextValues.length> 0 ?  Container(
+                margin: EdgeInsets.only(top: 15),
+                child: Text("Impuestos"),
+              ): Container(),
+              Container(
+                child: SingleChildScrollView(
+                  child: SimpleGroupedSwitch<int>(
+                    controller: controllerCart.controllerCheckboxes.value,
+                    itemsTitle: taxesText,
+                    values: taxesTextValues,
+
+
+
+
+                    onItemSelected: (itesm){
+                      print("aquii los items  ${itesm} ");
+
+
+
+                    },
+
+                  ),
+                ),
+              ),
               Row(
                 children: [
                   Expanded(
@@ -184,7 +257,11 @@ class Checkout extends StatelessWidget {
                           controllerCheckout.panelControllerCheckout.value),
                     ): Container()),
                 padding: EdgeInsets.only(left: 20, right: 20),
-              )
+              ),
+
+
+
+
             ],
           ),
         ),

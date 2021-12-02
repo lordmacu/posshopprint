@@ -1,6 +1,8 @@
+import 'package:checkbox_grouped/checkbox_grouped.dart';
 import 'package:get/get.dart';
 import 'package:poshop/api_client.dart';
 import 'package:poshop/cart/model/Cart.dart';
+import 'package:poshop/home/model/TaxCart.dart';
 import 'package:poshop/products/model/Product.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:poshop/cart/cart_provider.dart';
@@ -10,6 +12,8 @@ class CartContoller extends GetxController {
 
   var totalCart = 0.obs;
   var indexSingleCart= 0.obs;
+  var controllerCheckboxes = GroupController(isMultipleSelection: true).obs;
+  RxList<TaxCart> taxes = RxList<TaxCart>();
 
 
 
@@ -24,6 +28,8 @@ class CartContoller extends GetxController {
     var prefs = await SharedPreferences.getInstance();
     _endpointProvider =
         new CartProvider(_client.init(prefs.getString("token")));
+
+
   }
 
   Cart checkItemCart(Product product) {

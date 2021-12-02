@@ -41,6 +41,41 @@ class CashPanel extends StatelessWidget{
 
   }
 
+  List<Widget> getTaxes(){
+
+    List<Widget> widgets=[];
+    for( var i =0  ; i< controllerCart.taxes.length ; i ++){
+       widgets.add(Container(
+         padding: EdgeInsets.only(left: 20,right: 20),
+         child: Row(
+           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+           children: [
+             Text("${controllerCart.taxes[i].name} ${controllerCart.taxes[i].rate}% (${controllerCart.taxes[i].type == "INCLUDED"  ? "Incluido": "" })",style: TextStyle(fontWeight: FontWeight.bold),),
+             Text("\$ ${controllerCart.taxes[i].type=="INCLUDED" ? "-" : ""}  ${(controllerCart.taxes[i].total_tax)}")
+           ],
+         ),
+       ));
+    }
+    return widgets;
+  }
+
+
+  priceWithTax(price){
+    var priceTemp=price;
+    for( var i =0  ; i< controllerCart.taxes.length ; i ++) {
+
+      var TaxIndividual=(double.parse(controllerCart.taxes[i].rate)*priceTemp)/100;
+
+        if(controllerCart.taxes[i].type == "INCLUDED"){
+          priceTemp=priceTemp-TaxIndividual;
+        }else{
+          priceTemp=priceTemp+TaxIndividual;
+        }
+    }
+
+    return priceTemp;
+  }
+
   List<Widget> getPayments(){
 
     List<Widget> widgets=[];
@@ -69,7 +104,7 @@ class CashPanel extends StatelessWidget{
                            crossAxisAlignment: CrossAxisAlignment.start,
                            children: [
                              Container(
-                               child: Text("\$ ${formatedNumber("${controllerCheckout.paymentCheckoutsItems[i].price.toInt()}")}",style: TextStyle(fontSize: 19,fontWeight: FontWeight.bold),),
+                               child: Text("\$ ${("${priceWithTax(controllerCheckout.paymentCheckoutsItems[i].price.toInt())}")}",style: TextStyle(fontSize: 19,fontWeight: FontWeight.bold),),
                              ),
                              Container(
                                child: Text("Pagado"),
@@ -109,18 +144,34 @@ class CashPanel extends StatelessWidget{
   Widget build(BuildContext context) {
 
 
+
     return Form(
       key: _formKey,
 
       child: Column(
 
         children: [
+
+          controllerCart.taxes.length> 0 ? Container(
+            margin: EdgeInsets.only(top: 20),
+
+            child: Text("Impuestos",style: TextStyle(fontSize: 19,fontWeight: FontWeight.bold)),
+          ): Container(),
           Obx(()=>Container(
-            margin: EdgeInsets.only(top: 10),
+
+            margin: EdgeInsets.only(top: 20),
+            child: Column(
+              children: getTaxes(),
+            ),
+          )),
+          Obx(()=>Container(
+            margin: EdgeInsets.only(top:10),
             child: Column(
               children: getPayments(),
             ),
           )),
+
+
           Container(
             margin: EdgeInsets.only(top: 20),
             child: Row(
