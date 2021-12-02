@@ -30,6 +30,23 @@ class DiscountProvider {
     }
   }
 
+  Future getTaxes() async {
+    prefs = await SharedPreferences.getInstance();
+
+    var outletId="${prefs.getInt("outletId")}";
+    try {
+
+      final response = await _client.get(
+          '/taxes');
+
+      return json.decode(response.toString());
+    } on DioError catch (ex) {
+      String errorMessage = ex.message.toString();
+      throw new Exception(errorMessage);
+    }
+  }
+
+
   Future createDiscount(data) async {
     prefs = await SharedPreferences.getInstance();
 
