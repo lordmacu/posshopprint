@@ -6,6 +6,7 @@ import 'package:loading_hud/loading_indicator.dart';
 import 'package:pop_bottom_menu/pop_bottom_menu.dart';
 import 'package:poshop/auth/controllers/AuthController.dart';
 import 'package:get/get.dart';
+import 'package:poshop/categories/controllers/CategoryController.dart';
 import 'package:poshop/helpers/widgetsHelper.dart';
 import 'package:poshop/home/home.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -14,6 +15,7 @@ import 'package:validators/validators.dart';
 class Login extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
   AuthContoller controllerAuth = Get.put(AuthContoller());
+  CategoryContoller controllerCategory = Get.put(CategoryContoller());
 
   WidgetsHelper helpers = WidgetsHelper();
   var loadingHud;
@@ -61,6 +63,8 @@ class Login extends StatelessWidget {
             prefs.setBool("isLogged", true);
 
             await controllerAuth.cashRegister();
+
+           await controllerCategory.getCategories();
 
             Navigator.push(
               context,

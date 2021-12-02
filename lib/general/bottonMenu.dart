@@ -5,6 +5,7 @@ import 'package:masonry_grid/masonry_grid.dart';
 import 'package:bubble_bottom_bar/bubble_bottom_bar.dart';
 import 'package:poshop/auth/controllers/AuthController.dart';
 import 'package:poshop/cart/controllers/ProductContoller.dart';
+import 'package:poshop/categories/controllers/CategoryController.dart';
 import 'package:poshop/controllers/MenuController.dart';
 import 'package:poshop/categories/categories.dart';
 import 'package:get/get.dart';
@@ -22,6 +23,8 @@ class BottomMenu extends StatelessWidget {
   TicketsContoller  controllerTicket = Get.put(TicketsContoller());
   LoadingController controllerLoading = Get.find();
   ProductContoller controllerProduct = Get.put(ProductContoller());
+  CategoryContoller controllerCategory = Get.find();
+
   void _showMenu(context) {
     showModalBottomSheet(
       backgroundColor: Colors.transparent,
@@ -85,6 +88,14 @@ class BottomMenu extends StatelessWidget {
             ItemPopBottomMenu(
               onPressed: () {
                 controllerAuth.logout();
+                controllerCategory.items.clear();
+                controllerCategory.items.refresh();
+
+                controllerProduct.products.clear();
+                controllerProduct.products.refresh();
+
+
+                Get.reset();
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => Redirector()),

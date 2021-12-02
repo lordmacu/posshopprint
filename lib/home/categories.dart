@@ -26,8 +26,6 @@ class Categories extends StatelessWidget{
           return Obx(()=>GestureDetector(
             onTap: (){
               controller.categorySelect.value=cat.id;
-
-              print("esta es la seleccion ${cat.id}");
             },
             child: Card(
 

@@ -385,6 +385,9 @@ class ProductsContoller extends GetxController {
 
     print("cargando otra veddddz  ${prefs.getString("token")}");
 
+    products.clear();
+    products.refresh();
+
     controllerLoading.isLoading.value=true;
    try {
       var data = await _endpointProvider.getProducts();
@@ -426,6 +429,7 @@ class ProductsContoller extends GetxController {
         }
 
         products.assignAll(productsLocal);
+
         controllerLoading.isLoading.value=false;
 
         controllerDiscount.getDiscounts();

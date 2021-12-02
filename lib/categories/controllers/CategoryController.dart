@@ -111,6 +111,8 @@ class CategoryContoller extends GetxController{
     var  prefs = await SharedPreferences.getInstance();
 
     print("getcatgegoriessss  ${prefs.getString("token")}");
+    items.clear();
+    items.refresh();
 
     try{
       var data = await _endpointProvider.getCategories();
