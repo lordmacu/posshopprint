@@ -427,12 +427,20 @@ class Products extends StatelessWidget {
                       onTap: () async {
 
 
-                        if (!controllerHome.isShowPayment.value) {
-                          controllerHome.isShowPayment.value = true;
-                        } else {
-                          controllerCheckout.setPayments();
 
-                          var data = await Get.to(Checkout());
+                        if (!controllerHome.isShowPayment.value) {
+    if(controlelrCart.items.length>0) {
+      controllerHome.isShowPayment.value = true;
+    }else{
+      controllerHome.isShowPayment.value = false;
+    }
+                        } else {
+                          if(controlelrCart.items.length>0){
+                            controllerCheckout.setPayments();
+
+                            var data = await Get.to(Checkout());
+                          }
+
                         }
                       },
                       child: Container(
@@ -525,8 +533,13 @@ class Products extends StatelessWidget {
                     ),
                     GestureDetector(
                       onTap: () {
-                        controllerHome.isShowPayment.value =
-                        !controllerHome.isShowPayment.value;
+                          if(controlelrCart.items.length>0) {
+                            controllerHome.isShowPayment.value =
+                            !controllerHome.isShowPayment.value;
+                          }else{
+                            controllerHome.isShowPayment.value=false;
+                          }
+
                       },
                       child: Obx(() => Container(
                         color: Colors.transparent,

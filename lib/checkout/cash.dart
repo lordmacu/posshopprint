@@ -144,6 +144,7 @@ class CashPanel extends StatelessWidget{
   Widget build(BuildContext context) {
 
 
+
     return Form(
       key: _formKey,
 
@@ -151,11 +152,11 @@ class CashPanel extends StatelessWidget{
 
         children: [
 
-          Container(
+          controllerCart.taxes.length> 0 ? Container(
             margin: EdgeInsets.only(top: 20),
 
             child: Text("Impuestos",style: TextStyle(fontSize: 19,fontWeight: FontWeight.bold)),
-          ),
+          ): Container(),
           Obx(()=>Container(
 
             margin: EdgeInsets.only(top: 20),
