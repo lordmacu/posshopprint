@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:poshop/auth/controllers/AuthController.dart';
 import 'package:poshop/categories/category_provider.dart';
 import 'package:poshop/categories/models/Category.dart';
+import 'package:poshop/home/model/Tax.dart';
 
 import 'package:poshop/service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -23,6 +24,7 @@ class CategoryContoller extends GetxController{
   var categoryColor= "".obs;
   var categoryId= 0.obs;
   RxList<Category> items = RxList<Category>();
+  RxList<Tax> taxes = RxList<Tax>();
 
 
   Client _client = new Client();
@@ -106,6 +108,34 @@ class CategoryContoller extends GetxController{
     }
   }
 
+  getTaxes() async{
+
+    var  prefs = await SharedPreferences.getInstance();
+
+    try{
+      var data = await _endpointProvider.getTaxes();
+
+
+      List<Tax> taxesLocal= [];
+      if(data["success"]){
+
+        var dataJson=data["data"];
+        for(var i = 0 ; i<  dataJson.length; i++){
+
+        Tax tax= Tax(dataJson[i]["id"], dataJson[i]["idOrg"], dataJson[i]["type"] ,dataJson[i]["name"]   , dataJson[i]["rate"]  ,  dataJson[i]["allowedForAllOutlets"]  ,  dataJson[i]["applyForAllNewWares"] ,  dataJson[i]["applyToAllWares"] );
+
+        taxesLocal.add(tax);
+        }
+
+        taxes.assignAll(taxesLocal);
+
+        }
+    }catch(e){
+      print("aqui esta el error category ${e}");
+      return false;
+    }
+  }
+
   getCategories() async{
 
     var  prefs = await SharedPreferences.getInstance();
@@ -133,6 +163,7 @@ class CategoryContoller extends GetxController{
         items.value=categoryes;
 
         controllerProduct.getProducts();
+        getTaxes();
 
 
         return true;

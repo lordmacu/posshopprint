@@ -17,6 +17,16 @@ class CategoryProvider {
     }
   }
 
+  Future getTaxes() async {
+    try {
+      final response = await _client.get(
+          '/taxes/');
+      return json.decode(response.toString());
+    } on DioError catch (ex) {
+      String errorMessage = ex.message.toString();
+      throw new Exception(errorMessage);
+    }
+  }
 
 
   Future createCategories(data) async {

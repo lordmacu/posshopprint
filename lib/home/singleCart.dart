@@ -8,6 +8,8 @@ import 'package:intl/intl.dart';
 import 'package:masonry_grid/masonry_grid.dart';
 import 'package:poshop/cart/controllers/CartController.dart';
 import 'package:poshop/cart/model/Cart.dart';
+import 'package:poshop/categories/controllers/CategoryController.dart';
+import 'package:poshop/categories/models/Category.dart';
 import 'package:poshop/checkout/checkout.dart';
 import 'package:poshop/checkout/controllers/CheckoutController.dart';
 import 'package:poshop/discounts/controllers/DiscountContoller.dart';
@@ -29,6 +31,7 @@ class SingleCart extends StatelessWidget {
   GroupController controller;
   DiscountContoller controllerDiscount = Get.find();
   DiscountHomeController controllerDiscountHome = Get.put(DiscountHomeController());
+  CategoryContoller controllerCategory = Get.find();
 
 
   formatedNumber(number) {
@@ -55,8 +58,17 @@ class SingleCart extends StatelessWidget {
     List<int> itemsTextValues=[];
 
     for(var i = 0; i <controllerDiscount.discounts.length; i ++){
-      itemsText.add("${controllerDiscount.discounts[i].name}  ${controllerDiscount.discounts[i].value} ${controllerDiscount.discounts[i].calculationType == "PERCENT" ? '%' : ''}");
+      itemsText.add("${controllerDiscount.discounts[i].name}  ${controllerDiscount.discounts[i].value}${controllerDiscount.discounts[i].calculationType == "PERCENT" ? '%' : ''}");
       itemsTextValues.add(controllerDiscount.discounts[i].id);
+    }
+
+
+    List<int> taxesTextValues=[];
+    List<String> taxesText=[];
+
+    for(var i = 0; i <controllerCategory.taxes.length; i ++){
+      taxesText.add("${controllerCategory.taxes[i].name} ${controllerCategory.taxes[i].rate}%");
+      taxesTextValues.add(controllerCategory.taxes[i].id);
     }
 
 

@@ -352,7 +352,7 @@ class Products extends StatelessWidget {
                         
                         
                         var salePrice=items[i].product.salesPrice;
-                        
+                        salePrice = salePrice*items[i].numberItem;
                         var discounts=items[i].discount;
                         if(discounts!=null){
                           for(var d =0  ; d  < discounts.length ; d++ ){
@@ -389,7 +389,7 @@ class Products extends StatelessWidget {
                                     )),
                                 Container(
                                   child: Text(
-                                    "\$${(formatedNumber(salePrice*items[i].numberItem))}",
+                                    "\$${(formatedNumber(salePrice<0 ? 0 : salePrice))}",
                                     style: TextStyle(
                                         fontSize: 15,
                                         fontWeight: FontWeight.bold),
@@ -487,15 +487,16 @@ class Products extends StatelessWidget {
 
                                     var salePrice=items[i].product.salesPrice;
 
+                                      salePrice=salePrice*items[i].numberItem;
+
                                     var discounts=items[i].discount;
                                     if(discounts!=null){
                                       for(var d =0  ; d  < discounts.length ; d++ ){
                                         salePrice=salePrice-int.parse(discounts[d].total_discount);
                                       }
-
                                     }
 
-                                    total=total+(salePrice*items[i].numberItem);
+                                    total=total+(salePrice);
                                   }
 
                                   controllerCheckout.valueCheckout.value="${total}";
@@ -503,7 +504,7 @@ class Products extends StatelessWidget {
 
 
                                   return Text(
-                                    "\$${formatedNumber(total)}",
+                                    "\$${formatedNumber(total<0 ? 0 : total)}",
                                     style: TextStyle(color: Colors.white),
                                     textAlign: TextAlign.center,
                                   );
