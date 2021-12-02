@@ -54,6 +54,17 @@ class CartProvider {
       itemsPayment.add({"id":"${controllerCheckout.paymentCheckoutsItems[i].id}","amount":"${controllerCheckout.paymentCheckoutsItems[i].price}"});
     }
 
+
+
+    var taxesPayment=[];
+
+    if(controllerCart.taxes!=null){
+      for(var t =0; t<controllerCart.taxes.length; t++) {
+        taxesPayment.add({"id":controllerCart.taxes[t].id,"total_tax":controllerCart.taxes[t].total_tax});
+      }
+    }
+
+
       var data ={
       "total":"${totalCart}",
       "email":controllerCheckout.email.value,
@@ -61,6 +72,7 @@ class CartProvider {
     //  "client_id":"1",
         "items":itemsSave,
         "payments":itemsPayment,
+        "taxes":taxesPayment,
 
     };
 

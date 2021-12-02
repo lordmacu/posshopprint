@@ -152,11 +152,11 @@ class CashPanel extends StatelessWidget{
 
         children: [
 
-          controllerCart.taxes.length> 0 ? Container(
-            margin: EdgeInsets.only(top: 20),
+         Obx(()=> controllerCart.taxes.length> 0 ? Container(
+           margin: EdgeInsets.only(top: 20),
 
-            child: Text("Impuestos",style: TextStyle(fontSize: 19,fontWeight: FontWeight.bold)),
-          ): Container(),
+           child: Text("Impuestos",style: TextStyle(fontSize: 19,fontWeight: FontWeight.bold)),
+         ): Container()),
           Obx(()=>Container(
 
             margin: EdgeInsets.only(top: 20),

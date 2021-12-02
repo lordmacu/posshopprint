@@ -429,11 +429,11 @@ class Products extends StatelessWidget {
 
 
                         if (!controllerHome.isShowPayment.value) {
-    if(controlelrCart.items.length>0) {
-      controllerHome.isShowPayment.value = true;
-    }else{
-      controllerHome.isShowPayment.value = false;
-    }
+                          if(controlelrCart.items.length>0) {
+                            controllerHome.isShowPayment.value = true;
+                          }else{
+                            controllerHome.isShowPayment.value = false;
+                          }
                         } else {
                           if(controlelrCart.items.length>0){
                             controllerCheckout.setPayments();
