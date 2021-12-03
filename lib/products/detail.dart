@@ -750,6 +750,8 @@ class DetailProduct extends StatelessWidget {
                                           padding: EdgeInsets.only(
                                               top: 15, bottom: 15),
                                           onPressed: () async {
+                                            loadingHud.show();
+
                                             //   if (controllerHome.formKey.value.currentState.validate()) {
                                             var canSubmit = true;
 
@@ -828,6 +830,8 @@ class DetailProduct extends StatelessWidget {
                                                 }
                                               }
                                             }
+
+                                            loadingHud.dismiss();
 
                                             // }
                                           },
