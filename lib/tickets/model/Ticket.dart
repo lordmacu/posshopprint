@@ -2,6 +2,7 @@ import 'package:poshop/categories/models/Category.dart';
 import 'package:poshop/checkout/models/ItemSimple.dart';
 import 'package:poshop/checkout/models/Payment.dart';
 import 'package:poshop/checkout/models/PaymentSimple.dart';
+import 'package:poshop/home/model/TaxCart.dart';
 
 class Ticket{
   int _id;
@@ -9,6 +10,15 @@ class Ticket{
   String _email;
   String _code;
   List<PaymentSimple> _payments;
+  List<TaxCart> _taxes;
+
+
+  List<TaxCart> get taxes => _taxes;
+
+  set taxes(List<TaxCart> value) {
+    _taxes = value;
+  }
+
   List<ItemSimple> _items;
   String _date;
 
@@ -51,7 +61,7 @@ class Ticket{
 
   @override
   String toString() {
-    return 'Ticket{_id: $_id, _total: $_total, _email: $_email, _code: $_code, _payments: $_payments, _items: $_items, _date: $_date}';
+    return 'Ticket{_id: $_id, _total: $_total, _email: $_email, _code: $_code, _payments: $_payments, _taxes: $_taxes, _items: $_items, _date: $_date}';
   }
 
   List<ItemSimple> get items => _items;

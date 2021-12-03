@@ -141,6 +141,7 @@ class AuthContoller extends GetxController{
   cashRegister() async{
     prefs = await SharedPreferences.getInstance();
 
+    print("aquii esta el token   ${prefs.getString("token")}");
      _endpointProvider = new AuthProvider(_client.init(prefs.getString("token")));
 
     try{
