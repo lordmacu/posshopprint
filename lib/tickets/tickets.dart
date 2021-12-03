@@ -53,17 +53,44 @@ class Tickets extends StatelessWidget {
     }
     return totalDouble;
   }
+  getTotalSubtotalItem(ticket){
+    var items=ticket.items;
+    var taxes= ticket.taxes;
+    var total= 0;
+
+    for(var i =0  ; i  < items.length ; i++ ){
+
+
+      var salePrice=items[i].ammout;
+
+      salePrice=salePrice*items[i].quantity;
+
+      var discounts=items[i].discounts;
+      if(discounts!=null){
+        for(var d =0  ; d  < discounts.length ; d++ ){
+          salePrice=salePrice-discounts[d].totalDiscount;
+        }
+      }
+      total=total+(salePrice);
+    }
+
+    var totalDouble= total;
+
+
+    return totalDouble;
+  }
 
 
   @override
   Widget build(BuildContext context) {
-
+    double height = MediaQuery.of(context).size.height;
     return Scaffold(
       body: SlidingUpPanel(
         backdropTapClosesPanel: true,
         backdropEnabled: true,
         controller: controllerTicket.panelController.value,
         minHeight: 0,
+        maxHeight:(height*75)/100 ,
 
         panel: Obx((){
 
@@ -74,6 +101,7 @@ class Tickets extends StatelessWidget {
 
             var totalFinal=0;
 
+            var subtototal=0;
             return Container(
               padding: EdgeInsets.only(top: 20, left: 20, right: 20),
               child: controllerTicket.indexTicket.value != null ? Column(
@@ -136,53 +164,16 @@ class Tickets extends StatelessWidget {
                     child: null,
                     color: Colors.grey.withOpacity(0.3),
                   ),
-                  Container(
-                    margin: EdgeInsets.only(top: 10),
-                    child: Column(
-                      children: [
-                        Text(
-                          "\$${formatedNumber(getTotalItem(ticket))}",
-                          style: TextStyle(fontSize: 40),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(top: 5),
-                          padding: EdgeInsets.only(
-                              left: 10, right: 10, top: 5, bottom: 5),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            color: Color(0xff298dcf).withOpacity(0.7),
-                          ),
-                          child: Text(
-                            "Total",
-                            style: TextStyle(fontSize: 20, color: Colors.white),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(top: 20),
-                    child: Row(
-                      children: [
-                        Text(
-                          "Cajero:",
-                          style: TextStyle(fontSize: 16),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(left: 5),
-                          child: Text(
-                            "Propietario",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 16),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
+
+
 
                   Expanded(
+                    flex: 3,
                       child: Container(
+                        margin: EdgeInsets.only(top: 20),
                         child: ListView.builder(
+                          shrinkWrap: false,
+
                             itemCount: ticket.items.length,
                             itemBuilder: (context, index) {
                               ItemSimple itemSimple = ticket.items[index];
@@ -202,10 +193,11 @@ class Tickets extends StatelessWidget {
                                   }
                                 }
                                 total=total+(salePrice);
+                              subtototal=subtototal+total;
 
 
                               return Container(
-                                padding: EdgeInsets.only(top: 20,bottom: 20),
+                                padding: EdgeInsets.only(top: 5,bottom: 5),
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
@@ -231,23 +223,48 @@ class Tickets extends StatelessWidget {
                               );
                             }),
                       )),
+                  Container(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text("Subtotal",style: TextStyle(fontWeight: FontWeight.bold),),
+                        Text("\$${formatedNumber(getTotalSubtotalItem(ticket))}",style: TextStyle(fontWeight: FontWeight.bold))
+                      ],
+                    ),
+                  ),
 
-                  Expanded(
+
+                  ticket.taxes.length > 0 ? Expanded(
+                    flex: 2,
                       child: Container(
-                        child: ListView.builder(
-                            itemCount: ticket.taxes.length,
-                            itemBuilder: (context, index) {
-                                return Container(
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text("${ticket.taxes[index].name} ${ticket.taxes[index].rate}%",style: TextStyle(fontWeight: FontWeight.bold),),
-                                      Text("${ticket.taxes[index].type=="INCLUDED" ? "-" : ""} \$${formatedNumber(int.parse(ticket.taxes[index].total_tax))}",style: TextStyle(fontWeight: FontWeight.bold))
-                                    ],
-                                  ),
-                                );
-                            }),
-                      )),
+                        child: Column(
+                          children: [
+                            Container(
+                              margin: EdgeInsets.only(bottom: 10, top: 10),
+                              height: 1,
+                              child: null,
+                              color:  Color(0xff298dcf),
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(bottom: 10),
+                              child: Text("Impuestos",style: TextStyle(fontWeight: FontWeight.bold),),
+                            ),
+                            Expanded(child: ListView.builder(
+                                itemCount: ticket.taxes.length,
+                                itemBuilder: (context, index) {
+                                  return Container(
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text("${ticket.taxes[index].name} ${ticket.taxes[index].rate}%",style: TextStyle(fontWeight: FontWeight.bold),),
+                                        Text("${ticket.taxes[index].type=="INCLUDED" ? "-" : ""} \$${formatedNumber(int.parse(ticket.taxes[index].total_tax))}",style: TextStyle(fontWeight: FontWeight.bold))
+                                      ],
+                                    ),
+                                  );
+                                }))
+                          ],
+                        ),
+                      )): Container(),
                   Column(
                     children: [
                       Container(
