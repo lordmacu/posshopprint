@@ -422,7 +422,7 @@ class Tickets extends StatelessWidget {
                                               margin: EdgeInsets.only(right: 3),
                                             ),
                                             Text(
-                                              "\$${formatedNumber(getTotalItem(ticket))}",
+                                              "${formatedNumber(getTotalItem(ticket))}",
                                               style: TextStyle(
                                                   fontWeight: FontWeight.bold,
                                                   fontSize: 20),
