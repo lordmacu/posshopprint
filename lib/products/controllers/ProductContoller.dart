@@ -178,6 +178,7 @@ class ProductsContoller extends GetxController {
     isFormSelected.value=false;
     isSelectedColor.value=false;
       selectedColor.value = 0xffffffff;
+    selectedCategory.value=0;
 
 
     nameController.text="";
@@ -390,7 +391,7 @@ class ProductsContoller extends GetxController {
     new ProductProvider(_client.init(prefs.getString("token")));
 
     print("cargando otra veddddz  ${prefs.getString("token")}");
-
+    products.refresh();
     products.clear();
     products.refresh();
 

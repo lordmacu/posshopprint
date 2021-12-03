@@ -31,6 +31,10 @@ class TicketsContoller extends GetxController {
   }
 
   getTickets() async {
+    tickets.refresh();
+    tickets.clear();
+    tickets.refresh();
+
     // try {
     var data = await _endpointProvider.getTickets();
 

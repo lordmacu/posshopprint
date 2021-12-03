@@ -127,6 +127,8 @@ class DiscountContoller extends GetxController {
 
 
   getDiscounts() async {
+    discounts.clear();
+    discounts.refresh();
     try {
     var data = await _endpointProvider.getDiscounts();
 

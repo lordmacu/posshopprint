@@ -53,6 +53,15 @@ class AuthContoller extends GetxController{
   logout() async{
     prefs = await SharedPreferences.getInstance();
       prefs.setBool("isLogged",false);
+    prefs.setInt("idOrg", 0);
+    prefs.setString("user", null);
+
+    prefs.setInt("outletId", 0);
+    prefs.setString("cashier", null);
+    prefs.setInt("cashierId", 0);
+
+    prefs.setString("token", null);
+
   }
 
   void loginUserSystem(login,data) async{
