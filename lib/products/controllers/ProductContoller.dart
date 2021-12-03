@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:dio/dio.dart' as dios;
 import 'package:flutter/cupertino.dart';
@@ -257,8 +259,12 @@ class ProductsContoller extends GetxController {
       }
     } catch (e) {
       print("aqui esta el error uno ${e.toString()}");
-      return null;
-    }
+      return replaceExeptionText(e.message);
+
+     }
+  }
+  replaceExeptionText(String text){
+    return  jsonDecode(text.replaceAll("Exception: ", ""));
   }
 
   Future createProduct() async {
@@ -303,11 +309,11 @@ class ProductsContoller extends GetxController {
    getProducts();
 
       if (data["success"]) {
-        return true;
+        return "ok";
       }
     } catch (e) {
       print("aqui esta el error dos ${e.toString()}");
-      return false;
+      return replaceExeptionText(e.message);
     }
   }
 
@@ -370,11 +376,11 @@ class ProductsContoller extends GetxController {
       getProducts();
 
       if (data["success"]) {
-        return true;
+        return "ok";
       }
     } catch (e) {
       print("aqui esta el error tres ${e.toString()}");
-      return false;
+      return replaceExeptionText(e.message);
     }
   }
 
