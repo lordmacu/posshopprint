@@ -41,6 +41,7 @@ class CategoryContoller extends GetxController{
   createCategories() async{
 
     var  prefs = await SharedPreferences.getInstance();
+    _endpointProvider = new CategoryProvider(_client.init(prefs.getString("token")));
 
     print("getcatgegoriessss  ${prefs.getString("token")}");
 
@@ -57,7 +58,8 @@ class CategoryContoller extends GetxController{
 
       }
     }catch(e){
-      return replaceExeptionText(e.message);
+      print("este ess el erro ${e}");
+      return replaceExeptionText(e);
 
     }
   }
@@ -111,6 +113,9 @@ class CategoryContoller extends GetxController{
   getTaxes() async{
 
     var  prefs = await SharedPreferences.getInstance();
+    taxes.refresh();
+    taxes.clear();
+    taxes.refresh();
 
     try{
       var data = await _endpointProvider.getTaxes();
@@ -140,8 +145,10 @@ class CategoryContoller extends GetxController{
 
     var  prefs = await SharedPreferences.getInstance();
 
-    print("getcatgegoriessss  ${prefs.getString("token")}");
+    items.refresh();
+
     items.clear();
+
     items.refresh();
 
     try{
@@ -160,7 +167,7 @@ class CategoryContoller extends GetxController{
           categoryes.add(Category(dataJson[i]["id"], dataJson[i]["idOrg"], dataJson[i]["name"], dataJson[i]["color"]));
         }
 
-        items.value=categoryes;
+        items.assignAll(categoryes);
 
         controllerProduct.getProducts();
         getTaxes();

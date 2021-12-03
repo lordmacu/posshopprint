@@ -37,7 +37,11 @@ class ProductContoller extends GetxController{
   getProducts() async{
 
   //  try{
+    products.refresh();
+    products.clear();
+    products.refresh();
       var data = await _endpointProvider.getProducts();
+
 
      if(data["success"]){
         var dataJsonGeneral=(data["data"]);

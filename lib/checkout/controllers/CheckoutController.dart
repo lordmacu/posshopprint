@@ -111,6 +111,7 @@ class CheckoutContoller extends GetxController {
 
   getPayments() async {
     paymentItems.clear();
+    paymentTypesString.clear();
     try {
       var data = await _endpointProvider.getPayments();
 

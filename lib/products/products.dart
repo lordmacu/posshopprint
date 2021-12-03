@@ -60,6 +60,7 @@ class ProductsList extends StatelessWidget {
                 onPressed: () {
                   controllerHome.isOpenCreator.value = true;
 
+
                   controllerHome.panelController.value.open();
                 },
               )
