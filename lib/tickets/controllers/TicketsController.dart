@@ -4,6 +4,7 @@ import 'package:poshop/api_client.dart';
 import 'package:poshop/checkout/models/DiscountSimple.dart';
 import 'package:poshop/checkout/models/ItemSimple.dart';
 import 'package:poshop/checkout/models/PaymentSimple.dart';
+import 'package:poshop/home/model/TaxCart.dart';
 import 'package:poshop/tickets/model/Ticket.dart';
 import 'package:poshop/tickets/ticket_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -50,6 +51,7 @@ class TicketsContoller extends GetxController {
         var items = dataJson[i]["items"];
 
         List<PaymentSimple> paymentsSimple = [];
+        List<TaxCart> taxCartList = [];
         List<ItemSimple> itemsSimple = [];
 
         for (var p = 0; p < payments.length; p++) {
@@ -63,12 +65,23 @@ class TicketsContoller extends GetxController {
           var discounts = items[t]["discounts"];
           for (var d = 0; d < discounts.length; d++) {
             discountsSimple.add(DiscountSimple(
-                discounts[d]["discount_id"], discounts[d]["total_discount"]));
+                discounts[d]["discount_id"], discounts[d]["discount_applied"]));
           }
 
           itemsSimple.add(ItemSimple(items[t]["name"], items[t]["quantity"],
               items[t]["amount"], discountsSimple));
         }
+
+
+        if(dataJson[i]["taxes"]!=null){
+          for(var t=0 ; t <dataJson[i]["taxes"].length ; t ++){
+
+            var tax=dataJson[i]["taxes"][t];
+            TaxCart taxCart = TaxCart(0, "${tax["rate"]}", tax["name"], "${tax["total_tax"]}", tax["tax_type"]);
+            taxCartList.add(taxCart);
+          }
+        }
+
 
 
         DateTime parseDate =
@@ -85,6 +98,7 @@ class TicketsContoller extends GetxController {
         ticket.email=dataJson[i]["email"];
         ticket.code=dataJson[i]["code"];
         ticket.date=outputDate;
+        ticket.taxes=taxCartList;
         ticket.payments=paymentsSimple;
         ticket.items=itemsSimple;
         itemsLocal.add(ticket);

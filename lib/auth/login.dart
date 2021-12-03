@@ -24,12 +24,19 @@ class Login extends StatelessWidget {
     loadingHud.show();
 
     var isLoggedApi = await controllerAuth.login();
+
     loadingHud.dismiss();
 
     if (isLoggedApi["token"]==null) {
       helpers.defaultAlert(context, "error", "${isLoggedApi["message"]}",
           "${isLoggedApi["data"]}");
     } else {
+     var  prefs = await SharedPreferences.getInstance();
+
+      prefs.setString("token", isLoggedApi["token"]);
+      prefs.setInt("idOrg", isLoggedApi["idOrg"]);
+     prefs.setString("user", jsonEncode(isLoggedApi["user"]));
+
 
       print("este es el array del login  ${isLoggedApi["user"]["outlets"]}");
       _showMenu(context,isLoggedApi["user"]["outlets"]);

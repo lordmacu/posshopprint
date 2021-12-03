@@ -95,7 +95,6 @@ class ProductsContoller extends GetxController {
 
 
   setProduct(Product product){
-    print("product ${product}");
     ///formKey.value.currentState.reset();
 
     nameController.text=product.itemNme;
@@ -160,7 +159,14 @@ class ProductsContoller extends GetxController {
 
     }else{
       isImagen.value=false;
+      item_id.value="${product.id}";
+      item_name.value=product.itemNme;
+      reference.value=product.article;
+      reference.value=product.reference;
 
+      barcode.value= product.barCode;
+      primeCost.value="${product.primeCost}";
+      salePrice.value="${product.salesPrice}";
 
 
     }

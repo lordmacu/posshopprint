@@ -20,6 +20,41 @@ class Tickets extends StatelessWidget {
 
     return formatCurrency.format(number);
   }
+
+  getTotalItem(ticket){
+    var items=ticket.items;
+    var taxes= ticket.taxes;
+    var total= 0;
+
+    for(var i =0  ; i  < items.length ; i++ ){
+
+
+      var salePrice=items[i].ammout;
+
+      salePrice=salePrice*items[i].quantity;
+
+      var discounts=items[i].discounts;
+      if(discounts!=null){
+        for(var d =0  ; d  < discounts.length ; d++ ){
+          salePrice=salePrice-discounts[d].totalDiscount;
+        }
+      }
+      total=total+(salePrice);
+    }
+
+    var totalDouble= total;
+
+    for(var t =0 ; t <taxes.length; t ++){
+      if(taxes[t].type=="INCLUDED"){
+        totalDouble=totalDouble-int.parse(taxes[t].total_tax);
+      }else{
+        totalDouble=totalDouble+int.parse(taxes[t].total_tax);
+      }
+    }
+    return totalDouble;
+  }
+
+
   @override
   Widget build(BuildContext context) {
 
@@ -106,7 +141,7 @@ class Tickets extends StatelessWidget {
                     child: Column(
                       children: [
                         Text(
-                          "\$${formatedNumber(ticket.total)}",
+                          "\$${formatedNumber(getTotalItem(ticket))}",
                           style: TextStyle(fontSize: 40),
                         ),
                         Container(
@@ -153,6 +188,22 @@ class Tickets extends StatelessWidget {
                               ItemSimple itemSimple = ticket.items[index];
 
 
+
+
+                              var total=0;
+                                var salePrice=itemSimple.ammout;
+
+                                salePrice=salePrice*itemSimple.quantity;
+
+                                var discounts=itemSimple.discounts;
+                                if(discounts!=null){
+                                  for(var d =0  ; d  < discounts.length ; d++ ){
+                                    salePrice=salePrice-discounts[d].totalDiscount;
+                                  }
+                                }
+                                total=total+(salePrice);
+
+
                               return Container(
                                 padding: EdgeInsets.only(top: 20,bottom: 20),
                                 child: Row(
@@ -173,11 +224,28 @@ class Tickets extends StatelessWidget {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                     ),
                                     Container(
-                                      child: Text("\$${formatedNumber(itemSimple.ammout*itemSimple.quantity)}"),
+                                      child: Text("\$${formatedNumber(total)}"),
                                     )
                                   ],
                                 ),
                               );
+                            }),
+                      )),
+
+                  Expanded(
+                      child: Container(
+                        child: ListView.builder(
+                            itemCount: ticket.taxes.length,
+                            itemBuilder: (context, index) {
+                                return Container(
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text("${ticket.taxes[index].name} ${ticket.taxes[index].rate}%",style: TextStyle(fontWeight: FontWeight.bold),),
+                                      Text("${ticket.taxes[index].type=="INCLUDED" ? "-" : ""} \$${formatedNumber(int.parse(ticket.taxes[index].total_tax))}",style: TextStyle(fontWeight: FontWeight.bold))
+                                    ],
+                                  ),
+                                );
                             }),
                       )),
                   Column(
@@ -208,7 +276,7 @@ class Tickets extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.end,
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
-                                Text("\$${formatedNumber(ticket.total)}",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20),),
+                                Text("\$${formatedNumber(getTotalItem(ticket))}",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20),),
                                 /*Container(
                                   margin: EdgeInsets.only(top: 5),
                                   child: Text("10.000,00",style: TextStyle(fontSize: 18),),
@@ -250,11 +318,18 @@ class Tickets extends StatelessWidget {
               itemCount: controllerTicket.tickets.length,
               itemBuilder: (context, index) {
                 Ticket ticket= controllerTicket.tickets[index];
+
+
+
+
+
+
+
+
                 return GestureDetector(
                   onTap: () {
                     controllerTicket.indexTicket.value=index;
 
-                    print("aquii esta el ticket  ${ticket}");
 
                     controllerTicket.panelController.value.open();
 
@@ -330,7 +405,7 @@ class Tickets extends StatelessWidget {
                                               margin: EdgeInsets.only(right: 3),
                                             ),
                                             Text(
-                                              "\$${formatedNumber(ticket.total)}",
+                                              "\$${formatedNumber(getTotalItem(ticket))}",
                                               style: TextStyle(
                                                   fontWeight: FontWeight.bold,
                                                   fontSize: 20),

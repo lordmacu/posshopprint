@@ -507,6 +507,9 @@ class Products extends StatelessWidget {
                                     total=total+(salePrice);
                                   }
 
+
+
+
                                   controllerCheckout.valueCheckout.value="${total}";
 
 
