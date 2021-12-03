@@ -244,7 +244,7 @@ class DetailProduct extends StatelessWidget {
             label: controllerCategory.items[i].name,
             icon: Icon(
               Icons.check_circle,
-              color: controllerHome.selectedCategory ==
+              color: controllerHome.selectedCategory.value ==
                       controllerCategory.items[i].id
                   ? Color(int.parse(color))
                   : Colors.grey.withOpacity(0.5),
@@ -841,7 +841,7 @@ class DetailProduct extends StatelessWidget {
                                           ),
                                           color: Color(0xff298dcf),
                                           child: Text(
-                                            controllerHome.item_id == "0"
+                                            controllerHome.item_id.value == "0"
                                                 ? "Crear producto"
                                                 : "Actualizar producto",
                                             style: TextStyle(
