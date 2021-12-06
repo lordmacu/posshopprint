@@ -39,7 +39,7 @@ class Tickets extends StatelessWidget {
           salePrice=salePrice-discounts[d].totalDiscount;
         }
       }
-      total=total+(salePrice);
+      total=total+(salePrice.toInt());
     }
 
     var totalDouble= total;
@@ -71,7 +71,7 @@ class Tickets extends StatelessWidget {
           salePrice=salePrice-discounts[d].totalDiscount;
         }
       }
-      total=total+(salePrice);
+      total=total+(salePrice.toInt());
     }
 
     var totalDouble= total;
@@ -181,7 +181,7 @@ class Tickets extends StatelessWidget {
 
 
 
-                              var total=0.0;
+                              var total=0;
                                 var salePrice=itemSimple.ammout/itemSimple.quantity;
 
                                 salePrice=salePrice*itemSimple.quantity;
@@ -192,8 +192,8 @@ class Tickets extends StatelessWidget {
                                     salePrice=salePrice-discounts[d].totalDiscount;
                                   }
                                 }
-                                total=total+(salePrice);
-                              subtototal=(subtototal.toDouble()+total).toInt();
+                                total=total+(salePrice.toInt());
+                              subtototal=subtototal+total;
 
 
                               return Container(
