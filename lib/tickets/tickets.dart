@@ -29,7 +29,7 @@ class Tickets extends StatelessWidget {
     for(var i =0  ; i  < items.length ; i++ ){
 
 
-      var salePrice=items[i].ammout;
+      var salePrice=items[i].ammout/items[i].quantity;
 
       salePrice=salePrice*items[i].quantity;
 
@@ -61,7 +61,7 @@ class Tickets extends StatelessWidget {
     for(var i =0  ; i  < items.length ; i++ ){
 
 
-      var salePrice=items[i].ammout;
+      var salePrice=items[i].ammout/items[i].quantity;
 
       salePrice=salePrice*items[i].quantity;
 
@@ -181,8 +181,8 @@ class Tickets extends StatelessWidget {
 
 
 
-                              var total=0;
-                                var salePrice=itemSimple.ammout;
+                              var total=0.0;
+                                var salePrice=itemSimple.ammout/itemSimple.quantity;
 
                                 salePrice=salePrice*itemSimple.quantity;
 
@@ -193,7 +193,7 @@ class Tickets extends StatelessWidget {
                                   }
                                 }
                                 total=total+(salePrice);
-                              subtototal=subtototal+total;
+                              subtototal=(subtototal.toDouble()+total).toInt();
 
 
                               return Container(
@@ -208,7 +208,7 @@ class Tickets extends StatelessWidget {
                                           child: Text("${itemSimple.name}"),
                                         ),
                                         Container(
-                                          child: Text("${itemSimple.quantity} X \$${formatedNumber(itemSimple.ammout)}"),
+                                          child: Text("${itemSimple.quantity} X \$${formatedNumber(itemSimple.ammout/itemSimple.quantity)}"),
                                         ),
 
                                       ],
