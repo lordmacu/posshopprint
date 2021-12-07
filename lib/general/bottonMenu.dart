@@ -77,6 +77,13 @@ class BottomMenu extends StatelessWidget {
             ),
             ItemPopBottomMenu(
               onPressed: () {
+
+                DiscountContoller controllerDiscounts= Get.find();
+                controllerDiscounts.discounts.clear();
+                controllerDiscounts.discounts.refresh();
+
+
+
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => Discounts()),
