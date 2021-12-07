@@ -2,6 +2,7 @@
 import 'dart:convert';
 
 import 'package:get/get.dart';
+import 'package:poshop/helpers/RestartWidget.dart';
 
 import 'package:poshop/service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -61,6 +62,7 @@ class AuthContoller extends GetxController{
     prefs.setInt("cashierId", 0);
 
     prefs.setString("token", null);
+
 
   }
 
