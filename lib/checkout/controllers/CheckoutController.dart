@@ -110,6 +110,9 @@ class CheckoutContoller extends GetxController {
   }
 
   getPayments() async {
+    var prefs = await SharedPreferences.getInstance();
+    _endpointProvider =
+    new CheckoutProvider(_client.init(prefs.getString("token")));
     paymentItems.clear();
     paymentTypesString.clear();
     try {
