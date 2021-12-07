@@ -12,6 +12,7 @@ import 'package:get/get.dart';
 import 'package:pop_bottom_menu/pop_bottom_menu.dart';
 import 'package:poshop/discounts/controllers/DiscountContoller.dart';
 import 'package:poshop/discounts/discounts.dart';
+import 'package:poshop/helpers/RestartWidget.dart';
 import 'package:poshop/home/controllers/HomeController.dart';
 import 'package:poshop/home/controllers/LoadingController.dart';
 import 'package:poshop/redirector.dart';
@@ -98,8 +99,11 @@ class BottomMenu extends StatelessWidget {
 
                 controllerDiscount.discounts.clear();
                 controllerDiscount.discounts.refresh();
+                Get.put(DiscountContoller());
 
                 Get.reset();
+                RestartWidget.restartApp(context);
+
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => Redirector()),
