@@ -35,7 +35,10 @@ class TicketsContoller extends GetxController {
     tickets.refresh();
     tickets.clear();
     tickets.refresh();
+    var prefs = await SharedPreferences.getInstance();
 
+    _endpointProvider =
+    new TicketProvider(_client.init(prefs.getString("token")));
     // try {
     var data = await _endpointProvider.getTickets();
 

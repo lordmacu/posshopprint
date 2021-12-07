@@ -35,12 +35,15 @@ class ProductContoller extends GetxController{
 
 
   getProducts() async{
+    var  prefs = await SharedPreferences.getInstance();
 
   //  try{
     products.refresh();
     products.clear();
     products.refresh();
-      var data = await _endpointProvider.getProducts();
+    _endpointProvider = new ProductProvider(_client.init(prefs.getString("token")));
+
+    var data = await _endpointProvider.getProducts();
 
 
      if(data["success"]){
