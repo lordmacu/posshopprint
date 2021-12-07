@@ -127,6 +127,10 @@ class DiscountContoller extends GetxController {
 
 
   getDiscounts() async {
+    var prefs = await SharedPreferences.getInstance();
+
+    _endpointProvider =
+    new DiscountProvider(_client.init(prefs.getString("token")));
     discounts.clear();
     discounts.refresh();
     DiscountSingular.refresh();
