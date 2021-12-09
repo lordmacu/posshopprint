@@ -800,9 +800,8 @@ class DetailProduct extends StatelessWidget {
                                                 if (response == "ok") {
                                                   controllerHome
                                                       .resetCreationProduct();
-                                                  controllerHome
-                                                      .panelController.value
-                                                      .close();
+
+
                                                 } else {
                                                   helpers.defaultAlert(
                                                       context,
@@ -818,9 +817,8 @@ class DetailProduct extends StatelessWidget {
                                                 if (response == "ok") {
                                                   controllerHome
                                                       .resetCreationProduct();
-                                                  controllerHome
-                                                      .panelController.value
-                                                      .close();
+
+
                                                 } else {
                                                   helpers.defaultAlert(
                                                       context,
