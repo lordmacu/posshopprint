@@ -26,8 +26,7 @@ class CartContoller extends GetxController {
   @override
   void onInit() async {
     var prefs = await SharedPreferences.getInstance();
-    _endpointProvider =
-        new CartProvider(_client.init(prefs.getString("token")));
+
 
 
   }
@@ -90,6 +89,10 @@ class CartContoller extends GetxController {
 
 
   Future setTickets() async {
+    var prefs = await SharedPreferences.getInstance();
+
+    _endpointProvider =
+    new CartProvider(_client.init(prefs.getString("token")));
     try {
       var data = await _endpointProvider.setTickets(items,totalCart);
 

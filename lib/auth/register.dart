@@ -30,10 +30,9 @@ class Register extends StatelessWidget{
 
       await controllerCategory.getCategories();
 
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => Home()),
-      );
+
+      Get.to(() => Home());
+
     }
   }
 

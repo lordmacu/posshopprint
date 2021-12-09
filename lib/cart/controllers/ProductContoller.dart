@@ -28,9 +28,9 @@ class ProductContoller extends GetxController{
 
   @override
   void onInit() async{
-    var  prefs = await SharedPreferences.getInstance();
-    _endpointProvider = new ProductProvider(_client.init(prefs.getString("token")));
-    getProducts();
+    //var  prefs = await SharedPreferences.getInstance();
+   // _endpointProvider = new ProductProvider(_client.init(prefs.getString("token")));
+   /// getProducts();
   }
 
 
@@ -38,9 +38,7 @@ class ProductContoller extends GetxController{
     var  prefs = await SharedPreferences.getInstance();
 
   //  try{
-    products.refresh();
-    products.clear();
-    products.refresh();
+
     _endpointProvider = new ProductProvider(_client.init(prefs.getString("token")));
 
     var data = await _endpointProvider.getProducts();

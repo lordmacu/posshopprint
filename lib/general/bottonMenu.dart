@@ -63,11 +63,11 @@ class BottomMenu extends StatelessWidget {
               ),
             ),
             ItemPopBottomMenu(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => Categories()),
-                );
+              onPressed: ()  async{
+               await controllerCategory.getCategories();
+
+                Get.to(() => Categories());
+
               },
               label: "Categorias",
               icon: Icon(
@@ -85,10 +85,8 @@ class BottomMenu extends StatelessWidget {
 
 
 
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => Discounts()),
-                );
+                Get.to(() => Discounts());
+
               },
               label: "Descuentos",
               icon: Icon(
@@ -112,10 +110,9 @@ class BottomMenu extends StatelessWidget {
                 Get.reset();
                 RestartWidget.restartApp(context);
 
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => Redirector()),
-                );
+
+                Get.to(() => Redirector());
+
               },
               label: "Salir",
               icon: Icon(
@@ -153,9 +150,12 @@ class BottomMenu extends StatelessWidget {
               }
               if(value==2){
                 await controllerProduct.getProducts();
+                await controllerCategory.getCategories();
               }
               if(value==0){
                 await controllerProduct.getProducts();
+                await controllerCategory.getCategories();
+
               }
               controllerLoading.isLoading.value=false;
             } else {

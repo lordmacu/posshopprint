@@ -40,10 +40,7 @@ class Login extends StatelessWidget {
 
       print("este es el array del login  ${isLoggedApi["user"]["outlets"]}");
       _showMenu(context,isLoggedApi["user"]["outlets"]);
-      /*Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => Home()),
-      );*/
+
     }
   }
 
@@ -73,10 +70,9 @@ class Login extends StatelessWidget {
 
            await controllerCategory.getCategories();
 
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => Home()),
-            );
+
+            Get.to(() => Home());
+
 
           },
           label: "${outlets[i]["name"]} ${outlets[i]["cash_registers"][c]["name"]} ",
