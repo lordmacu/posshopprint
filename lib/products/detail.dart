@@ -832,6 +832,7 @@ class DetailProduct extends StatelessWidget {
                                             }
 
                                             loadingHud.dismiss();
+                                            Navigator.pop(context);
 
                                             // }
                                           },

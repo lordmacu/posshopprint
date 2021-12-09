@@ -32,9 +32,7 @@ class TicketsContoller extends GetxController {
   }
 
   getTickets() async {
-    tickets.refresh();
-    tickets.clear();
-    tickets.refresh();
+
     var prefs = await SharedPreferences.getInstance();
 
     _endpointProvider =

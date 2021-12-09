@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:poshop/auth/controllers/AuthController.dart';
 import 'package:poshop/categories/category_provider.dart';
 import 'package:poshop/categories/models/Category.dart';
+import 'package:poshop/checkout/controllers/CheckoutController.dart';
 import 'package:poshop/home/model/Tax.dart';
 
 import 'package:poshop/service.dart';
@@ -16,6 +17,9 @@ class CategoryContoller extends GetxController{
 
   AuthContoller controllerAuth=AuthContoller();
   ProductsContoller controllerProduct = Get.find();
+
+  CheckoutContoller controllerCheckout=  Get.put(CheckoutContoller());
+
   var panelController= PanelController().obs;
 
   var isPanelOpen=false.obs;
@@ -33,9 +37,9 @@ class CategoryContoller extends GetxController{
 
   @override
   void onInit() async{
-    var  prefs = await SharedPreferences.getInstance();
-    _endpointProvider = new CategoryProvider(_client.init(prefs.getString("token")));
-    getCategories();
+    //var  prefs = await SharedPreferences.getInstance();
+    //_endpointProvider = new CategoryProvider(_client.init(prefs.getString("token")));
+    //getCategories();
   }
 
   createCategories() async{
@@ -142,6 +146,8 @@ class CategoryContoller extends GetxController{
   }
 
   getCategories() async{
+
+    print("asdfasdf");
     var  prefs = await SharedPreferences.getInstance();
 
     _endpointProvider = new CategoryProvider(_client.init(prefs.getString("token")));
@@ -153,7 +159,7 @@ class CategoryContoller extends GetxController{
 
     items.refresh();
 
-    try{
+   // try{
       var data = await _endpointProvider.getCategories();
 
 
@@ -173,14 +179,15 @@ class CategoryContoller extends GetxController{
 
         controllerProduct.getProducts();
         getTaxes();
+        controllerCheckout.getPayments();
 
 
         return true;
       }
-    }catch(e){
-      print("aqui esta el error category ${e}");
-      return false;
-    }
+   // }catch(e){
+      //print("aqui esta el error category ${e}");
+     // return false;
+   // }
   }
 
   replaceExeptionText(String text){
