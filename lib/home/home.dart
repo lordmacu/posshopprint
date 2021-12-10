@@ -20,7 +20,7 @@ import 'package:poshop/home/products.dart';
 import 'package:poshop/products/model/Product.dart';
 import 'package:poshop/products/products.dart';
 import 'package:poshop/tickets/tickets.dart';
-import 'package:barras/barras.dart';
+//import 'package:barras/barras.dart';
 
 class Home extends StatelessWidget   {
 
@@ -111,7 +111,7 @@ class Home extends StatelessWidget   {
             ),
             InkWell(
               onTap: () async {
-                final data = await Barras.scan(context);
+            /*    final data = await Barras.scan(context);
 
 
 
@@ -131,7 +131,7 @@ class Home extends StatelessWidget   {
                       "Por favor verificar si el producto existe o si el código de barras es el indicado");
                 }
 
-
+*/
               },
               child: Container(
                 margin: EdgeInsets.only(left: 15),
