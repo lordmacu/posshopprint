@@ -44,6 +44,8 @@ class ProductsList extends StatelessWidget {
             backgroundColor: Color(0xff298dcf),
             onPressed: () {
               // controllerHome.isOpenCreator.value = true;
+              controllerHome.resetCreationProduct();
+
               Get.to(() => ProductIndividual());
 
 
