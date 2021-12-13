@@ -145,10 +145,11 @@ class Divide extends StatelessWidget {
                     },
                     keyboardType: TextInputType.number,
                     inputFormatters: [
-                      CurrencyTextInputFormatter(
-                        locale: 'es',
-                        decimalDigits: 0,
-                      ),
+                      TextInputMask(
+                          mask: '\$! !9+.999',
+                          placeholder: '0',
+                          maxPlaceHolders: 0,
+                          reverse: true)
                     ],
                     decoration: InputDecoration(
                         labelText: "Efectivo recibido",
@@ -380,10 +381,11 @@ class Divide extends StatelessWidget {
                                 Container(
                                   child: TextFormField(
                                     inputFormatters: [
-                                      CurrencyTextInputFormatter(
-                                        locale: 'es',
-                                        decimalDigits: 0,
-                                      ),
+                                      TextInputMask(
+                                          mask: '\$! !9+.999',
+                                          placeholder: '0',
+                                          maxPlaceHolders: 0,
+                                          reverse: true)
                                     ],
                                     onChanged: (value){
 
