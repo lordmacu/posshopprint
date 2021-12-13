@@ -1,3 +1,4 @@
+import 'package:easy_mask/easy_mask.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -237,10 +238,11 @@ class Checkout extends StatelessWidget {
                     },
                     keyboardType: TextInputType.number,
                     inputFormatters: [
-                      CurrencyTextInputFormatter(
-                        locale: 'es',
-                        decimalDigits: 0,
-                      ),
+                      TextInputMask(
+                          mask: '\$! !9+.999',
+                          placeholder: '0',
+                          maxPlaceHolders: 0,
+                          reverse: true)
                     ],
                     decoration: InputDecoration(
                         labelText: "Efectivo recibido",

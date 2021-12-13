@@ -88,6 +88,7 @@ class ProductsContoller extends GetxController {
 
 
     _endpointProvider = new ProductProvider(_client.init(prefs.getString("token")));
+    getProducts();
 
   }
 
