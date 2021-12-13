@@ -232,19 +232,15 @@ class Checkout extends StatelessWidget {
                       value= value.replaceAll("\$", "");
                       value= value.replaceAll(" ", "");
                       value= value.replaceAll(".", "");
-                      value= value.replaceAll(",", "");
-
-                      print("este es el valor arreglado ${value}");
                       controllerCheckout.totalCheckout.value =
                           double.parse("${value}");
                     },
                     keyboardType: TextInputType.number,
                     inputFormatters: [
-                      /*CurrencyTextInputFormatter(
-
+                      CurrencyTextInputFormatter(
+                        locale: 'es',
                         decimalDigits: 0,
-                          locale: 'en_US', name: '\$'
-                      ),*/
+                      ),
                     ],
                     decoration: InputDecoration(
                         labelText: "Efectivo recibido",

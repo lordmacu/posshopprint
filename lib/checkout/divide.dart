@@ -131,7 +131,6 @@ class Divide extends StatelessWidget {
                       value= value.replaceAll("\$", "");
                       value= value.replaceAll(" ", "");
                       value= value.replaceAll(".", "");
-                      value= value.replaceAll(",", "");
 
 
                       if(double.parse(value)>controllerCheckout.tempValue.value){
@@ -146,11 +145,10 @@ class Divide extends StatelessWidget {
                     },
                     keyboardType: TextInputType.number,
                     inputFormatters: [
-                      /*CurrencyTextInputFormatter(
-
-                          decimalDigits: 0,
-                          locale: 'en_US', name: '\$'
-                      ),*/
+                      CurrencyTextInputFormatter(
+                        locale: 'es',
+                        decimalDigits: 0,
+                      ),
                     ],
                     decoration: InputDecoration(
                         labelText: "Efectivo recibido",
@@ -382,18 +380,16 @@ class Divide extends StatelessWidget {
                                 Container(
                                   child: TextFormField(
                                     inputFormatters: [
-                                     /* CurrencyTextInputFormatter(
-
-                                          decimalDigits: 0,
-                                          locale: 'en_US', name: '\$'
-                                      ),*/
+                                      CurrencyTextInputFormatter(
+                                        locale: 'es',
+                                        decimalDigits: 0,
+                                      ),
                                     ],
                                     onChanged: (value){
 
                                       value= value.replaceAll("\$", "");
                                       value= value.replaceAll(" ", "");
                                       value= value.replaceAll(".", "");
-                                      value= value.replaceAll(",", "");
 
                                       controllerCheckout.paymentCheckoutsItems[index].price=double.parse(value);
                                       controllerCheckout.update();

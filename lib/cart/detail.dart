@@ -1,4 +1,3 @@
-import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:poshop/products/controllers/ProductContoller.dart';
 import 'package:sliding_switch/sliding_switch.dart';
@@ -344,11 +343,11 @@ class DetailProduct extends StatelessWidget {
                                             hintText:
                                             "Escribe el precio del producto"),
                                         inputFormatters: [
-                                         /* CurrencyTextInputFormatter(
-
-                                              decimalDigits: 0,
-                                              locale: 'en_US', name: '\$'
-                                          ),*/
+                                          TextInputMask(
+                                              mask: '\$! !9+.999',
+                                              placeholder: '0',
+                                              maxPlaceHolders: 0,
+                                              reverse: true)
                                         ],
                                       ),
                                     )),
@@ -369,11 +368,11 @@ class DetailProduct extends StatelessWidget {
                                             hintText:
                                             "Escribe el coste del producto"),
                                         inputFormatters: [
-                                         /* CurrencyTextInputFormatter(
-
-                                              decimalDigits: 0,
-                                              locale: 'en_US', name: '\$'
-                                          ),*/
+                                          TextInputMask(
+                                              mask: '\$! !9+.999',
+                                              placeholder: '0',
+                                              maxPlaceHolders: 0,
+                                              reverse: true)
                                         ],
                                       ),
                                     ))
