@@ -1,3 +1,4 @@
+import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:easy_mask/easy_mask.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -121,11 +122,24 @@ class Discounts extends StatelessWidget {
                   child: Row(
                     children: [
                       Expanded(child: TextFormField(
+                        inputFormatters: [
+                        /*  CurrencyTextInputFormatter(
+
+                              decimalDigits: 0,
+                              locale: 'en_US', name: '\$'
+                          ),*/
+                        ],
                         keyboardType: TextInputType.number,
 
                         
                         controller: valueController,
                         onChanged: (value){
+
+                          value= value.replaceAll("\$", "");
+                          value= value.replaceAll(" ", "");
+                          value= value.replaceAll(".", "");
+                          value= value.replaceAll(",", "");
+
                           controllerDiscounts.valueDiscount.value=value;
                         },
                         cursorColor: Colors.black,
@@ -305,7 +319,19 @@ class Discounts extends StatelessWidget {
                                         controllerDiscounts.DiscountSingular.value.id=discount.id;
                                         controllerDiscounts.DiscountSingular.value.name=discount.name;
                                         controllerDiscounts.DiscountSingular.value.value="${double.parse(discount.value).toInt()}";
-                                        valueController.text=controllerDiscounts.DiscountSingular.value.value;
+
+
+                                       var value = controllerDiscounts.DiscountSingular.value.value;
+                                        value= value.replaceAll("\$", "");
+                                        value= value.replaceAll(" ", "");
+                                        value= value.replaceAll(".", "");
+                                        value= value.replaceAll(",", "");
+
+
+
+
+
+                                        valueController.text=value;
                                         nameController.text=discount.name;
                                         controllerDiscounts.nameDiscount.value=discount.name;
 

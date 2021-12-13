@@ -1,3 +1,4 @@
+import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:flutter/material.dart';
 
 class CardPanel extends StatelessWidget{
@@ -40,6 +41,13 @@ class CardPanel extends StatelessWidget{
           child: Row(
             children: [
               Expanded(child: TextFormField(
+                inputFormatters: [
+                /*  CurrencyTextInputFormatter(
+
+                      decimalDigits: 0,
+                      locale: 'en_US', name: '\$'
+                  ),*/
+                ],
 
                 onChanged: (value){
 
