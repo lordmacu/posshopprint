@@ -1,7 +1,8 @@
 import 'package:dio/dio.dart';
 
 class ApiBaseHelper {
-  static final String generalUrl = 'https://poschile.bbndev.com/api';
+  static final String generalUrl = 'https://posshop.qa.bbndev.com/api';
+  //static final String generalUrl = 'https://poschile.bbndev.com/api';
   static BaseOptions opts = BaseOptions(
     baseUrl: generalUrl,
     responseType: ResponseType.json,

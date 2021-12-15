@@ -42,26 +42,22 @@ import static com.iposprinter.printertestdemo.MemInfo.bitmapRecycle;
 public class IPosPrinterTestDemo  {
 
     private static final String TAG                 = "IPosPrinterTestDemo";
-    /* Demo 版本号*/
-    private static final String VERSION        = "V1.1.0";
+     private static final String VERSION        = "V1.1.0";
 
 
     private Button b_barcode, b_pic, b_qcode, b_self, b_text, b_table, b_init, b_lines, b_test, b_testall;
     private Button b_erlmo, b_meituan, b_baidu, b_query, b_bytes, b_length, b_continu,b_koubei;
     private Button b_runpaper, b_motor, b_demo, b_wave, b_error, b_loop;
 
-    /*定义打印机状态*/
-    private final int PRINTER_NORMAL = 0;
+     private final int PRINTER_NORMAL = 0;
     private final int PRINTER_PAPERLESS = 1;
     private final int PRINTER_THP_HIGH_TEMPERATURE = 2;
     private final int PRINTER_MOTOR_HIGH_TEMPERATURE = 3;
     private final int PRINTER_IS_BUSY = 4;
     private final int PRINTER_ERROR_UNKNOWN = 5;
-    /*打印机当前状态*/
-    private int printerStatus = 0;
+     private int printerStatus = 0;
 
-    /*定义状态广播*/
-    private final String  PRINTER_NORMAL_ACTION = "com.iposprinter.iposprinterservice.NORMAL_ACTION";
+     private final String  PRINTER_NORMAL_ACTION = "com.iposprinter.iposprinterservice.NORMAL_ACTION";
     private final String  PRINTER_PAPERLESS_ACTION = "com.iposprinter.iposprinterservice.PAPERLESS_ACTION";
     private final String  PRINTER_PAPEREXISTS_ACTION = "com.iposprinter.iposprinterservice.PAPEREXISTS_ACTION";
     private final String  PRINTER_THP_HIGHTEMP_ACTION = "com.iposprinter.iposprinterservice.THP_HIGHTEMP_ACTION";
@@ -70,8 +66,7 @@ public class IPosPrinterTestDemo  {
     private final String  PRINTER_BUSY_ACTION = "com.iposprinter.iposprinterservice.BUSY_ACTION";
     private final String  PRINTER_CURRENT_TASK_PRINT_COMPLETE_ACTION = "com.iposprinter.iposprinterservice.CURRENT_TASK_PRINT_COMPLETE_ACTION";
 
-    /*定义消息*/
-    private final int MSG_TEST                               = 1;
+     private final int MSG_TEST                               = 1;
     private final int MSG_IS_NORMAL                          = 2;
     private final int MSG_IS_BUSY                            = 3;
     private final int MSG_PAPER_LESS                         = 4;
@@ -82,15 +77,13 @@ public class IPosPrinterTestDemo  {
     private final int MSG_MOTOR_HIGH_TEMP_INIT_PRINTER       = 9;
     private final int MSG_CURRENT_TASK_PRINT_COMPLETE     = 10;
 
-    /*循环打印类型*/
-    private final int  MULTI_THREAD_LOOP_PRINT  = 1;
+     private final int  MULTI_THREAD_LOOP_PRINT  = 1;
     private final int  INPUT_CONTENT_LOOP_PRINT = 2;
     private final int  DEMO_LOOP_PRINT          = 3;
     private final int  PRINT_DRIVER_ERROR_TEST  = 4;
     private final int  DEFAULT_LOOP_PRINT       = 0;
 
-    //循环打印标志位
-    private       int  loopPrintFlag            = DEFAULT_LOOP_PRINT;
+     private       int  loopPrintFlag            = DEFAULT_LOOP_PRINT;
     private       byte loopContent              = 0x00;
     private       int  printDriverTestCount     = 0;
 
