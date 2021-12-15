@@ -140,7 +140,7 @@ class Divide extends StatelessWidget {
                       }
                        controllerCheckout.tempBalance.value=double.parse(value);
 
-                      print("este es el value del saldo  ${value}  ${controllerCheckout.tempBalance.value}");
+
 
                     },
                     keyboardType: TextInputType.number,
@@ -181,7 +181,7 @@ class Divide extends StatelessWidget {
 
                         }
 
-                        print("saquiii esta lo que pago  ${controllerCheckout.tempTotal.value} ${controllerCheckout.tempTotal.value}");
+
 
 
                         controllerCheckout.paymentCheckoutsItems.refresh();
@@ -307,7 +307,7 @@ class Divide extends StatelessWidget {
                     itemsLocal.add(controllerCheckout.paymentItems[i].name);
 
                   }
-                  print("aquiii esta la cantidad mano  ${itemsLocal}");
+
                   TextEditingController _controller = TextEditingController(text: "${controllerCheckout.paymentCheckoutsItems[index].price}");
 
 
@@ -440,7 +440,7 @@ class Divide extends StatelessWidget {
                                 }
 
                                 controllerTemp.text=formatedNumber('${controllerCheckout.tempValue.value.toInt()}');
-                                print("este es el type ${controllerCheckout.tempType.value}");
+
 
                                 controllerCheckout.panelControllerDivide.value.open();
 

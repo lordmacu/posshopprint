@@ -44,7 +44,7 @@ class ApiBaseHelper {
   }
 
   Future<Response> postHTTP(String url, dynamic data) async {
-    print("aquii estamos ${generalUrl+url}");
+
     try {
       Response response = await baseAPI.post(generalUrl+url, data: data);
       return response;

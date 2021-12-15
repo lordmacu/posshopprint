@@ -72,7 +72,6 @@ class AuthContoller extends GetxController{
 
     prefs.setBool("isLogged", login);
 
-    print("esta es la data del login   ${data}");
     if(data!=null){
       prefs.setString("user", jsonEncode(data));
       //prefs.setInt("outletId",  data["user"]["outlet"]["id"]);
@@ -121,7 +120,6 @@ class AuthContoller extends GetxController{
           prefs.setString("cashier", jsonEncode(data["data"][0]["cashregisters_inactives"][0]));
           prefs.setInt("cashierId", data["data"][0]["cashregisters_inactives"][0]["id"]);
 
-          print("aquiii esta la cosa ${prefs.getInt("cashierId")}");
           cashRegister();
         }
 
@@ -144,7 +142,6 @@ class AuthContoller extends GetxController{
   cashRegister() async{
     prefs = await SharedPreferences.getInstance();
 
-    print("aquii esta el token   ${prefs.getString("token")}");
      _endpointProvider = new AuthProvider(_client.init(prefs.getString("token")));
 
     try{
@@ -170,7 +167,6 @@ class AuthContoller extends GetxController{
         return true;
       }
     }catch(e){
-      print("sadfasd   ${e}");
     //  loginUserSystem(false,null);
       return false;
     }
@@ -180,7 +176,6 @@ class AuthContoller extends GetxController{
     try{
       var data = await _endpointProvider.register(email,password,business);
 
-      print("esta es la data ${data}");
       if(data["success"]){
         loginUserSystem(true,data["data"]);
         return "ok";

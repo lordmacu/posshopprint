@@ -6,6 +6,18 @@ class AuthProvider {
 
   AuthProvider(this._client);
 
+  Future loginPin(pin,idOrg) async {
+    try {
+      final response = await _client.post(
+          '/auth/login',data: {"pin":pin,"id_org":idOrg});
+
+      return json.decode(response.toString());
+    } on DioError catch (ex) {
+      String errorMessage = ex.message.toString();
+      throw new Exception(errorMessage);
+    }
+  }
+
   Future login(email,password) async {
     try {
       final response = await _client.post(
@@ -18,10 +30,11 @@ class AuthProvider {
     }
   }
 
-  Future loginPin(pin,idOrg) async {
+
+  Future cashRegister(cashier) async {
     try {
       final response = await _client.post(
-          '/auth/login',data: {"pin":pin,"id_org":idOrg});
+          '/cash-register/${cashier}/activate');
 
       return json.decode(response.toString());
     } on DioError catch (ex) {
@@ -56,15 +69,5 @@ class AuthProvider {
 
 
 
-  Future cashRegister(cashier) async {
-    try {
-      final response = await _client.post(
-          '/cash-register/${cashier}/activate');
 
-      return json.decode(response.toString());
-    } on DioError catch (ex) {
-      String errorMessage = ex.message.toString();
-      throw new Exception(errorMessage);
-    }
-  }
 }

@@ -52,10 +52,10 @@ class CheckoutContoller extends GetxController {
     var total=0.0;
     for(var i =0; i< paymentCheckoutsItems.length; i++){
       total= total+paymentCheckoutsItems[i].balance;
-      print("este es el balance ${total}");
+
 
     }
-    print("este es el total ${total}");
+
     balanceCheckout.value= int.parse(valueCheckout.value)-total;
   }
 
@@ -82,7 +82,7 @@ class CheckoutContoller extends GetxController {
       tempBalance = tempBalance+paymentCheckoutsItems[o].balance;
     }
 
-    print("este es el balance   ${noBalance}");
+
 
     var midValue= (int.parse(valueCheckout.value)-tempBalance)/noBalance;
 
@@ -102,7 +102,7 @@ class CheckoutContoller extends GetxController {
 
     paymentCheckoutsItems.add(Payment(paymentItems[0].id, paymentItems[0].name, double.parse(valueCheckout.value),paymentItems[0].type,paymentItems[0].balance,paymentItems[0].totalPaid));
 
-    print("aquiii setpayments");
+
   }
 
   formatedNumber(number) {
@@ -125,12 +125,11 @@ class CheckoutContoller extends GetxController {
 
           paymentItems.add(Payment(dataJsonGeneral[i]["id"], dataJsonGeneral[i]["name"],0,dataJsonGeneral[i]["method"],0,0));
           paymentTypesString.add(dataJsonGeneral[i]["name"]);
-          print("aquiii  ${dataJsonGeneral[i]["name"]}");
+
 
         }
       }
 
-      print(" asdfasdf  ${paymentItems}");
     } catch (e) {
       print("aqui esta el error check ${e}");
       return false;
