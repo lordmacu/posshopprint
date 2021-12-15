@@ -11,7 +11,6 @@ class Client{
     _dio.options.headers["Accept"] = "application/json";
    // _dio.options.headers["Content-Type"] = "application/json";
 
-    print("este es el token  ${token}");
 
     return _dio;
   }

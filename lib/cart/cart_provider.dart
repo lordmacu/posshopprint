@@ -77,12 +77,7 @@ class CartProvider {
     };
 
 
-
-    print("items queseenviandooooo ${data}   total  ${totalCart}  ${controllerCheckout.paymentCheckoutsItems}");
     try {
-
-
-
 
       final response = await _client.post(
           '/tickets',data: data);

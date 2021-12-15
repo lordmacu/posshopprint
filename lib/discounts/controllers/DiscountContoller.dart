@@ -157,7 +157,7 @@ class DiscountContoller extends GetxController {
 
         }
         discounts.assignAll(itemsLocal);
-          print("disscounts  ${discounts}");
+
       }
 
       } catch (e) {

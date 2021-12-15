@@ -40,7 +40,7 @@ class Checkout extends StatelessWidget {
 
     return formatCurrency.format(numberText);
     }catch(e){
-      print("aquiiifallo el numero  ${number}");
+
     }
   }
 
@@ -152,7 +152,6 @@ class Checkout extends StatelessWidget {
                   controllerCheckout.setPayments();
                   var data = await Get.to(Divide());
 
-                  print("este es el data ${data}");
 
                   if (data != null) {
                     controllerCheckout.panelControllerCheckout.value.open();
@@ -215,7 +214,7 @@ class Checkout extends StatelessWidget {
 
 
                     onItemSelected: (itesm){
-                      print("aquii los items  ${itesm} ");
+
 
 
 

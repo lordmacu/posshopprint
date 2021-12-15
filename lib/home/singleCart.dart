@@ -104,11 +104,11 @@ class SingleCart extends StatelessWidget {
               }
               controlelrCart.items[indexItem].discount=discountLocal;
               controlelrCart.items.refresh();
-              print("selected    ${discountLocal}  item${item.product.salesPrice}");
+
 
             }
             //}catch(e){
-             // print("aquiii la e ${e}");
+
            // }
             Navigator.pop(context);
             FocusScope.of(context).unfocus();
@@ -152,7 +152,7 @@ class SingleCart extends StatelessWidget {
                 value= value.replaceAll(".", "");
                 value= value.replaceAll(",", "");
 
-                print("este ess el valuee  ${value}");
+
 
                 controlelrCart.items[indexItem].product.salesPrice=int.parse(value);
                 controlelrCart.items.refresh();
@@ -171,7 +171,7 @@ class SingleCart extends StatelessWidget {
                 controlelrCart.items[indexItem].numberItem=int.parse(value);
                 controlelrCart.items.refresh();
 
-                print(controlelrCart.items[indexItem]);
+
 
               },
             ),
@@ -201,7 +201,7 @@ class SingleCart extends StatelessWidget {
 
 
                   onItemSelected: (itesm){
-                    print("aquii los items  ${itesm}");
+
                   },
 
                 ),

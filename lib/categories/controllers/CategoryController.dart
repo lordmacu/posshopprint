@@ -47,7 +47,6 @@ class CategoryContoller extends GetxController{
     var  prefs = await SharedPreferences.getInstance();
     _endpointProvider = new CategoryProvider(_client.init(prefs.getString("token")));
 
-    print("getcatgegoriessss  ${prefs.getString("token")}");
 
     try{
       var data = await _endpointProvider.createCategories({
@@ -62,7 +61,6 @@ class CategoryContoller extends GetxController{
 
       }
     }catch(e){
-      print("este ess el erro ${e}");
       return replaceExeptionText(e);
 
     }
@@ -71,7 +69,6 @@ class CategoryContoller extends GetxController{
 
     var  prefs = await SharedPreferences.getInstance();
 
-    print("getcatgegoriessss  ${prefs.getString("token")}");
 
     try{
       var data = await _endpointProvider.deleteCategories({
@@ -93,7 +90,6 @@ class CategoryContoller extends GetxController{
 
     var  prefs = await SharedPreferences.getInstance();
 
-    print("getcatgegoriessss  ${prefs.getString("token")}");
 
     try{
       var data = await _endpointProvider.updateCategories({
@@ -147,7 +143,6 @@ class CategoryContoller extends GetxController{
 
   getCategories() async{
 
-    print("asdfasdf");
     var  prefs = await SharedPreferences.getInstance();
 
     _endpointProvider = new CategoryProvider(_client.init(prefs.getString("token")));

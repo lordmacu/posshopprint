@@ -37,8 +37,6 @@ class Login extends StatelessWidget {
       prefs.setInt("idOrg", isLoggedApi["idOrg"]);
      prefs.setString("user", jsonEncode(isLoggedApi["user"]));
 
-
-      print("este es el array del login  ${isLoggedApi["user"]["outlets"]}");
       _showMenu(context,isLoggedApi["user"]["outlets"]);
 
     }

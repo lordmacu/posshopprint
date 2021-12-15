@@ -302,7 +302,6 @@ class DetailProduct extends StatelessWidget {
                                         value: false,
                                         width: 160,
                                         onChanged: (bool value) {
-                                          print(value);
                                         },
                                         height: 40,
                                         animationDuration:
