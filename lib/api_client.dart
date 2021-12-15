@@ -6,7 +6,8 @@ class Client{
   Dio init(token) {
     Dio _dio = new Dio();
     _dio.interceptors.add(new ApiInterceptors());
-    _dio.options.baseUrl = "https://poschile.bbndev.com/api";
+   // _dio.options.baseUrl = "https://poschile.bbndev.com/api";
+    _dio.options.baseUrl = "https://posshop.qa.bbndev.com/api";
     _dio.options.headers["Authorization"] = "Bearer " + token;
     _dio.options.headers["Accept"] = "application/json";
    // _dio.options.headers["Content-Type"] = "application/json";

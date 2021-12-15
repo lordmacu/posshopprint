@@ -23,7 +23,8 @@ class _Redirector extends State<Redirector> {
     var  prefs = await SharedPreferences.getInstance();
 
 
-    prefs.setString("url","https://poschile.bbndev.com/api");
+    prefs.setString("url","https://posshop.qa.bbndev.com/api");
+   // prefs.setString("url","https://poschile.bbndev.com/api");
 
 
     await controllerAuth.setToken();
