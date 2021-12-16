@@ -278,7 +278,7 @@ class DetailProduct extends StatelessWidget {
               child: Container(
                 padding: EdgeInsets.only(bottom: 20),
                 child: Form(
-                  //  key: controllerHome.formKey.value,
+                    key: controllerHome.formKey.value,
                   child: Container(
                     child: Obx(() => Column(
                           mainAxisSize: MainAxisSize.min,
@@ -750,21 +750,31 @@ class DetailProduct extends StatelessWidget {
                                           padding: EdgeInsets.only(
                                               top: 15, bottom: 15),
                                           onPressed: () async {
-                                            loadingHud.show();
 
-                                            //   if (controllerHome.formKey.value.currentState.validate()) {
-                                            var canSubmit = true;
+                                              if (controllerHome.formKey.value.currentState.validate()) {
+
+                                                var canSubmit = true;
+
 
                                             if (controllerHome.isImagen.value) {
+
+
                                               if (!controllerHome
                                                   .isFormSelected.value) {
+
+
+
                                                 helpers.defaultAlert(
                                                     context,
                                                     "warning",
                                                     "Error en creación",
                                                     "Por favor seleccione una forma");
+
                                                 canSubmit = false;
+
                                               }
+                                              print("es o no imagen  ${controllerHome.isImagen.value}  ${controllerHome
+                                                  .isFormSelected.value}");
                                               if (!controllerHome
                                                   .isSelectedColor.value) {
                                                 helpers.defaultAlert(
@@ -774,7 +784,12 @@ class DetailProduct extends StatelessWidget {
                                                     "Por favor seleccione el color");
                                                 canSubmit = false;
                                               }
+
+
                                             }
+
+
+
 
                                             if (controllerHome
                                                     .selectedCategory.value ==
@@ -785,22 +800,28 @@ class DetailProduct extends StatelessWidget {
                                                   "Error en creación",
                                                   "Por favor seleccione la categoría");
                                               canSubmit = false;
+
+
                                             }
+
+
+
                                             if (canSubmit) {
                                               if (controllerHome
                                                       .item_id.value ==
                                                   "0") {
-                                                print(
-                                                    "aquiii el item id ${controllerHome.item_id.value}");
+
+                                                loadingHud.show();
 
                                                 var response =
                                                     await controllerHome
                                                         .createProduct();
+                                                loadingHud.dismiss();
 
                                                 if (response == "ok") {
                                                   controllerHome
                                                       .resetCreationProduct();
-
+                                                  Navigator.pop(context);
 
                                                 } else {
                                                   helpers.defaultAlert(
@@ -809,16 +830,22 @@ class DetailProduct extends StatelessWidget {
                                                       "${response["message"]}",
                                                       "${response["data"]}");
                                                 }
+
+                                                return false;
+
                                               } else {
+                                                loadingHud.show();
+
                                                 var response =
                                                     await controllerHome
                                                         .updateProduct();
+                                                loadingHud.dismiss();
 
                                                 if (response == "ok") {
                                                   controllerHome
                                                       .resetCreationProduct();
 
-
+                                                  Navigator.pop(context);
                                                 } else {
                                                   helpers.defaultAlert(
                                                       context,
@@ -829,10 +856,9 @@ class DetailProduct extends StatelessWidget {
                                               }
                                             }
 
-                                            loadingHud.dismiss();
-                                            Navigator.pop(context);
 
-                                            // }
+
+                                            }
                                           },
                                           shape: RoundedRectangleBorder(
                                             borderRadius:
