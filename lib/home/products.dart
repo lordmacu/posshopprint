@@ -78,6 +78,22 @@ class Products extends StatelessWidget {
     return formatCurrency.format(number);
   }
 
+
+  getShape(shape){
+    if(shape=="SUN"){
+        return "star";
+    }
+    if(shape=="SQUARE"){
+      return "square";
+    }
+    if(shape=="CIRCLE"){
+      return "circle";
+    }
+    if(shape=="HEXAGON"){
+      return "pentagon";
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
 
@@ -127,9 +143,24 @@ class Products extends StatelessWidget {
                                 children: [
                                   Container(
                                     height: 80,
-                                    child: Image.network(
-                                      product.image== null ? "https://m.media-amazon.com/images/I/61ccMD0XMBL._AC_UY625_.jpg" :  product.image,
+                                    child: product.image!= null ? Image.network(
+                                      product.image,
                                       fit: BoxFit.cover,
+                                    ): Container(
+                                      width: 70,
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Image.asset("assets/${getShape(product.shape)}.png"),
+                                          Container(
+                                            margin: EdgeInsets.only(top: 5),
+                                            child: null,
+                                            height: 5,
+                                            width: 70,
+                                            color: Color(int.parse("0xff${product.color.replaceAll("#", "")}")),
+                                          )
+                                        ],
+                                      ),
                                     ),
                                   ),
                                   Expanded(
