@@ -29,24 +29,24 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.4
   get: 3.26.0
-  bubble_bottom_bar:
-  pop_bottom_menu:
-  masonry_grid:
-  sliding_up_panel:
-  easy_mask:
+  bubble_bottom_bar: 2.0.0
+  pop_bottom_menu: 1.0.0
+  masonry_grid: 1.0.0
+  sliding_up_panel: 2.0.0+1
+  easy_mask: 2.0.1
   image_picker: 0.6.7+22
-  o_color_picker:
+  o_color_picker: 1.0.2
   animated_background:
   sliding_switch: ^1.0.0
   dio: 3.0.10
-  loading_hud:
-  rflutter_alert:
-  validators:
-  shared_preferences:
+  loading_hud: 0.2.0
+  rflutter_alert: 2.0.4
+  validators: 3.0.0
+  shared_preferences: 2.0.10
   intl: ^0.17.0
   currency_text_input_formatter: ^2.1.5
-  pinput:
-  flutter_switch:
+  pinput: 1.2.2
+  flutter_switch: 0.3.2
   scrollable_positioned_list: ^0.2.3
   fluttertoast: ^8.0.8
 
