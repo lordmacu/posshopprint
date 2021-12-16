@@ -179,6 +179,7 @@ class Login extends StatelessWidget {
                     padding: EdgeInsets.only(
                         top: 10, bottom: 0, left: 20, right: 20),
                     child: TextFormField(
+                      obscureText: true,
                       decoration: InputDecoration(
                         hintText: 'Ingresa la contraseña',
                         focusedBorder: OutlineInputBorder(

@@ -120,6 +120,7 @@ class Register extends StatelessWidget{
                           controllerAuth.password.value=value;
 
                         },
+                        obscureText: true,
                         decoration: InputDecoration(
 
                           hintText: 'Ingresa la contraseña',
