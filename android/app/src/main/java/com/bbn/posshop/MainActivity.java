@@ -1,4 +1,4 @@
-package io.posjava;
+package com.bbn.posshop;
 
 import io.flutter.embedding.android.FlutterActivity;
 
