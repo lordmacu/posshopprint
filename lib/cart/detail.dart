@@ -261,7 +261,7 @@ class DetailProduct extends StatelessWidget {
                             // The validator receives the text that the user has entered.
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return 'Please enter some text';
+                                return 'Por favor ingrese el nombre';
                               }
                               return null;
                             },
@@ -331,7 +331,7 @@ class DetailProduct extends StatelessWidget {
                                       child: TextFormField(
                                         validator: (value) {
                                           if (value == null || value.isEmpty) {
-                                            return 'Please enter some text';
+                                            return 'Por favor ingrese el precio';
                                           }
                                           return null;
                                         },
@@ -358,7 +358,7 @@ class DetailProduct extends StatelessWidget {
 
                                         validator: (value) {
                                           if (value == null || value.isEmpty) {
-                                            return 'Please enter some text';
+                                            return 'Por favor ingrese el coste';
                                           }
                                           return null;
                                         },
@@ -393,7 +393,7 @@ class DetailProduct extends StatelessWidget {
                                         // The validator receives the text that the user has entered.
                                         validator: (value) {
                                           if (value == null || value.isEmpty) {
-                                            return 'Please enter some text';
+                                            return 'Por favor ingrese la referncia';
                                           }
                                           return null;
                                         },
@@ -410,7 +410,7 @@ class DetailProduct extends StatelessWidget {
                                         // The validator receives the text that the user has entered.
                                         validator: (value) {
                                           if (value == null || value.isEmpty) {
-                                            return 'Please enter some text';
+                                            return 'Por favor ingrese el código de barras';
                                           }
                                           return null;
                                         },

@@ -29,7 +29,7 @@ class Login extends StatelessWidget {
 
     if (isLoggedApi["token"]==null) {
       helpers.defaultAlert(context, "error", "${isLoggedApi["message"]}",
-          "${isLoggedApi["data"]}");
+          "${isLoggedApi["data"]!= null ? isLoggedApi["data"] : ""}");
     } else {
      var  prefs = await SharedPreferences.getInstance();
 
@@ -122,9 +122,7 @@ class Login extends StatelessWidget {
                           TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
                     ),
                   ),
-                  Container(
-                    child: Text("Subtitilo del saludo"),
-                  )
+
                 ],
               )
             ],

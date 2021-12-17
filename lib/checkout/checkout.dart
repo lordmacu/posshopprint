@@ -250,7 +250,7 @@ class Checkout extends StatelessWidget {
                     validator: (value) {
 
                       if (value == null || value.isEmpty) {
-                        return 'Please enter some text';
+                        return 'Por favor ingrese el valor a cobrar';
                       }
                       return null;
                     },

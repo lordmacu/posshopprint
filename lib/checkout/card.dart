@@ -57,7 +57,7 @@ class CardPanel extends StatelessWidget{
                 // The validator receives the text that the user has entered.
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please enter some text';
+                    return 'Por favor ingrese el efectivo recibido';
                   }
                   return null;
                 },
