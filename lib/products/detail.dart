@@ -736,6 +736,7 @@ class DetailProduct extends StatelessWidget {
                                                   ),
                                                   color: Colors.white,
                                                   child: Row(
+
                                                     mainAxisAlignment:
                                                         MainAxisAlignment
                                                             .center,
