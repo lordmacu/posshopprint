@@ -1,6 +1,9 @@
+ import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:poshop/categories/controllers/CategoryController.dart';
 import 'package:poshop/products/controllers/ProductContoller.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sliding_switch/sliding_switch.dart';
 import 'package:pop_bottom_menu/pop_bottom_menu.dart';
 import 'package:easy_mask/easy_mask.dart';
@@ -39,7 +42,14 @@ class DetailProduct extends StatelessWidget {
                 loadingHud.show();
 
                 var imageFinal = await controllerHome.uploadImage();
-                controllerHome.imageUpload.value = imageFinal;
+
+
+
+
+
+
+                controllerHome.imageUpload.value = "${imageFinal}";
+
 
                 loadingHud.dismiss();
 
@@ -59,7 +69,13 @@ class DetailProduct extends StatelessWidget {
                 loadingHud.show();
 
                 var imageFinal = await controllerHome.uploadImage();
-                controllerHome.imageUpload.value = imageFinal;
+
+                var  prefs = await SharedPreferences.getInstance();
+
+
+
+
+                controllerHome.imageUpload.value = "${imageFinal}";
 
                 loadingHud.dismiss();
 
@@ -75,6 +91,15 @@ class DetailProduct extends StatelessWidget {
         );
       },
     );
+  }
+
+  showNetworkImage(imageFinal) async{
+    var  prefs = await SharedPreferences.getInstance();
+
+    var url= prefs.getString("url").replaceAll("api", "mediadownload/");
+
+
+   return "${url}${imageFinal}";
   }
 
   void _showMenuForm(context) {
@@ -715,17 +740,17 @@ class DetailProduct extends StatelessWidget {
                                                         MainAxisAlignment
                                                             .center,
                                                     children: [
-                                                      Obx(() => Expanded(
-                                                              child: Text(
-                                                            controllerHome
-                                                                        .imageUpload
-                                                                        .value ==
-                                                                    ""
-                                                                ? "Seleccionar imágen"
-                                                                : controllerHome
-                                                                    .imageUpload
-                                                                    .value,
-                                                          ))),
+                                                      Obx(() => controllerHome
+                                                  .imageUpload
+                                                  .value ==
+                                              "" ? Expanded(
+                                                              child: Text("Seleccionar imágen")) : Container(
+                                                        width: 100,
+                                                        height: 100,
+                                                        child: controllerHome.item_id.value != "0" ? Image.network((controllerHome
+                                                            .imageUpload
+                                                            .value),fit: BoxFit.cover,): Image.file(File(controllerHome.image.value),fit: BoxFit.cover,),
+                                                      )),
                                                       Container(
                                                         margin: EdgeInsets.only(
                                                             left: 10),
