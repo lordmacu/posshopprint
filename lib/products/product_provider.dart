@@ -24,7 +24,7 @@ class ProductProvider {
     try {
 
       final response = await _client.get(
-          '/items?outlet_id=${outletId}&itemsPerPage=5&page=1&search=');
+          '/items?outlet_id=${outletId}&itemsPerPage=1000&page=1&search=');
 
       return json.decode(response.toString());
     } on DioError catch (ex) {
