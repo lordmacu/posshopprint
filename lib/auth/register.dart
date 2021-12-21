@@ -49,8 +49,21 @@ class Register extends StatelessWidget{
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Column(
+                  children: [
+                    Container(
+                      margin: EdgeInsets.only(bottom: 15),
+                      child: Text("Registrate a Posshop",style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold),),
+                    ),
 
-
+                  ],
+                )
+              ],
+            ),
             Container(
               margin: EdgeInsets.only(top: 50),
               child: Form(
