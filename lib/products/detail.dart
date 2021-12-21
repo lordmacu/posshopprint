@@ -812,6 +812,16 @@ class DetailProduct extends StatelessWidget {
                                           }
 
 
+                                        }else{
+
+                                          if(controllerHome.imageUpload.value.length==0){
+                                            helpers.defaultAlert(
+                                                context,
+                                                "warning",
+                                                "Error en creación",
+                                                "Por favor seleccione una imagen");
+                                            canSubmit = false;
+                                          }
                                         }
 
 
