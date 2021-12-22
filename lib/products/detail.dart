@@ -256,7 +256,7 @@ class DetailProduct extends StatelessWidget {
 
         items.add(ItemPopBottomMenu(
           onPressed: () {
-            controllerHome.selectedCategory.value =999999999;
+            controllerHome.selectedCategory.value =null;
             controllerHome.selectedCategoryName.value ="Sin categoría";
 
             Navigator.of(context).pop();
@@ -264,7 +264,7 @@ class DetailProduct extends StatelessWidget {
           label: "Sin categoría",
           icon: Icon(
             Icons.check_circle,
-            color: controllerHome.selectedCategory.value == 999999999
+            color: controllerHome.selectedCategory.value == null
                 ? Colors.greenAccent
                 : Colors.grey.withOpacity(0.5),
           ),

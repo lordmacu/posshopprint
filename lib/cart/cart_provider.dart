@@ -20,12 +20,11 @@ class CartProvider {
 
 
     var itemsSave=[];
-    var totalCart=0;
+    var totalCart=0.0;
     for(var i =0; i<items.length; i++){
-      var localTotal=1;
-      if(items[i].product.divisible!=0) {
-          localTotal = items[i].product.salesPrice * items[i].numberItem.toInt();
-      }
+
+     var  localTotal = items[i].product.salesPrice * items[i].numberItem;
+
       var discounts=[];
 
       if(items[i].discount!=null){
@@ -37,11 +36,13 @@ class CartProvider {
         }
       }
 
+      print("este es el sales price  ${items[i].product.salesPrice}  y esta es la cantidad  ${items[i].numberItem} ");
+
 
         itemsSave.add({
         "id":"${items[i].product.id}",
         "quantity":"${items[i].numberItem}",
-        "amount":"${localTotal}", "discounts":discounts
+        "amount":"${items[i].product.salesPrice * items[i].numberItem}", "discounts":discounts
 
       });
 
@@ -68,7 +69,7 @@ class CartProvider {
 
 
       var data ={
-      "total":"${totalCart}",
+      "total":"${totalCart.toInt()}",
       "email":controllerCheckout.email.value,
       "cashregister_id":"${prefs.getInt("cashierId")}",
     //  "client_id":"1",

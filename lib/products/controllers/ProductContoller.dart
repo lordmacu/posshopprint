@@ -120,6 +120,9 @@ class ProductsContoller extends GetxController {
     if(product.category!=null){
       selectedCategory.value=product.category.id;
       selectedCategoryName.value=product.category.name;
+    }else{
+      selectedCategory.value=null;
+      selectedCategoryName.value="Sin categoría";
     }
 
     if(product.representation=="color_y_forma"){

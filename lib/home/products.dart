@@ -502,7 +502,7 @@ class Products extends StatelessWidget {
 
                                       margin: EdgeInsets.only(right: 10),
                                       child: Text(
-                                        "${items[i].product.itemNme}  x ${items[i].numberItem}",
+                                        "${items[i].product.itemNme}  x ${items[i].numberItem.toInt()}",
                                         style: TextStyle(fontSize: 15),
                                       ),
                                     )),
