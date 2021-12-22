@@ -254,21 +254,7 @@ class DetailProduct extends StatelessWidget {
         List<ItemPopBottomMenu> items = [];
 
 
-        items.add(ItemPopBottomMenu(
-          onPressed: () {
-            controllerHome.selectedCategory.value =null;
-            controllerHome.selectedCategoryName.value ="Sin categoría";
 
-            Navigator.of(context).pop();
-          },
-          label: "Sin categoría",
-          icon: Icon(
-            Icons.check_circle,
-            color: controllerHome.selectedCategory.value == null
-                ? Colors.greenAccent
-                : Colors.grey.withOpacity(0.5),
-          ),
-        ));
 
         for (var i = 0; i < controllerCategory.items.length; i++) {
           var color =
@@ -375,7 +361,7 @@ class DetailProduct extends StatelessWidget {
                                                             .selectedCategory
                                                             .value ==
                                                             0
-                                                            ? "Categoría"
+                                                            ? "Sin Categoría"
                                                             : controllerHome
                                                             .selectedCategoryName
                                                             .value,
@@ -474,13 +460,7 @@ class DetailProduct extends StatelessWidget {
                                                 controllerHome.primeCost
                                                     .value = "${value}";
                                               },
-                                              validator: (value) {
-                                                if (value == null ||
-                                                    value.isEmpty) {
-                                                  return 'Por favor ingrese el coste';
-                                                }
-                                                return null;
-                                              },
+
                                               decoration: InputDecoration(
                                                   labelText: "Coste",
                                                   hintText:
@@ -847,12 +827,15 @@ class DetailProduct extends StatelessWidget {
                                         if (controllerHome
                                             .selectedCategory.value ==
                                             0) {
-                                          helpers.defaultAlert(
+                                         /* helpers.defaultAlert(
                                               context,
                                               "warning",
                                               "Error en creación",
                                               "Por favor seleccione la categoría");
-                                          canSubmit = false;
+                                          canSubmit = false;*/
+
+                                          controllerHome.selectedCategory.value =null;
+                                          controllerHome.selectedCategoryName.value ="Sin categoría";
 
 
                                         }

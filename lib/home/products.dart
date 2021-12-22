@@ -184,7 +184,7 @@ class Products extends StatelessWidget {
                                             ),
                                             Container(
                                               child: Text(
-                                                product.category != null ? product.category.name : "Categoría",
+                                                product.category != null ? product.category.name : "Sin Categoría",
                                                 style: TextStyle(
                                                     fontWeight: FontWeight.bold,
                                                     fontSize: 14,
@@ -502,7 +502,7 @@ class Products extends StatelessWidget {
 
                                       margin: EdgeInsets.only(right: 10),
                                       child: Text(
-                                        "${items[i].product.itemNme}  x ${items[i].numberItem.toInt()}",
+                                        "${items[i].product.itemNme}  x ${items[i].product.divisible == 0 ? items[i].numberItem: items[i].numberItem.toInt() }",
                                         style: TextStyle(fontSize: 15),
                                       ),
                                     )),

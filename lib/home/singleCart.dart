@@ -195,7 +195,7 @@ class SingleCart extends StatelessWidget {
               },
               keyboardType: TextInputType.number,
 
-              initialValue: "${item.numberItem}",
+              initialValue: "${item.product.divisible==0   ? item.numberItem : item.numberItem.toInt()}",
               decoration: InputDecoration(
                 labelText: 'Cantidad',
               ),

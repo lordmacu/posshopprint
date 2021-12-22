@@ -162,7 +162,7 @@ class Tickets extends StatelessWidget {
                                         children: [
                                           Container(
                                             child: ticket.email != null ? Text(
-                                              "${(ticket.email)}",
+                                              "Total",
                                               style: TextStyle(
                                                   fontWeight: FontWeight.bold,
                                                   fontSize: 20),

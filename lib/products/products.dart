@@ -156,7 +156,7 @@ class ProductsList extends StatelessWidget {
                                       ),
                                       Container(
                                         child: Text(
-                                          product.category != null ? product.category.name : "Categoría",
+                                          product.category != null ? product.category.name : "Sin Categoría",
                                           style: TextStyle(
                                               fontWeight: FontWeight.bold,
                                               fontSize: 15,

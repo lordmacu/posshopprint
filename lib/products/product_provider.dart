@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer' as d;
 import 'dart:math';
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -26,6 +27,7 @@ class ProductProvider {
       final response = await _client.get(
           '/items?outlet_id=${outletId}&itemsPerPage=1000&page=1&search=');
 
+      d.log("aquiii esta el log de las categorias   ${response.toString()}");
       return json.decode(response.toString());
     } on DioError catch (ex) {
         String errorMessage = ex.message.toString();
