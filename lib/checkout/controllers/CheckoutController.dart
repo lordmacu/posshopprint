@@ -56,7 +56,7 @@ class CheckoutContoller extends GetxController {
 
     }
 
-    balanceCheckout.value= int.parse(valueCheckout.value)-total;
+    balanceCheckout.value= double.parse(valueCheckout.value).toInt()-total;
   }
 
   addPayment(){
@@ -83,8 +83,8 @@ class CheckoutContoller extends GetxController {
     }
 
 
-
-    var midValue= (int.parse(valueCheckout.value)-tempBalance)/noBalance;
+print("aquii valor uno   ${valueCheckout.value}  ${tempBalance}  ${noBalance}");
+    var midValue= (double.parse(valueCheckout.value).toInt()-tempBalance)/noBalance;
 
     for(var i =0; i< paymentCheckoutsItems.length; i++){
       if(paymentCheckoutsItems[i].balance==0){

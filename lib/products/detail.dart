@@ -253,6 +253,23 @@ class DetailProduct extends StatelessWidget {
       builder: (context) {
         List<ItemPopBottomMenu> items = [];
 
+
+        items.add(ItemPopBottomMenu(
+          onPressed: () {
+            controllerHome.selectedCategory.value =999999999;
+            controllerHome.selectedCategoryName.value ="Sin categoría";
+
+            Navigator.of(context).pop();
+          },
+          label: "Sin categoría",
+          icon: Icon(
+            Icons.check_circle,
+            color: controllerHome.selectedCategory.value == 999999999
+                ? Colors.greenAccent
+                : Colors.grey.withOpacity(0.5),
+          ),
+        ));
+
         for (var i = 0; i < controllerCategory.items.length; i++) {
           var color =
               "0xff${controllerCategory.items[i].color.replaceAll("#", "")}";

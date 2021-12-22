@@ -22,9 +22,10 @@ class CartProvider {
     var itemsSave=[];
     var totalCart=0;
     for(var i =0; i<items.length; i++){
-
-      var localTotal=items[i].product.salesPrice*items[i].numberItem;
-
+      var localTotal=1;
+      if(items[i].product.divisible!=0) {
+          localTotal = items[i].product.salesPrice * items[i].numberItem.toInt();
+      }
       var discounts=[];
 
       if(items[i].discount!=null){
@@ -43,6 +44,7 @@ class CartProvider {
         "amount":"${localTotal}", "discounts":discounts
 
       });
+
 
 
       totalCart+=localTotal;

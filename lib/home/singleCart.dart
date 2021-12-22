@@ -58,7 +58,7 @@ class SingleCart extends StatelessWidget {
     List<int> itemsTextValues=[];
 
     for(var i = 0; i <controllerDiscount.discounts.length; i ++){
-      itemsText.add("${controllerDiscount.discounts[i].name}  ${controllerDiscount.discounts[i].value}${controllerDiscount.discounts[i].calculationType == "PERCENT" ? '%' : ''}");
+      itemsText.add("${controllerDiscount.discounts[i].name}  ${formatedNumber(double.parse(controllerDiscount.discounts[i].value))}${controllerDiscount.discounts[i].calculationType == "PERCENT" ? '%' : ''}");
       itemsTextValues.add(controllerDiscount.discounts[i].id);
     }
 
@@ -160,7 +160,7 @@ class SingleCart extends StatelessWidget {
               },
 
             ),
-            TextFormField(
+            controlelrCart.items[indexItem].product != 0 ? TextFormField(
               keyboardType: TextInputType.number,
 
               initialValue: "${item.numberItem}",
@@ -168,13 +168,10 @@ class SingleCart extends StatelessWidget {
                 labelText: 'Cantidad',
               ),
               onChanged: (value){
-                controlelrCart.items[indexItem].numberItem=int.parse(value);
+                controlelrCart.items[indexItem].numberItem=double.parse(value);
                 controlelrCart.items.refresh();
-
-
-
               },
-            ),
+            ): Container(),
             TextFormField(
               initialValue: "${item.comment!= null  ? item.comment: ''}",
               onChanged: (value){

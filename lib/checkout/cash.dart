@@ -17,7 +17,6 @@ class CashPanel extends StatelessWidget{
 
   formatedNumber(number) {
 
-    number = number.replaceAll(".", "");
 
 
     var numberText= int.parse(number);
@@ -63,6 +62,7 @@ class CashPanel extends StatelessWidget{
   }
 
 
+
   priceWithTax(price){
     var priceTemp=price;
     for( var i =0  ; i< controllerCart.taxes.length ; i ++) {
@@ -76,7 +76,7 @@ class CashPanel extends StatelessWidget{
         }
     }
 
-    return priceTemp;
+    return formatedNumber("${priceTemp}");
   }
 
   List<Widget> getPayments(){
@@ -199,12 +199,7 @@ class CashPanel extends StatelessWidget{
                           labelText: "Email",
                           hintText: "Escribe el email"),
                       // The validator receives the text that the user has entered.
-                      validator: (value) {
-                        if (value == null || !isEmail(value)) {
-                          return 'Ingrese un email válido';
-                        }
-                        return null;
-                      },
+
                     ))
                   ],
                 ),

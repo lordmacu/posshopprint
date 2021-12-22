@@ -44,7 +44,7 @@ class Divide extends StatelessWidget {
     decimalDigits: 0,
   );
   formatedNumber(number) {
-    number = number.replaceAll(".", "");
+  //  number = number.replaceAll(".", "");
 
     var numberText = int.parse(number);
     var formatCurrency;
@@ -65,22 +65,23 @@ class Divide extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         actions: [
-          Padding(
+          GestureDetector(
+            onTap: () async {
+
+              if(controllerCheckout.balanceCheckout.value.toInt() == 0){
+                Get.back(result: 'success');
+              }else{
+                helpers.defaultAlert(context, "error", "Error al cobrar",
+                    "Por favor seleccione los items a cobrar");
+
+              }
+
+            },
+            child: Container(
               padding: EdgeInsets.only(right: 20.0,top: 20,bottom: 20),
-              child: GestureDetector(
-                onTap: () async {
 
-                  if(controllerCheckout.balanceCheckout.value.toInt() == 0){
-                    Get.back(result: 'success');
-                  }else{
-                    helpers.defaultAlert(context, "error", "Error al cobrar",
-                        "Por favor seleccione los items a cobrar");
-
-                  }
-
-                },
-                child: Text("Cobrar",style: TextStyle(fontWeight: FontWeight.bold),),
-              )
+              child: Text("Cobrar",style: TextStyle(fontWeight: FontWeight.bold),),
+            ),
           ),
         ],
         title: Obx(()=>Text(

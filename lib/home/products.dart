@@ -2,6 +2,7 @@ import 'package:checkbox_grouped/checkbox_grouped.dart';
 import 'package:easy_mask/easy_mask.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -219,7 +220,7 @@ class Products extends StatelessWidget {
                                                             right: 3),
                                                       ),
                                                       Text(
-                                                        "${formatedNumber(product.salesPrice)}",
+                                                        "${formatedNumber(product.salesPrice)}  ${product.divisible}",
                                                         style: TextStyle(
                                                             fontWeight:
                                                             FontWeight.bold,
@@ -230,7 +231,7 @@ class Products extends StatelessWidget {
                                                 ),
                                               ],
                                             ),
-                                            Row(
+                                            product.divisible != 0  ?  Row(
                                               mainAxisAlignment:
                                               MainAxisAlignment.end,
                                               children: [
@@ -353,6 +354,80 @@ class Products extends StatelessWidget {
                                                   ),
                                                 )
                                               ],
+                                            ) : Row(
+                                              mainAxisAlignment:
+                                              MainAxisAlignment.end,
+                                              children: [
+                                                Container(
+                                                  child: RaisedButton(
+
+                                                    shape: RoundedRectangleBorder(
+                                                      borderRadius: BorderRadius.circular(30.0),
+                                                    ),
+                                                    color: Color(0xff298dcf),
+                                                    child: Text("Agregar",style: TextStyle(color: Colors.white),),
+                                                    onPressed: (){
+
+                                                      TextEditingController controllerPrice= TextEditingController();
+
+                                                      Alert(
+                                                          context: context,
+                                                          title: "Cantidad",
+                                                          content: Column(
+                                                            children: <Widget>[
+                                                              TextFormField(
+
+
+                                                                keyboardType: TextInputType.numberWithOptions(decimal: true),
+
+                                                                inputFormatters: [
+                                                                  FilteringTextInputFormatter.allow(RegExp(r"[0-9.]")),
+                                                                  TextInputFormatter.withFunction((oldValue, newValue) {
+                                                                    try {
+                                                                      final text = newValue.text;
+                                                                      if (text.isNotEmpty) double.parse(text);
+                                                                      return newValue;
+                                                                    } catch (e) {}
+                                                                    return oldValue;
+                                                                  }),
+                                                                ],
+                                                                controller: controllerPrice,
+
+                                                              )
+                                                            ],
+                                                          ),
+                                                          buttons: [
+                                                            DialogButton(
+                                                              onPressed: () {
+                                                                print("este es el product  ${controllerPrice.text}");
+
+                                                                Cart cartItem = Cart();
+                                                                cartItem.product =
+                                                                    product;
+                                                                cartItem.numberItem = double.parse(controllerPrice.text);
+                                                                controlelrCart.items
+                                                                    .add(cartItem);
+
+                                                                int cartIndex =
+                                                                checkItemCartIndex(
+                                                                    product);
+
+                                                                controlelrCart.items[
+                                                                cartIndex] = cartItem;
+
+                                                                Navigator.pop(context);
+                                                              },
+                                                              child: Text(
+                                                                "Agregar",
+                                                                style: TextStyle(color: Colors.white, fontSize: 20),
+                                                              ),
+                                                            )
+                                                          ]).show();
+
+                                                    },
+                                                  ),
+                                                )
+                                              ],
                                             )
                                           ],
                                         ),
@@ -382,8 +457,10 @@ class Products extends StatelessWidget {
                       for(var i =0  ; i  < items.length ; i++ ){
                         
                         
-                        var salePrice=items[i].product.salesPrice;
+                        var salePrice=items[i].product.salesPrice.toDouble();
+
                         salePrice = salePrice*items[i].numberItem;
+
                         var discounts=items[i].discount;
                         if(discounts!=null){
                           for(var d =0  ; d  < discounts.length ; d++ ){
@@ -516,7 +593,7 @@ class Products extends StatelessWidget {
                               child: Obx((){
                                 if(controlelrCart.items.length>0){
                                   var items=controlelrCart.items;
-                                  var total= 0;
+                                  var total= 0.0;
 
 
 
@@ -524,9 +601,10 @@ class Products extends StatelessWidget {
                                   for(var i =0  ; i  < items.length ; i++ ){
 
 
-                                    var salePrice=items[i].product.salesPrice;
+                                    var salePrice=items[i].product.salesPrice.toDouble();
 
-                                      salePrice=salePrice*items[i].numberItem;
+                                    salePrice=salePrice*items[i].numberItem;
+
 
                                     var discounts=items[i].discount;
                                     if(discounts!=null){

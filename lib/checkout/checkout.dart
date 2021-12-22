@@ -27,8 +27,8 @@ class Checkout extends StatelessWidget {
 
   formatedNumber(number) {
 
-    try{
-    number = number.replaceAll(".", "");
+
+    //number = number.replaceAll(".", "");
 
     var numberText = int.parse(number);
     var formatCurrency;
@@ -39,9 +39,7 @@ class Checkout extends StatelessWidget {
         locale: "es");
 
     return formatCurrency.format(numberText);
-    }catch(e){
 
-    }
   }
 
   canPressPayment(){
@@ -50,7 +48,8 @@ class Checkout extends StatelessWidget {
 
 
     if(controllerCheckout.valueCheckout.value!=""){
-      return controllerCheckout.totalCheckout.value>= double.parse (controllerCheckout.valueCheckout.value);
+      print("aqwuiii el valor   ${controllerCheckout.totalCheckout.value}   ${double.parse (controllerCheckout.valueCheckout.value).toInt()} ");
+      return controllerCheckout.totalCheckout.value>= double.parse (controllerCheckout.valueCheckout.value).toInt();
     }
     return false;
 
@@ -127,6 +126,17 @@ class Checkout extends StatelessWidget {
     return paymentsLocal;
   }
 
+getvalueCheckout(){
+    var retorno="";
+
+    try{
+      retorno= formatedNumber("${double.parse(controllerCheckout.valueCheckout.value).toInt()}");
+    }catch(e){
+
+    }
+
+    return retorno;
+}
 
 
   @override
@@ -145,20 +155,22 @@ class Checkout extends StatelessWidget {
       appBar: AppBar(
         title: Text("Cobrar"),
         actions: [
-          Padding(
+          GestureDetector(
+            onTap: () async {
+              controllerCheckout.setPayments();
+              var data = await Get.to(Divide());
+
+
+              if (data != null) {
+                controllerCheckout.panelControllerCheckout.value.open();
+              }
+            },
+            child: Container(
               padding: EdgeInsets.only(right: 20.0, top: 20, bottom: 20),
-              child: GestureDetector(
-                onTap: () async {
-                  controllerCheckout.setPayments();
-                  var data = await Get.to(Divide());
 
-
-                  if (data != null) {
-                    controllerCheckout.panelControllerCheckout.value.open();
-                  }
-                },
-                child: Text("Dividir"),
-              )),
+              child: Text("Dividir"),
+            ),
+          ),
         ],
       ),
       body: SlidingUpPanel(
@@ -177,7 +189,7 @@ class Checkout extends StatelessWidget {
 
               Obx(() =>GestureDetector(
                 onTap: (){
-                  textContoller.text=formatedNumber(controllerCheckout.valueCheckout.value);
+                  textContoller.text=formatedNumber("${double.parse(controllerCheckout.valueCheckout.value).toInt()}");
                   controllerCheckout.totalCheckout.value=double.parse(controllerCheckout.valueCheckout.value);
                 },
                 child:  Row(
@@ -192,7 +204,7 @@ class Checkout extends StatelessWidget {
                           color: Color(0xff298dcf).withOpacity(0.9),
                           borderRadius: BorderRadius.circular(20)),
                       child: Text(
-                        "\$ ${formatedNumber(controllerCheckout.valueCheckout.value)}",
+                        "\$ ${getvalueCheckout()}",
                         style: TextStyle(color: Colors.white, fontSize: 25),
                       ),
                     ),
@@ -232,8 +244,12 @@ class Checkout extends StatelessWidget {
                       value= value.replaceAll("\$", "");
                       value= value.replaceAll(" ", "");
                       value= value.replaceAll(".", "");
-                      controllerCheckout.totalCheckout.value =
-                          double.parse("${value}");
+                      if(value.length>0){
+
+                        controllerCheckout.totalCheckout.value =
+                            double.parse("${value}");
+                      }
+
                     },
                     keyboardType: TextInputType.number,
                     inputFormatters: [

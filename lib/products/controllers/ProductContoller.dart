@@ -46,7 +46,7 @@ class ProductsContoller extends GetxController {
   var color = "#E0E0E0".obs;
   var shape = "SQUARE".obs;
   var allOutlets = "1".obs;
-  var divisible = false.obs;
+  var divisible = true.obs;
   var keepCount = "0".obs;
   var salePrice = "0".obs;
   var primeCost = "0".obs;
@@ -202,7 +202,7 @@ class ProductsContoller extends GetxController {
      color.value = "#E0E0E0";
      shape.value = "SQUARE";
      allOutlets.value = "1";
-     divisible.value = false;
+     divisible.value = true;
      keepCount.value = "0";
      salePrice.value = "0";
      primeCost.value = "0";

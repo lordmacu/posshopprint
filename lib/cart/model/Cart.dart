@@ -5,10 +5,19 @@ import 'package:poshop/products/model/Product.dart';
 class Cart{
 
 
-  int _numberItem;
+  double _numberItem;
+
+
+  double get numberItem => _numberItem;
+
+  set numberItem(double value) {
+    _numberItem = value;
+  }
+
   Product _product;
 
-  int get numberItem => _numberItem;
+
+
   List<DiscountCart> _discount;
 
 
@@ -29,9 +38,6 @@ class Cart{
 
 
 
-  set numberItem(int value) {
-    _numberItem = value;
-  }
 
   Product get product => _product;
 
