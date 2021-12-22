@@ -220,7 +220,7 @@ class Products extends StatelessWidget {
                                                             right: 3),
                                                       ),
                                                       Text(
-                                                        "${formatedNumber(product.salesPrice)}  ${product.divisible}",
+                                                        "${formatedNumber(product.salesPrice)}",
                                                         style: TextStyle(
                                                             fontWeight:
                                                             FontWeight.bold,
@@ -372,7 +372,7 @@ class Products extends StatelessWidget {
 
                                                       Alert(
                                                           context: context,
-                                                          title: "Cantidad",
+                                                          title: "Peso",
                                                           content: Column(
                                                             children: <Widget>[
                                                               TextFormField(
@@ -401,21 +401,32 @@ class Products extends StatelessWidget {
                                                               onPressed: () {
                                                                 print("este es el product  ${controllerPrice.text}");
 
-                                                                Cart cartItem = Cart();
-                                                                cartItem.product =
-                                                                    product;
-                                                                cartItem.numberItem = double.parse(controllerPrice.text);
-                                                                controlelrCart.items
-                                                                    .add(cartItem);
+                                                                if(controllerPrice.text.length>0){
+                                                                  var value=double.parse(controllerPrice.text);
 
-                                                                int cartIndex =
-                                                                checkItemCartIndex(
-                                                                    product);
+                                                                  if(value>0){
 
-                                                                controlelrCart.items[
-                                                                cartIndex] = cartItem;
+                                                                    Cart cartItem = Cart();
+                                                                    cartItem.product =
+                                                                        product;
+                                                                    cartItem.numberItem = value;
+                                                                    controlelrCart.items
+                                                                        .add(cartItem);
+
+                                                                    int cartIndex =
+                                                                    checkItemCartIndex(
+                                                                        product);
+
+                                                                    controlelrCart.items[
+                                                                    cartIndex] = cartItem;
+                                                                  }
+                                                                }
+
 
                                                                 Navigator.pop(context);
+
+
+
                                                               },
                                                               child: Text(
                                                                 "Agregar",
