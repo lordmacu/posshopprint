@@ -323,7 +323,7 @@ class Products extends StatelessWidget {
                                                               product);
 
                                                           return Text(
-                                                            "${controlelrCart.items[cartIndex].numberItem}",
+                                                            "${controlelrCart.items[cartIndex].numberItem.toInt()}",
                                                             style: TextStyle(
                                                                 fontSize: 20),
                                                           );

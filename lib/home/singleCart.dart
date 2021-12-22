@@ -161,6 +161,19 @@ class SingleCart extends StatelessWidget {
 
             ),
             controlelrCart.items[indexItem].product != 0 ? TextFormField(
+              autocorrect: true,
+
+              validator: (value) {
+                if(value.length==0){
+                  return "Ingresa un valor en el cantidad";
+                }
+
+                var cantidad= double.parse(value);
+                if(cantidad==0){
+                  return "Ingresa un valor mayor a 0 en el cantidad";
+                }
+                return null;
+              },
               keyboardType: TextInputType.number,
 
               initialValue: "${item.numberItem}",
@@ -168,8 +181,15 @@ class SingleCart extends StatelessWidget {
                 labelText: 'Cantidad',
               ),
               onChanged: (value){
-                controlelrCart.items[indexItem].numberItem=double.parse(value);
-                controlelrCart.items.refresh();
+
+                if(value.length>0){
+                  var cantidad= double.parse(value);
+                  if(cantidad>0){
+                    controlelrCart.items[indexItem].numberItem=double.parse(value);
+                    controlelrCart.items.refresh();
+                  }
+                }
+
               },
             ): Container(),
             TextFormField(
