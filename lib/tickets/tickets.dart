@@ -89,7 +89,7 @@ class Tickets extends StatelessWidget {
     return Scaffold(
       body: Column(
         children: [
-          Padding(
+         /* Padding(
             padding: const EdgeInsets.all(8.0),
             child: TextField(
               onChanged: (value) {
@@ -103,7 +103,7 @@ class Tickets extends StatelessWidget {
                       borderRadius: BorderRadius.all(Radius.circular(25.0)))),
             ),
 
-          ),
+          )*/
           Expanded(child: Obx(()=>ListView.builder(
             padding: EdgeInsets.only(bottom: 200),
             itemCount: controllerTicket.tickets.length,
