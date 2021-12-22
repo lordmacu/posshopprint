@@ -48,6 +48,7 @@ class SingleCart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
+
     var item=controlelrCart.items[indexItem];
 
     controllerDiscountHome.getItemsDiscounts();
@@ -126,6 +127,24 @@ class SingleCart extends StatelessWidget {
         ),
       ),
       appBar: AppBar(
+        actions: [
+          GestureDetector(
+            onTap: (){
+
+              Navigator.pop(context);
+              FocusScope.of(context).unfocus();
+              Future.delayed(const Duration(milliseconds: 500), () {
+                controlelrCart.items.removeAt(indexItem);
+              });
+
+
+            },
+            child: Container(
+              padding: EdgeInsets.all(15),
+              child: Text("Borrar Item"),
+            ),
+          )
+        ],
         title: Text("${item.product.itemNme}"),
       ),
       body: Container(
