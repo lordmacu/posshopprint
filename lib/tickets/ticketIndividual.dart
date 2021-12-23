@@ -225,7 +225,7 @@ class TicketIndividual extends StatelessWidget{
                                    ),
                                     Container(
 
-                                      child: Text("${itemSimple.quantity} X \$${formatedNumber(itemSimple.ammout/itemSimple.quantity)}"),
+                                      child: Text("${itemSimple.divisible != 0 ? itemSimple.quantity.toInt() : itemSimple.quantity } X \$${formatedNumber(itemSimple.ammout/itemSimple.quantity)}"),
                                       margin: EdgeInsets.only(top: 5),
                                     ),
 

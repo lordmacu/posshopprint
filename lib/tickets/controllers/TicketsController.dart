@@ -79,8 +79,12 @@ class TicketsContoller extends GetxController {
             discountsSimple.add(simpled);
           }
 
-          itemsSimple.add(ItemSimple(items[t]["name"], double.parse("${items[t]["quantity"]}"),
-              items[t]["amount"], discountsSimple));
+          var itemSimple=ItemSimple(items[t]["name"], double.parse("${items[t]["quantity"]}"),
+              items[t]["amount"], discountsSimple);
+
+          itemSimple.divisible=items[t]["divisible"];
+
+          itemsSimple.add(itemSimple);
         }
 
 

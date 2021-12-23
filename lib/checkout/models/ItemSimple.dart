@@ -3,9 +3,17 @@ import 'package:poshop/checkout/models/DiscountSimple.dart';
 class ItemSimple{
    String _name;
   double _quantity;
-  int _ammout;
+   int _ammout;
+   int _divisible;
 
-   double get quantity => _quantity;
+
+   int get divisible => _divisible;
+
+  set divisible(int value) {
+    _divisible = value;
+  }
+
+  double get quantity => _quantity;
 
   set quantity(double value) {
     _quantity = value;
