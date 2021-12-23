@@ -161,12 +161,12 @@ class Tickets extends StatelessWidget {
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
                                           Container(
-                                            child: ticket.email != null ? Text(
+                                            child: ticket.email != "null" ? Text(
                                               "Total",
                                               style: TextStyle(
                                                   fontWeight: FontWeight.bold,
                                                   fontSize: 20),
-                                            ): Text("${(ticket.code)}"),
+                                            ): Text("${(ticket.email)}"),
                                           ),
 
 

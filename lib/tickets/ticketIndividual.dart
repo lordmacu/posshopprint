@@ -184,30 +184,69 @@ class TicketIndividual extends StatelessWidget{
                         }
                         total=total+(salePrice.toInt());
                         subtototal=subtototal+total;
+                        
+                        List<Widget> discountsWidget= [];
 
+                        for(var d =0;  d < itemSimple.discounts.length ; d ++){
+                          discountsWidget.add(
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text("${itemSimple.discounts[d].name} ${itemSimple.discounts[d].calculationType != "PERCENT" ? "\$" : ""}${itemSimple.discounts[d].discount}${itemSimple.discounts[d].calculationType == "PERCENT" ? "%" : ""}"),
+                                Text("\$${itemSimple.discounts[d].totalDiscount}")
+                              ],
+                            )
+                          );
+                        }
 
                         return Container(
                           padding: EdgeInsets.only(top: 5,bottom: 5),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Column(
+                              Expanded(child: Container(
 
-                                children: [
-                                  Container(
-                                    child: Text("${itemSimple.name}"),
-                                  ),
-                                  Container(
-                                    child: Text("${itemSimple.quantity} X \$${formatedNumber(itemSimple.ammout/itemSimple.quantity)}"),
-                                  ),
+                                child: Column(
 
-                                ],
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                              ),
-                              Container(
-                                child: Text("\$${formatedNumber(total)}"),
-                              )
+                                  children: [
+                                   Row(
+
+                                     children: [
+                                       Container(
+                                         child: Text("${itemSimple.name}",style: TextStyle(fontWeight: FontWeight.bold),),
+                                       ),
+                                       Container(
+
+                                         child: Text("\$${formatedNumber(total)}"),
+
+                                       )
+                                     ],
+                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                   ),
+                                    Container(
+
+                                      child: Text("${itemSimple.quantity} X \$${formatedNumber(itemSimple.ammout/itemSimple.quantity)}"),
+                                      margin: EdgeInsets.only(top: 5),
+                                    ),
+
+                                    Column(
+                                      mainAxisSize: MainAxisSize.max,
+                                      children:discountsWidget,
+                                    )
+
+                                  ],
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                ),
+                                
+                                decoration: BoxDecoration(
+                                  color: Colors.grey.withOpacity(0.2),
+                                  borderRadius: BorderRadius.circular(10)
+
+                                ),
+                                padding: EdgeInsets.all(10),
+                              )),
+
                             ],
                           ),
                         );

@@ -65,8 +65,16 @@ class TicketsContoller extends GetxController {
 
           var discounts = items[t]["discounts"];
           for (var d = 0; d < discounts.length; d++) {
-            discountsSimple.add(DiscountSimple(
-                discounts[d]["discount_id"], discounts[d]["discount_applied"]));
+
+            DiscountSimple simpled=DiscountSimple(
+                discounts[d]["discount_id"], discounts[d]["discount_applied"]);
+
+            simpled.name=discounts[d]["name"];
+            simpled.discount=discounts[d]["discount"];
+            simpled.type=discounts[d]["type_discount"];
+            simpled.calculationType=discounts[d]["calculation_type_discount"];
+
+            discountsSimple.add(simpled);
           }
 
           itemsSimple.add(ItemSimple(items[t]["name"], items[t]["quantity"],
