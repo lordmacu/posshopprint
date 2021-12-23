@@ -2,8 +2,14 @@ import 'package:poshop/checkout/models/DiscountSimple.dart';
 
 class ItemSimple{
    String _name;
-  int _quantity;
+  double _quantity;
   int _ammout;
+
+   double get quantity => _quantity;
+
+  set quantity(double value) {
+    _quantity = value;
+  }
 
   List<DiscountSimple> _discounts;
 
@@ -20,7 +26,6 @@ class ItemSimple{
     _name = value;
   }
 
-   int get quantity => _quantity;
 
    int get ammout => _ammout;
 
@@ -28,9 +33,7 @@ class ItemSimple{
     _ammout = value;
   }
 
-  set quantity(int value) {
-    _quantity = value;
-  }
+
 
    ItemSimple(this._name, this._quantity, this._ammout, this._discounts);
 }

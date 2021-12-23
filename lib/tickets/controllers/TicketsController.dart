@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:poshop/api_client.dart';
@@ -43,7 +45,7 @@ class TicketsContoller extends GetxController {
     if (data["success"]) {
       var dataJson = (data["data"]);
 
-      print("getticketssssss  ${dataJson}");
+      log("getticketssssss  ${dataJson}");
 
       List<Ticket> itemsLocal = [];
 
@@ -77,7 +79,7 @@ class TicketsContoller extends GetxController {
             discountsSimple.add(simpled);
           }
 
-          itemsSimple.add(ItemSimple(items[t]["name"], items[t]["quantity"],
+          itemsSimple.add(ItemSimple(items[t]["name"], double.parse("${items[t]["quantity"]}"),
               items[t]["amount"], discountsSimple));
         }
 
