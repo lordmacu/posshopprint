@@ -308,7 +308,7 @@ class ClientIndividual extends StatelessWidget{
 
 
                   },
-                  child: Text("Borrar Categoría"  ,style: TextStyle(color: Colors.white)),
+                  child: Text("Borrar Cliente"  ,style: TextStyle(color: Colors.white)),
                 ),
               ): Container()
             ],

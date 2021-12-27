@@ -83,11 +83,15 @@ class CartProvider {
 
     };
 
+    controllerClient.selectedClient.value=0;
+    controllerClient.selectedClientName.value="";
 
     try {
 
       final response = await _client.post(
           '/tickets',data: data);
+
+
 
 
      return json.decode(response.toString());

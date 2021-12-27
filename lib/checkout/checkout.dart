@@ -375,7 +375,7 @@ getvalueCheckout(){
                   Container(
 
                     child: Text("Cliente:",style: TextStyle(fontWeight: FontWeight.bold),),
-                    margin: EdgeInsets.only(top: 20,bottom: 10),
+                    margin: EdgeInsets.only(top: 10,bottom: 10),
                   ),
                   Container(
                       child: controllerClient.selectedClient.value>0 ? Row(
