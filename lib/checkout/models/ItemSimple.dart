@@ -35,6 +35,8 @@ class ItemSimple{
   }
 
 
+
+
    int get ammout => _ammout;
 
   set ammout(int value) {

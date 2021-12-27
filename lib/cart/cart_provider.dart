@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:poshop/cart/controllers/CartController.dart';
 import 'package:poshop/cart/model/Cart.dart';
 import 'package:poshop/checkout/controllers/CheckoutController.dart';
+import 'package:poshop/clients/controllers/ClientController.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CartProvider {
@@ -11,6 +12,7 @@ class CartProvider {
 
   CartProvider(this._client);
   CheckoutContoller controllerCheckout = Get.find();
+  ClientContoller controllerClient = Get.find();
   CartContoller controllerCart = Get.find();
 
   Future setTickets(List<Cart> items,total) async {
@@ -68,11 +70,13 @@ class CartProvider {
     }
 
 
+
       var data ={
       "total":"${totalCart.toInt()}",
       "email":controllerCheckout.email.value,
       "cashregister_id":"${prefs.getInt("cashierId")}",
-    //  "client_id":"1",
+
+        "client_id":controllerClient.selectedClient.value > 0 ? "${controllerClient.selectedClient.value}" : null,
         "items":itemsSave,
         "payments":itemsPayment,
         "taxes":taxesPayment,
@@ -84,6 +88,7 @@ class CartProvider {
 
       final response = await _client.post(
           '/tickets',data: data);
+
 
      return json.decode(response.toString());
     } on DioError catch (ex) {

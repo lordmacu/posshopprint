@@ -6,6 +6,7 @@ import 'package:bubble_bottom_bar/bubble_bottom_bar.dart';
 import 'package:poshop/auth/controllers/AuthController.dart';
 import 'package:poshop/cart/controllers/ProductContoller.dart';
 import 'package:poshop/categories/controllers/CategoryController.dart';
+import 'package:poshop/clients/controllers/ClientController.dart';
 import 'package:poshop/controllers/MenuController.dart';
 import 'package:poshop/categories/categories.dart';
 import 'package:get/get.dart';
@@ -27,6 +28,7 @@ class BottomMenu extends StatelessWidget {
   ProductContoller controllerProduct = Get.put(ProductContoller());
   CategoryContoller controllerCategory = Get.find();
   DiscountContoller controllerDiscount = Get.find();
+  ClientContoller controllerClient = Get.find();
 
   void _showMenu(context) {
     showModalBottomSheet(
@@ -105,6 +107,15 @@ class BottomMenu extends StatelessWidget {
 
                 controllerDiscount.discounts.clear();
                 controllerDiscount.discounts.refresh();
+
+
+                controllerClient.items.clear();
+                controllerClient.items.refresh();
+
+                controllerClient.itemsTemp.clear();
+                controllerClient.itemsTemp.refresh();
+
+
                 Get.put(DiscountContoller());
 
                 Get.reset();

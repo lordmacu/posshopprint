@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:pop_bottom_menu/pop_bottom_menu.dart';
 import 'package:poshop/cart/controllers/CartController.dart';
 import 'package:poshop/categories/controllers/CategoryController.dart';
 import 'package:poshop/checkout/card.dart';
@@ -10,17 +11,26 @@ import 'package:poshop/checkout/cash.dart';
 import 'package:poshop/checkout/controllers/CheckoutController.dart';
 import 'package:poshop/checkout/divide.dart';
 import 'package:poshop/checkout/models/Payment.dart';
+import 'package:poshop/clients/clientListSearch.dart';
+import 'package:poshop/clients/controllers/ClientController.dart';
 import 'package:poshop/helpers/MoneyTextInputFormatted.dart';
+import 'package:poshop/helpers/widgetsHelper.dart';
 import 'package:poshop/home/model/TaxCart.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:checkbox_grouped/checkbox_grouped.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 class Checkout extends StatelessWidget {
   CheckoutContoller controllerCheckout = Get.find();
   CartContoller controllerCart = Get.find();
   TextEditingController textContoller= TextEditingController();
+
+  WidgetsHelper helpers = WidgetsHelper();
+  var loadingHud;
+
+  ClientContoller controllerClient= Get.put(ClientContoller());
 
   final CurrencyTextInputFormatter _formatter = CurrencyTextInputFormatter();
   CategoryContoller controllerCategory = Get.find();
@@ -40,6 +50,70 @@ class Checkout extends StatelessWidget {
 
     return formatCurrency.format(numberText);
 
+  }
+
+  showClients(context){
+    showModalBottomSheet(
+      backgroundColor: Colors.transparent,
+      context: context,
+      builder: (context) {
+        List<ItemPopBottomMenu> items = [];
+
+
+
+        if(controllerClient.items.length>0){
+          for (var i = 0; i < controllerClient.items.length; i++) {
+
+
+            items.add(ItemPopBottomMenu(
+              onPressed: () {
+
+
+                Navigator.of(context).pop();
+              },
+              label: controllerClient.items[i].name,
+              icon: Icon(
+                Icons.check_circle,
+                color: controllerClient.selectedClient.value ==
+                    controllerClient.items[i].id
+                    ? Colors.greenAccent
+                    : Colors.grey.withOpacity(0.5),
+              ),
+            ));
+          }
+
+          return PopBottomMenu(
+            title: TitlePopBottomMenu(
+              label: "Categorías",
+            ),
+            items: items,
+          );
+        }else{
+
+          items.add(ItemPopBottomMenu(
+            onPressed: () {
+
+              Navigator.of(context).pop();
+            },
+            label: "Agregar Cliente",
+            icon: Icon(
+              Icons.person_add,
+
+            ),
+          ));
+
+          return PopBottomMenu(
+            title: TitlePopBottomMenu(
+              label: "Categorías",
+            ),
+            items: items,
+          );
+        }
+
+
+
+      },
+    );
   }
 
   canPressPayment(){
@@ -141,6 +215,8 @@ getvalueCheckout(){
 
   @override
   Widget build(BuildContext context) {
+    loadingHud = helpers.initLoading(context);
+
 
     List<int> taxesTextValues=[];
     List<String> taxesText=[];
@@ -155,6 +231,24 @@ getvalueCheckout(){
       appBar: AppBar(
         title: Text("Cobrar"),
         actions: [
+          InkWell(
+            onTap: () async{
+
+              Get.to(() => ClientListSearch());
+              controllerClient.selectedClient.value=0;
+              controllerClient.selectedClientName.value="";
+
+              loadingHud.show();
+             await controllerClient.getClients();
+              loadingHud.dismiss();
+
+            },
+            child: Container(
+
+              padding: EdgeInsets.all(15),
+              child: Icon(Icons.person),
+            ),
+          ),
           GestureDetector(
             onTap: () async {
               controllerCheckout.setPayments();
@@ -273,6 +367,38 @@ getvalueCheckout(){
                   ))
                 ],
               ),
+
+              Obx(()=>controllerClient.selectedClient.value>0 ? Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+
+                    child: Text("Cliente:",style: TextStyle(fontWeight: FontWeight.bold),),
+                    margin: EdgeInsets.only(top: 20,bottom: 10),
+                  ),
+                  Container(
+                      child: controllerClient.selectedClient.value>0 ? Row(
+                        children: [
+                          InkWell(
+                            onTap: (){
+                              controllerClient.selectedClient.value=0;
+                              controllerClient.selectedClientName.value="";
+                            },
+                            child: Container(
+                              padding: EdgeInsets.all(10),
+                              child: Icon(Icons.close),
+                            ),
+                          ),
+
+                          Container(
+                            child: Text("${controllerClient.selectedClientName.value}"),
+                          )
+                        ],
+                      ) : Container()
+                  )
+                ],
+              ): Container()),
               Container(
                 margin: EdgeInsets.only(top: 30),
                 child: Obx(() => controllerCheckout.paymentItems.length > 0 ? Wrap(

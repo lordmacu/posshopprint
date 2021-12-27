@@ -79,6 +79,8 @@ class TicketsContoller extends GetxController {
             discountsSimple.add(simpled);
           }
 
+
+
           var itemSimple=ItemSimple(items[t]["name"], double.parse("${items[t]["quantity"]}"),
               items[t]["amount"], discountsSimple);
 
@@ -86,6 +88,12 @@ class TicketsContoller extends GetxController {
 
           itemsSimple.add(itemSimple);
         }
+
+
+
+
+
+
 
 
         if(dataJson[i]["taxes"]!=null){

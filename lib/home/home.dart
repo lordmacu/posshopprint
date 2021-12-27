@@ -4,6 +4,8 @@ import 'package:bubble_bottom_bar/bubble_bottom_bar.dart';
  import 'package:get/get.dart';
 import 'package:poshop/cart/controllers/CartController.dart';
 import 'package:poshop/checkout/controllers/CheckoutController.dart';
+import 'package:poshop/clients/clientsUser.dart';
+import 'package:poshop/clients/controllers/ClientController.dart';
 import 'package:poshop/discounts/controllers/DiscountContoller.dart';
 import 'package:poshop/home/controllers/LoadingController.dart';
 import 'package:poshop/products/controllers/ProductContoller.dart';
@@ -31,6 +33,7 @@ class Home extends StatelessWidget   {
   CategoryContoller controllerCategory = Get.put(CategoryContoller());
   CartContoller controlelrCart = Get.put(CartContoller());
   ProductsContoller controllerProduct = Get.put(ProductsContoller());
+  ClientContoller controllerClient = Get.put(ClientContoller());
   LoadingController controllerLoading = Get.put(LoadingController());
 
    CheckoutContoller controllerCheckout = Get.put(CheckoutContoller());
@@ -101,8 +104,17 @@ class Home extends StatelessWidget   {
               ),
             ),
             InkWell(
-              onTap: () {},
+              onTap: ()  async{
+                 Get.to(() => ClientUser());
+                 loadingHud.show();
+
+                 await controllerClient.getClients();
+                 loadingHud.dismiss();
+
+
+              },
               child: Container(
+                padding: EdgeInsets.only(left: 5,right: 5),
                 child: Icon(
                   Icons.person_add,
                   color: Color(0xff298dcf),
