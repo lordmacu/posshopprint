@@ -15,40 +15,43 @@ class Categories extends StatelessWidget{
 
     return Container(
       margin: EdgeInsets.only(top: 10,bottom: 0,left: 10,right: 0),
-      height: 50,
-      child: Obx(()=>ListView.builder(
-        shrinkWrap: true,
-        scrollDirection: Axis.horizontal,
-        itemCount: controllerCategory.items.length,
-        itemBuilder: (BuildContext context, int index) {
+      child: Obx(()=>controllerCategory.items.length > 0 ? Container(
+        height: 50,
 
-          Category cat= controllerCategory.items[index];
-          return Obx(()=>GestureDetector(
-            onTap: (){
-              controller.categorySelect.value=cat.id;
-            },
-            child: Card(
+        child: ListView.builder(
+          shrinkWrap: true,
+          scrollDirection: Axis.horizontal,
+          itemCount: controllerCategory.items.length,
+          itemBuilder: (BuildContext context, int index) {
 
-              shape: RoundedRectangleBorder(
+            Category cat= controllerCategory.items[index];
+            return Obx(()=>GestureDetector(
+              onTap: (){
+                controller.categorySelect.value=cat.id;
+              },
+              child: Card(
 
-                borderRadius: BorderRadius.circular(30.0),
-              ),
-              child: Container(
+                shape: RoundedRectangleBorder(
 
-                decoration: BoxDecoration(
-                    color: cat.id==controller.categorySelect.value ?  Color(0xff298dcf)  : Colors.white ,
-                    borderRadius: BorderRadius.circular(30.0),
-
-                    border: Border.all(color: Color(0xff298dcf))
-
+                  borderRadius: BorderRadius.circular(30.0),
                 ),
-                padding: EdgeInsets.only(left: 20,right: 20),
-                child: Center(child: Text("${cat.name}",style: TextStyle(color: cat.id==controller.categorySelect.value ?  Colors.white : Color(0xff298dcf) ),),),
+                child: Container(
+
+                  decoration: BoxDecoration(
+                      color: cat.id==controller.categorySelect.value ?  Color(0xff298dcf)  : Colors.white ,
+                      borderRadius: BorderRadius.circular(30.0),
+
+                      border: Border.all(color: Color(0xff298dcf))
+
+                  ),
+                  padding: EdgeInsets.only(left: 20,right: 20),
+                  child: Center(child: Text("${cat.name}",style: TextStyle(color: cat.id==controller.categorySelect.value ?  Colors.white : Color(0xff298dcf) ),),),
+                ),
               ),
-            ),
-          ));
-        },
-      )),
+            ));
+          },
+        ),
+      ): Container()),
     );
   }
 
