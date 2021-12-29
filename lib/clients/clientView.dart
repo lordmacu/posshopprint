@@ -155,7 +155,7 @@ class ClientView extends StatelessWidget {
                   ),
                 ),
               ),
-              Container(
+              controllerClient.lastVisit.value!= null ? Container(
                 margin: EdgeInsets.only(top: 20),
                 child: Row(
 
@@ -168,7 +168,7 @@ class ClientView extends StatelessWidget {
                     Text("${getDateSpanish(controllerClient.lastVisit.value)}",style: TextStyle(fontSize: 15),)
                   ],
                 ),
-              ),
+              ): Container(),
               InkWell(
                 onTap: (){
                   Get.to(() => ClientIndividual());
