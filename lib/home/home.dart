@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:bubble_bottom_bar/bubble_bottom_bar.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
  import 'package:get/get.dart';
 import 'package:poshop/cart/controllers/CartController.dart';
 import 'package:poshop/checkout/controllers/CheckoutController.dart';
@@ -123,7 +124,8 @@ class Home extends StatelessWidget   {
             ),
             InkWell(
               onTap: () async {
-            /*    final data = await Barras.scan(context);
+               var data = await FlutterBarcodeScanner.scanBarcode(
+                    '#ff6666', 'Cancel', true, ScanMode.QR);
 
 
 
@@ -143,7 +145,7 @@ class Home extends StatelessWidget   {
                       "Por favor verificar si el producto existe o si el código de barras es el indicado");
                 }
 
-*/
+
               },
               child: Container(
                 margin: EdgeInsets.only(left: 15),

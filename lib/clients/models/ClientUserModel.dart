@@ -1,3 +1,5 @@
+import 'package:poshop/tickets/model/Ticket.dart';
+
 class ClientUserModel{
 
   int _id;
@@ -7,6 +9,15 @@ class ClientUserModel{
   String _postalCode;
   String _customerCode;
   String _email;
+
+  List<Ticket> _tickets=[];
+
+
+  List<Ticket> get tickets => _tickets;
+
+  set tickets(List<Ticket> value) {
+    _tickets = value;
+  }
 
   String get email => _email;
 
@@ -54,6 +65,6 @@ class ClientUserModel{
 
   @override
   String toString() {
-    return 'Client{_id: $_id, _name: $_name, _address: $_address, _city: $_city, _postalCode: $_postalCode, _customerCode: $_customerCode}';
+    return 'ClientUserModel{_id: $_id, _name: $_name, _address: $_address, _city: $_city, _postalCode: $_postalCode, _customerCode: $_customerCode, _email: $_email, _tickets: $_tickets}';
   }
 }

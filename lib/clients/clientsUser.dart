@@ -47,6 +47,8 @@ class ClientUser extends StatelessWidget {
               controllerClient.controllerCustomerCode.value.text="";
               controllerClient.categoryColor.value="";
               controllerClient.categoryName.value="";
+              controllerClient.tickets.clear();
+              controllerClient.tickets.refresh();
 
               Get.to(() => ClientIndividual());
             },
@@ -85,7 +87,9 @@ class ClientUser extends StatelessWidget {
               controllerClient.controllerCity.value.text=client.city;
               controllerClient.controllerPostalCode.value.text=client.postalCode;
               controllerClient.controllerCustomerCode.value.text=client.customerCode;
+              controllerClient.tickets.assignAll(client.tickets);
 
+              controllerClient.tickets.refresh();
 
               print("aquiii estoy cliente  ${client}");
 

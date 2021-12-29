@@ -89,13 +89,6 @@ class TicketsContoller extends GetxController {
           itemsSimple.add(itemSimple);
         }
 
-
-
-
-
-
-
-
         if(dataJson[i]["taxes"]!=null){
           for(var t=0 ; t <dataJson[i]["taxes"].length ; t ++){
 

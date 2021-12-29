@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:poshop/clients/controllers/ClientController.dart';
+import 'package:poshop/clients/tickets.dart';
 import 'package:poshop/helpers/widgetsHelper.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
@@ -17,7 +18,19 @@ class ClientIndividual extends StatelessWidget{
     loadingHud = helpers.initLoading(context);
 
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        actions: [
+          GestureDetector(
+            onTap: (){
+              Get.to(() => TicketsClient());
+            },
+            child: Container(
+              padding: EdgeInsets.all(20),
+              child: Text("Tickets"),
+            ),
+          )
+        ],
+      ),
       body:  SingleChildScrollView(
         child: Container(
           padding: EdgeInsets.all(10),
