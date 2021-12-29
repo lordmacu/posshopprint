@@ -19,8 +19,9 @@ class ClientIndividual extends StatelessWidget{
 
     return Scaffold(
       appBar: AppBar(
+        title: Text("${controllerClient.name.value}") ,
         actions: [
-          GestureDetector(
+          Obx(()=>controllerClient.tickets.value.length > 0 ? GestureDetector(
             onTap: (){
               Get.to(() => TicketsClient());
             },
@@ -28,7 +29,7 @@ class ClientIndividual extends StatelessWidget{
               padding: EdgeInsets.all(20),
               child: Text("Tickets"),
             ),
-          )
+          ) : Container())
         ],
       ),
       body:  SingleChildScrollView(

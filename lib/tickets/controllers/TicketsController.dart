@@ -19,6 +19,8 @@ class TicketsContoller extends GetxController {
   RxList<Ticket> tickets = RxList<Ticket>();
   Rx<Ticket> TicketIndividual= Rx<Ticket>();
   Rx<int> indexTicket= Rx<int>();
+
+
   var panelController = PanelController().obs;
 
   Client _client = new Client();

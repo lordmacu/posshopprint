@@ -33,6 +33,8 @@ class ClientContoller extends GetxController{
 
   var panelController= PanelController().obs;
 
+  var  points="0".obs;
+  var lastVisit="0".obs;
   var isPanelOpen=false.obs;
   var selectedClient=0.obs;
   var selectedClientName="".obs;
@@ -193,6 +195,8 @@ class ClientContoller extends GetxController{
       List<ClientUserModel> clients=[];
 
       for(var i = 0 ; i<  dataJson.length; i++){
+
+        log("este es del servidor   ${dataJson[i]}");
         ClientUserModel clientUserModel= ClientUserModel();
         clientUserModel.name=dataJson[i]["name"];
         clientUserModel.id=dataJson[i]["id"];
@@ -201,6 +205,8 @@ class ClientContoller extends GetxController{
         clientUserModel.postalCode=dataJson[i]["postalCode"];
         clientUserModel.address=dataJson[i]["address"];
         clientUserModel.email=dataJson[i]["email"];
+        clientUserModel.points="${dataJson[i]["points"]}";
+        clientUserModel.last_visit=dataJson[i]["last_visit"];
 
 
         List<Ticket> itemsLocal = [];

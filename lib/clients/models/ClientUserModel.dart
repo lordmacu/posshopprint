@@ -9,6 +9,15 @@ class ClientUserModel{
   String _postalCode;
   String _customerCode;
   String _email;
+  String _points;
+  String _last_visit;
+
+
+  String get points => _points;
+
+  set points(String value) {
+    _points = value;
+  }
 
   List<Ticket> _tickets=[];
 
@@ -66,5 +75,11 @@ class ClientUserModel{
   @override
   String toString() {
     return 'ClientUserModel{_id: $_id, _name: $_name, _address: $_address, _city: $_city, _postalCode: $_postalCode, _customerCode: $_customerCode, _email: $_email, _tickets: $_tickets}';
+  }
+
+  String get last_visit => _last_visit;
+
+  set last_visit(String value) {
+    _last_visit = value;
   }
 }

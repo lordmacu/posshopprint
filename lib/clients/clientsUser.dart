@@ -6,6 +6,7 @@ import 'package:poshop/categories/colors.dart';
 import 'package:poshop/categories/controllers/CategoryController.dart';
 import 'package:poshop/categories/models/Category.dart';
 import 'package:poshop/clients/clientIndividual.dart';
+import 'package:poshop/clients/clientView.dart';
 import 'package:poshop/clients/controllers/ClientController.dart';
 import 'package:poshop/clients/models/ClientUserModel.dart';
 
@@ -34,6 +35,7 @@ class ClientUser extends StatelessWidget {
       appBar: AppBar(
         elevation: 0,
 
+
         actions: [
           GestureDetector(
             onTap: (){
@@ -47,6 +49,11 @@ class ClientUser extends StatelessWidget {
               controllerClient.controllerCustomerCode.value.text="";
               controllerClient.categoryColor.value="";
               controllerClient.categoryName.value="";
+              controllerClient.name.value="";
+
+              controllerClient.points.value="0";
+              controllerClient.lastVisit.value="0";
+
               controllerClient.tickets.clear();
               controllerClient.tickets.refresh();
 
@@ -70,6 +77,7 @@ class ClientUser extends StatelessWidget {
               ClientUserModel client=controllerClient.items[index];
 
 
+              print("dando click a esto mano  ${client}");
 
               controllerClient.name.value=client.name;
               controllerClient.email.value=client.email;
@@ -77,6 +85,9 @@ class ClientUser extends StatelessWidget {
               controllerClient.city.value=client.city;
               controllerClient.postalCode.value=client.postalCode;
               controllerClient.customerCode.value=client.customerCode;
+
+              controllerClient.points.value=client.points;
+              controllerClient.lastVisit.value=client.last_visit;
 
               controllerClient.id.value=client.id;
 
@@ -96,7 +107,7 @@ class ClientUser extends StatelessWidget {
 
 
               controllerClient.isPanelOpen.value=true;
-               Get.to(() => ClientIndividual());
+               Get.to(() => ClientView());
 
             },
             child: Container(
