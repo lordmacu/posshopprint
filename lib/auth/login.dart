@@ -89,7 +89,7 @@ class Login extends StatelessWidget {
       builder: (context) {
         return PopBottomMenu(
           title: TitlePopBottomMenu(
-            label: "Seleccionar outlets",
+            label: "Seleccionar tiendas",
           ),
           items: items,
         );
@@ -121,6 +121,11 @@ class Login extends StatelessWidget {
                       style:
                           TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
                     ),
+                  ),
+                  Container(
+                    width: 100,
+                    margin: EdgeInsets.only(bottom: 15),
+                    child: Image.asset("assets/logos.png")
                   ),
 
                 ],

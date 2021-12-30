@@ -27,7 +27,7 @@ class ClientView extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              Container(
+              controllerClient.name.value != null  ?  Container(
 
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -37,8 +37,8 @@ class ClientView extends StatelessWidget {
                   ],
                 ),
                 margin: EdgeInsets.only(bottom: 30),
-              ),
-              Container(
+              ): Container(),
+              controllerClient.email.value != null ? Container(
                 margin: EdgeInsets.only(bottom: 20),
                 child: Row(
 
@@ -51,8 +51,8 @@ class ClientView extends StatelessWidget {
                     Text("${controllerClient.email.value}",style: TextStyle(fontSize: 15),)
                   ],
                 ),
-              ),
-              Container(
+              ) : Container(),
+              controllerClient.address.value != null ? Container(
                 margin: EdgeInsets.only(bottom: 20),
                 child: Row(
 
@@ -65,8 +65,8 @@ class ClientView extends StatelessWidget {
                     Text("${controllerClient.address.value}",style: TextStyle(fontSize: 15),)
                   ],
                 ),
-              ),
-              Container(
+              ) : Container(),
+              controllerClient.city.value != null ? Container(
                 margin: EdgeInsets.only(bottom: 20),
                 child: Row(
 
@@ -79,8 +79,8 @@ class ClientView extends StatelessWidget {
                     Text("${controllerClient.city.value}",style: TextStyle(fontSize: 15),)
                   ],
                 ),
-              ),
-              Container(
+              ): Container(),
+              controllerClient.postalCode.value != null ?  Container(
                 margin: EdgeInsets.only(bottom: 20),
                 child: Row(
 
@@ -93,8 +93,8 @@ class ClientView extends StatelessWidget {
                     Text("${controllerClient.postalCode.value}",style: TextStyle(fontSize: 15),)
                   ],
                 ),
-              ),
-              Container(
+              ) : Container(),
+              controllerClient.customerCode.value != null ? Container(
                 margin: EdgeInsets.only(bottom: 20),
                 child: Row(
 
@@ -107,7 +107,7 @@ class ClientView extends StatelessWidget {
                     Text("${controllerClient.customerCode.value}",style: TextStyle(fontSize: 15),)
                   ],
                 ),
-              ),
+              )  : Container(),
               Container(
                 margin: EdgeInsets.only(bottom: 20,top: 20),
                 child: null,
@@ -115,7 +115,7 @@ class ClientView extends StatelessWidget {
                 color: Colors.grey.withOpacity(0.3),
               )
               ,
-              InkWell(
+              controllerClient.points.value != null  ? InkWell(
                 onTap: (){
 
                 },
@@ -134,8 +134,8 @@ class ClientView extends StatelessWidget {
                     ],
                   ),
                 ),
-              ),
-              InkWell(
+              ) : Container(),
+              controllerClient.tickets.value !=null ? InkWell(
                 onTap: (){
                   Get.to(() => TicketsClient());
                 },
@@ -154,7 +154,7 @@ class ClientView extends StatelessWidget {
                     ],
                   ),
                 ),
-              ),
+              )  : Container(),
               controllerClient.lastVisit.value!= null ? Container(
                 margin: EdgeInsets.only(top: 20),
                 child: Row(
