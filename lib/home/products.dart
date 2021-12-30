@@ -249,7 +249,7 @@ class Products extends StatelessWidget {
                                                           Radius.circular(30)),
                                                       color: Colors.grey
                                                           .withOpacity(0.2)),
-                                                  width: 90,
+                                                  width: 100,
                                                   child: Row(
                                                     mainAxisAlignment:
                                                     MainAxisAlignment
@@ -257,6 +257,8 @@ class Products extends StatelessWidget {
                                                     children: [
                                                       InkWell(
                                                         child: Container(
+                                                          
+                                                          
                                                           child: Icon(
                                                             Icons.remove,
                                                             color: Colors.white,
@@ -271,6 +273,7 @@ class Products extends StatelessWidget {
                                                                   Radius
                                                                       .circular(
                                                                       50))),
+                                                          padding: EdgeInsets.all(5),
                                                         ),
                                                         onTap: () {
                                                           Cart isInCart =
@@ -308,7 +311,9 @@ class Products extends StatelessWidget {
 
                                                         },
                                                       ),
-                                                      Container(child: Obx(() {
+                                                      Container(
+                                                        padding: EdgeInsets.only(left: 5,right: 5),
+                                                          child: Obx(() {
                                                         Cart isInCart =
                                                         checkItemCart(product);
 
@@ -335,6 +340,8 @@ class Products extends StatelessWidget {
                                                           controlelrCart.addItemCart(product);
                                                         },
                                                         child: Container(
+                                                          padding: EdgeInsets.all(5),
+
                                                           child: Icon(
                                                             Icons.add,
                                                             color: Colors.white,

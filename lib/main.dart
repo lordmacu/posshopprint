@@ -39,6 +39,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return RestartWidget(
       child: GetMaterialApp(
+        debugShowCheckedModeBanner: false,
+
         title: 'Flutter Demo',
         theme: ThemeData(
 
@@ -57,6 +59,7 @@ class MyApp extends StatelessWidget {
 
         ],
         home: Redirector(),
+
       ),
     );
   }
