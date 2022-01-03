@@ -144,17 +144,22 @@ class Products extends StatelessWidget {
                               Row(
                                 children: [
                                   Container(
-                                    height: 80,
+                                    height: 100,
                                     width: 100,
                                     child: product.image!= null ? Image.network(
                                       product.image,
                                       fit: BoxFit.cover,
                                     ): Container(
-                                      width: 70,
+
                                       child: Column(
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
-                                          Image.asset("assets/${getShape(product.shape)}.png"),
+                                          Container(
+                                            width: 90  ,
+                                            height: 90,
+
+                                            child: Image.asset("assets/${getShape(product.shape)}.png",fit: BoxFit.cover,),
+                                          ),
                                           Container(
                                             margin: EdgeInsets.only(top: 5),
                                             child: null,
