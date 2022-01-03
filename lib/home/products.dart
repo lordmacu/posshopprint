@@ -145,6 +145,7 @@ class Products extends StatelessWidget {
                                 children: [
                                   Container(
                                     height: 80,
+                                    width: 100,
                                     child: product.image!= null ? Image.network(
                                       product.image,
                                       fit: BoxFit.cover,

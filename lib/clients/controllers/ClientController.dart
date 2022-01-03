@@ -118,6 +118,8 @@ class ClientContoller extends GetxController{
 
 
 
+
+
     try{
       var data = await _endpointProvider.updateCategories({
         "name":name,

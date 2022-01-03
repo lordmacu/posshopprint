@@ -25,7 +25,7 @@ class ClientView extends StatelessWidget {
       body: Container(
         margin: EdgeInsets.only(top: 20,left: 20,right: 20),
         child: SingleChildScrollView(
-          child: Column(
+          child: Obx(()=>Column(
             children: [
               controllerClient.name.value != null  ?  Container(
 
@@ -170,8 +170,14 @@ class ClientView extends StatelessWidget {
                 ),
               ): Container(),
               InkWell(
-                onTap: (){
-                  Get.to(() => ClientIndividual());
+                onTap: () async{
+                  var individidual= await Get.to(() => ClientIndividual());
+                  if(individidual!=null){
+                    if(individidual=="delete"){
+                      Get.back();
+                    }
+                  }
+                  print("aquii el individual  ${individidual}");
 
 
                 },
@@ -188,7 +194,7 @@ class ClientView extends StatelessWidget {
                 ),
               ),
             ],
-          ),
+          )),
         ),
       ),
     );

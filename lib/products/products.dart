@@ -116,6 +116,7 @@ class ProductsList extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Container(
+                              width: 100,
                               height: 80,
                               child: product.image!= null ? Image.network(
                                 product.image,

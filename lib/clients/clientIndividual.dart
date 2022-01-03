@@ -301,6 +301,8 @@ class ClientIndividual extends StatelessWidget{
 
                             Navigator.pop(context);
 
+                            Get.back(result: "delete");
+
                           },
                           color:  Colors.redAccent,
 
@@ -312,7 +314,11 @@ class ClientIndividual extends StatelessWidget{
                             "No",
                             style: TextStyle(color: Colors.white, fontSize: 20),
                           ),
-                          onPressed: () => Navigator.pop(context),
+                          onPressed: () {
+                            Navigator.pop(context);
+
+
+                          },
                           color:  Color(0xff298dcf),
 
                         ),
