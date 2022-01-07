@@ -20,7 +20,7 @@ TicketsContoller controllerTicket= Get.put(TicketsContoller());
 
     for(var i =0  ; i  < items.length ; i++ ){
 
-      print("aquiii cada uno o o asdf asd  ${items[i].ammout}  ${items[i].quantity} ");
+
 
       var salePrice=items[i].ammout/items[i].quantity;
 

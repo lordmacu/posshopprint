@@ -38,7 +38,6 @@ class CartProvider {
         }
       }
 
-      print("este es el sales price  ${items[i].product.salesPrice}  y esta es la cantidad  ${items[i].numberItem} ");
 
 
         itemsSave.add({

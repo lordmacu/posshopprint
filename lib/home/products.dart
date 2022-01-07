@@ -140,6 +140,9 @@ class Products extends StatelessWidget {
                             ],
                           ),
                           child: Column(
+
+
+
                             children: [
                               Row(
                                 children: [
@@ -413,7 +416,7 @@ class Products extends StatelessWidget {
                                                           buttons: [
                                                             DialogButton(
                                                               onPressed: () {
-                                                                print("este es el product  ${controllerPrice.text}");
+
 
                                                                 if(controllerPrice.text.length>0){
                                                                   var value=double.parse(controllerPrice.text);

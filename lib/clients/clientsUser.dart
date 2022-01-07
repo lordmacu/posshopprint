@@ -77,7 +77,7 @@ class ClientUser extends StatelessWidget {
               ClientUserModel client=controllerClient.items[index];
 
 
-              print("dando click a esto mano  ${client}");
+
 
               controllerClient.name.value=client.name;
               controllerClient.email.value=client.email;
@@ -102,7 +102,7 @@ class ClientUser extends StatelessWidget {
 
               controllerClient.tickets.refresh();
 
-              print("aquiii estoy cliente  ${client}");
+
 
 
 

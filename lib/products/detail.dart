@@ -796,8 +796,8 @@ class DetailProduct extends StatelessWidget {
                                             canSubmit = false;
 
                                           }
-                                          print("es o no imagen  ${controllerHome.isImagen.value}  ${controllerHome
-                                              .isFormSelected.value}");
+
+
                                           if (!controllerHome
                                               .isSelectedColor.value) {
                                             helpers.defaultAlert(

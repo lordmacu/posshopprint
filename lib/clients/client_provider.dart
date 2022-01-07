@@ -54,7 +54,7 @@ class ClientProvider {
 
   Future updateCategories(data) async {
 
-    print("aquyiii actualizando manito   ${data}");
+
     try {
       final response = await _client.put(
           '/clients/${data["id"]}',data: data);

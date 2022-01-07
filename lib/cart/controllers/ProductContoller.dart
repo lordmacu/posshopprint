@@ -79,7 +79,7 @@ class ProductContoller extends GetxController{
         return true;
       }
   /*  }catch(e){
-      print("aqui esta el error ${e}");
+
       return false;
     }*/
   }

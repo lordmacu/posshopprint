@@ -55,7 +55,7 @@ class DiscountContoller extends GetxController {
       return "ok";
 
     } catch (e) {
-      print("aqui esta el error cinco ${replaceExeptionText(e.toString())}");
+
       var json= replaceExeptionText(e.toString());
 
       return json;
@@ -85,7 +85,7 @@ class DiscountContoller extends GetxController {
       return "ok";
 
     } catch (e) {
-      print("aqui esta el error cinco ${replaceExeptionText(e.toString())}");
+
       var json= replaceExeptionText(e.toString());
 
       return json;
@@ -112,7 +112,7 @@ class DiscountContoller extends GetxController {
       return "ok";
 
     } catch (e) {
-      print("aqui esta el error cinco ${replaceExeptionText(e.toString())}");
+
       var json= replaceExeptionText(e.toString());
 
       return json;
@@ -161,7 +161,7 @@ class DiscountContoller extends GetxController {
       }
 
       } catch (e) {
-      print("aqui esta el error cinco ${e}");
+
      return false;
     }
   }

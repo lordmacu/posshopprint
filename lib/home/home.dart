@@ -134,7 +134,7 @@ class Home extends StatelessWidget   {
                 var indexProduct= await controllerHome.findProductIndex(data);
                 loadingHud.dismiss();
 
-                print("este es el idex mano  ${indexProduct}");
+
 
                 if(indexProduct["product"]!=null){
                   controlelrCart.addItemCart(indexProduct["product"]);

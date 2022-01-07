@@ -21,7 +21,7 @@ class ProductProvider {
     prefs = await SharedPreferences.getInstance();
 
     var outletId="${prefs.getInt("outletId")}";
-    print("este es el outlet Id  ${outletId}");
+
     try {
 
       final response = await _client.get(
@@ -118,7 +118,7 @@ class ProductProvider {
     prefs = await SharedPreferences.getInstance();
 
     var outletId="${prefs.getInt("outletId")}";
-    print("este es el outlet Id  ${outletId}");
+
     try {
       final response = await _client.post(
           '/items',data: product);

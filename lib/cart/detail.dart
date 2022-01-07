@@ -482,8 +482,7 @@ class DetailProduct extends StatelessWidget {
                                                     onColorChange: (color) {
                                                       controllerHome.categorySelect
                                                           .value = color.value;
-                                                      print(
-                                                          "este es el color ${color.value}");
+
                                                       Navigator.of(context).pop();
                                                     },
                                                   ),

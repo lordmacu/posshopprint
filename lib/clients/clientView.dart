@@ -11,7 +11,6 @@ class ClientView extends StatelessWidget {
 
   getDateSpanish(date){
     return DateFormat( "dd MMM yyyy", "es_ES").format(DateTime.parse(date));
-
   }
 
   @override
@@ -177,7 +176,7 @@ class ClientView extends StatelessWidget {
                       Get.back();
                     }
                   }
-                  print("aquii el individual  ${individidual}");
+
 
 
                 },

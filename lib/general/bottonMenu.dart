@@ -143,7 +143,7 @@ class BottomMenu extends StatelessWidget {
           opacity: .2,
           currentIndex: controller.positionMenu.value,
           onTap: (value)  async{
-            print("asdfa   sd as  ${value} ");
+
 
 
 

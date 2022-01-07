@@ -76,7 +76,7 @@ class ProductsContoller extends GetxController {
 
   @override
   void onReady() async {
-    print("cargando otra vez");
+
 
   }
 
@@ -84,7 +84,7 @@ class ProductsContoller extends GetxController {
   void onInit() async {
     var prefs = await SharedPreferences.getInstance();
 
-    print("cargando otra vez  ${prefs.getString("token")}");
+
 
 
     _endpointProvider = new ProductProvider(_client.init(prefs.getString("token")));
@@ -110,7 +110,7 @@ class ProductsContoller extends GetxController {
       divisible.value=false;
     }
 
-    print("sadf asdf asdf asd   ${product.divisible}  ${divisible.value}");
+
 
     if(product.image!=null){
       imageUpload.value=product.image;
@@ -159,7 +159,7 @@ class ProductsContoller extends GetxController {
       var colors="0xff${product.color}".replaceAll("#", "");
       selectedColor.value=int.parse(colors);
 
-      print("productname  ${ selectedForm.value}  ${item_id.value}");
+
 
     }else{
       isImagen.value=false;
@@ -269,7 +269,7 @@ class ProductsContoller extends GetxController {
 
       }
     } catch (e) {
-      print("aqui esta el error uno ${e.toString()}");
+
       return replaceExeptionText(e.message);
 
      }
@@ -323,7 +323,7 @@ class ProductsContoller extends GetxController {
         return "ok";
       }
     } catch (e) {
-      print("aqui esta el error dos ${e.toString()}");
+
       return replaceExeptionText(e.message);
     }
   }
@@ -337,7 +337,7 @@ class ProductsContoller extends GetxController {
   }
 
   Future updateProduct() async {
-    print("aquii actualiza");
+
 
     var prefs = await SharedPreferences.getInstance();
 
@@ -380,7 +380,7 @@ class ProductsContoller extends GetxController {
       }
 
 
-      print("aquiii el objeto  ${productObject}");
+
       var data=null;
       data = await _endpointProvider.updateProduct(productObject,item_id);
 
@@ -390,7 +390,7 @@ class ProductsContoller extends GetxController {
         return "ok";
       }
     } catch (e) {
-      print("aqui esta el error tres ${e.toString()}");
+
       return replaceExeptionText(e.message);
     }
   }
@@ -400,7 +400,7 @@ class ProductsContoller extends GetxController {
      _endpointProvider =
     new ProductProvider(_client.init(prefs.getString("token")));
 
-    print("cargando otra veddddz  ${prefs.getString("token")}");
+
     products.refresh();
     products.clear();
     products.refresh();
@@ -455,7 +455,7 @@ class ProductsContoller extends GetxController {
    } catch (e) {
       controllerLoading.isLoading.value=false;
 
-      print("aqui esta el error cuatro ${e.toString()}");
+
       return e.toString();
     }
   }

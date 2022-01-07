@@ -272,7 +272,7 @@ class ClientContoller extends GetxController{
           var outputFormat = DateFormat('MM/dd/yyyy hh:mm a');
           var outputDate = outputFormat.format(inputDate);
 
-          print("asdfasdf asd datetime  ${outputDate}");
+
 
           Ticket ticket = Ticket();
           ticket.id=tickets[t]["id"];

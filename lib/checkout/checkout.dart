@@ -122,7 +122,7 @@ class Checkout extends StatelessWidget {
 
 
     if(controllerCheckout.valueCheckout.value!=""){
-      print("aqwuiii el valor   ${controllerCheckout.totalCheckout.value}   ${double.parse (controllerCheckout.valueCheckout.value).toInt()} ");
+
       return controllerCheckout.totalCheckout.value>= double.parse (controllerCheckout.valueCheckout.value).toInt();
     }
     return false;

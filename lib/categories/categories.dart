@@ -99,7 +99,7 @@ class Categories extends StatelessWidget {
                           "Ingresa el nombre de la categoría");
                       return false;
                     }
-                    print("esta es la categorya");
+
 
                     if(categoryColor.length==0){
                       helpers.defaultAlert(context, "error", "Color de la categoría",

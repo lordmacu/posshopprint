@@ -29,7 +29,7 @@ class _Redirector extends State<Redirector> {
 
     await controllerAuth.setToken();
     var checkIfLogged= await controllerAuth.checkIfLogged();
-    print("aquiii esta la cosa  ${checkIfLogged} ");
+
 
     if(checkIfLogged!=null){
 

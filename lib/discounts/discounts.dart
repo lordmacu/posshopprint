@@ -197,7 +197,7 @@ class Discounts extends StatelessWidget {
                         controllerDiscounts.DiscountSingular.value.limitedAccess=0;
                         var result;
 
-                        print("erste es el valor   ${controllerDiscounts.DiscountSingular.value.id}");
+
                         loadingHud.show();
                         if(controllerDiscounts.DiscountSingular.value.id!=null){
                            result= await controllerDiscounts.editDiscounts();
@@ -309,7 +309,7 @@ class Discounts extends StatelessWidget {
                                         nameController.text=discount.name;
                                         controllerDiscounts.nameDiscount.value=discount.name;
 
-                                        print(controllerDiscounts.DiscountSingular.value.name);
+
 
                                         if(discount.calculationType=="PERCENT"){
                                           controllerDiscounts.typeDiscount.value=true;

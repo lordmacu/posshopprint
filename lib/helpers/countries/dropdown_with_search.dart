@@ -59,7 +59,7 @@ class DropdownWithSearch<T> extends StatelessWidget {
                       _lastSelected = value;
                     }
                     else {
-                      print("Value NULL $value $_lastSelected");
+
                       onChanged(_lastSelected);
                     }*/
           });

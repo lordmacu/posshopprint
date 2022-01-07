@@ -83,7 +83,7 @@ class CheckoutContoller extends GetxController {
     }
 
 
-print("aquii valor uno   ${valueCheckout.value}  ${tempBalance}  ${noBalance}");
+
     var midValue= (double.parse(valueCheckout.value).toInt()-tempBalance)/noBalance;
 
     for(var i =0; i< paymentCheckoutsItems.length; i++){
@@ -131,7 +131,7 @@ print("aquii valor uno   ${valueCheckout.value}  ${tempBalance}  ${noBalance}");
       }
 
     } catch (e) {
-      print("aqui esta el error check ${e}");
+
       return false;
     }
   }

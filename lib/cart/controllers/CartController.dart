@@ -100,7 +100,7 @@ class CartContoller extends GetxController {
         return true;
       }
     } catch (e) {
-      print("aqui esta el error cart ${e.toString()}");
+
       return false;
     }
   }

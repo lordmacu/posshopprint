@@ -614,7 +614,8 @@ class CSCPickerState extends State<CSCPicker> {
 
   void _setDefaultCountry() {
     if (widget.defaultCountry != null) {
-      print(_country[DefaultCountries[widget.defaultCountry]]);
+
+
       _onSelectedCountry(_country[DefaultCountries[widget.defaultCountry]]);
     }
   }
@@ -932,7 +933,8 @@ class CSCPickerState extends State<CSCPicker> {
       label: widget.citySearchPlaceholder,
       //onChanged: (value) => _onSelectedCity(value),
       onChanged: (value) {
-        //print("cityChanged $value $_selectedCity");
+
+
         value != null ? _onSelectedCity(value) : _onSelectedCity(_selectedCity);
       },
     );
