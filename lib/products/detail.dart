@@ -553,6 +553,18 @@ class DetailProduct extends StatelessWidget {
                                       if (val) {
                                         controllerHome
                                             .imageUpload.value = "";
+                                        controllerHome.color.value = "#E0E0E0";
+                                        controllerHome.shape.value = "SQUARE";
+
+
+                                        var colors="0xffE0E0E0";
+                                        controllerHome.selectedColor.value=int.parse(colors);
+
+                                        controllerHome.selectedForm.value="square.png";
+                                        controllerHome
+                                            .isFormSelected
+                                            .value=true;
+                                        controllerHome.isSelectedColor.value=true;
                                       }
 
                                       controllerHome.isImagen.value =
