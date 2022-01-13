@@ -1,5 +1,6 @@
 import 'package:checkbox_grouped/checkbox_grouped.dart';
 import 'package:easy_mask/easy_mask.dart';
+import 'package:extended_masked_text/extended_masked_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -32,6 +33,7 @@ class SingleCart extends StatelessWidget {
   DiscountContoller controllerDiscount = Get.find();
   DiscountHomeController controllerDiscountHome = Get.put(DiscountHomeController());
   CategoryContoller controllerCategory = Get.find();
+  final controllerSize = MaskedTextController(mask: '0,000');
 
 
   formatedNumber(number) {
@@ -70,6 +72,11 @@ class SingleCart extends StatelessWidget {
     for(var i = 0; i <controllerCategory.taxes.length; i ++){
       taxesText.add("${controllerCategory.taxes[i].name} ${controllerCategory.taxes[i].rate}%");
       taxesTextValues.add(controllerCategory.taxes[i].id);
+    }
+
+    if(controlelrCart.items[indexItem].product != 0){
+      controllerSize.text="${item.product.divisible==0   ? item.numberItem : item.numberItem.toInt()}";
+
     }
 
 
@@ -195,16 +202,18 @@ class SingleCart extends StatelessWidget {
               },
               keyboardType: TextInputType.number,
 
-              initialValue: "${item.product.divisible==0   ? item.numberItem : item.numberItem.toInt()}",
+
               decoration: InputDecoration(
                 labelText: 'Cantidad',
               ),
+              controller: controllerSize,
               onChanged: (value){
 
                 if(value.length>0){
-                  var cantidad= double.parse(value);
+                  var valueFormated= value.replaceAll(",", ".");
+                  var cantidad= double.parse(valueFormated);
                   if(cantidad>0){
-                    controlelrCart.items[indexItem].numberItem=double.parse(value);
+                    controlelrCart.items[indexItem].numberItem=cantidad;
                     controlelrCart.items.refresh();
                   }
                 }

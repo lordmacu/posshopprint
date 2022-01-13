@@ -52,6 +52,7 @@ dependencies:
   flutter_barcode_scanner: 1.0.2
 
   checkbox_grouped: ^1.7.1
+  extended_masked_text: ^2.3.1
 
 
 
