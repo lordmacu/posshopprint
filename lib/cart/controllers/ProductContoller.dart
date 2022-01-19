@@ -9,6 +9,8 @@ import 'package:poshop/products/product_provider.dart';
 import 'package:poshop/service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:developer';
+import 'package:poshop/products/controllers/ProductContoller.dart' as p;
+
 
 class ProductContoller extends GetxController{
 
@@ -19,6 +21,11 @@ class ProductContoller extends GetxController{
   var selectedForm = "square".obs;
   var step = 0.obs;
   var products=[].obs;
+
+  p.ProductsContoller controllerProduct = Get.find();
+
+
+
 
 
   Client _client = new Client();
@@ -41,7 +48,7 @@ class ProductContoller extends GetxController{
 
     _endpointProvider = new ProductProvider(_client.init(prefs.getString("token")));
 
-    var data = await _endpointProvider.getProducts();
+    var data = await _endpointProvider.getProducts(controllerProduct.search.value);
 
 
      if(data["success"]){

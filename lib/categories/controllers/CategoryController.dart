@@ -6,6 +6,7 @@ import 'package:poshop/auth/controllers/AuthController.dart';
 import 'package:poshop/categories/category_provider.dart';
 import 'package:poshop/categories/models/Category.dart';
 import 'package:poshop/checkout/controllers/CheckoutController.dart';
+import 'package:poshop/home/controllers/HomeController.dart';
 import 'package:poshop/home/model/Tax.dart';
 
 import 'package:poshop/service.dart';
@@ -19,6 +20,7 @@ class CategoryContoller extends GetxController{
   ProductsContoller controllerProduct = Get.find();
 
   CheckoutContoller controllerCheckout=  Get.put(CheckoutContoller());
+  HomeContoller controllerHome=  Get.put(HomeContoller());
 
   var panelController= PanelController().obs;
 
@@ -172,7 +174,7 @@ class CategoryContoller extends GetxController{
 
         items.assignAll(categoryes);
 
-        controllerProduct.getProducts();
+        controllerProduct.getProducts(controllerProduct.search.value);
         getTaxes();
         controllerCheckout.getPayments();
 

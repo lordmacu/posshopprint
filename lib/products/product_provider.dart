@@ -17,7 +17,8 @@ class ProductProvider {
   SharedPreferences prefs;
   var random = new Random();
 
-  Future getProducts() async {
+
+  Future getProducts(search) async {
     prefs = await SharedPreferences.getInstance();
 
     var outletId="${prefs.getInt("outletId")}";
@@ -25,7 +26,7 @@ class ProductProvider {
     try {
 
       final response = await _client.get(
-          '/items?outlet_id=${outletId}&itemsPerPage=1000&page=1&search=');
+          '/items?outlet_id=${outletId}&itemsPerPage=1000&page=1&search=${search}');
 
       d.log("aquiii esta el log de las categorias   ${response.toString()}");
       return json.decode(response.toString());

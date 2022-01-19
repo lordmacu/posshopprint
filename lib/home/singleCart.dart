@@ -75,7 +75,7 @@ class SingleCart extends StatelessWidget {
     }
 
     if(controlelrCart.items[indexItem].product != 0){
-      controllerSize.text="${item.product.divisible==0   ? item.numberItem : item.numberItem.toInt()}";
+      controllerSize.text="${item.product.divisible==1   ? item.numberItem : item.numberItem.toInt()}";
 
     }
 

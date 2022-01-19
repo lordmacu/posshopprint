@@ -18,6 +18,8 @@ import 'package:poshop/home/controllers/HomeController.dart';
 import 'package:poshop/home/controllers/LoadingController.dart';
 import 'package:poshop/redirector.dart';
 import 'package:poshop/tickets/controllers/TicketsController.dart';
+import 'package:poshop/products/controllers/ProductContoller.dart' as p;
+
 
 class BottomMenu extends StatelessWidget {
   MenuContoller controller = Get.find();
@@ -29,6 +31,7 @@ class BottomMenu extends StatelessWidget {
   CategoryContoller controllerCategory = Get.find();
   DiscountContoller controllerDiscount = Get.find();
   ClientContoller controllerClient = Get.find();
+  p.ProductsContoller controllerProducts = Get.put(p.ProductsContoller());
 
   void _showMenu(context) {
     showModalBottomSheet(
@@ -160,6 +163,9 @@ class BottomMenu extends StatelessWidget {
                 await controllerTicket.getTickets();
               }
               if(value==2){
+
+                controllerProducts.search.value="";
+
                 await controllerProduct.getProducts();
                 await controllerCategory.getCategories();
               }

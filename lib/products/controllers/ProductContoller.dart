@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:poshop/categories/controllers/CategoryController.dart';
 import 'package:poshop/categories/models/Category.dart';
 import 'package:poshop/discounts/controllers/DiscountContoller.dart';
 import 'package:poshop/home/controllers/HomeController.dart';
@@ -25,6 +26,7 @@ class ProductsContoller extends GetxController {
   Rx<PanelController> panelController = PanelController().obs;
   LoadingController controllerLoading = Get.put(LoadingController());
   DiscountContoller controllerDiscount= Get.put(DiscountContoller());
+  ///CategoryContoller controllerCategory= Get.put(CategoryContoller());
 
   var isOpenCreator= false.obs;
   var indificualTicket = false.obs;
@@ -67,6 +69,7 @@ class ProductsContoller extends GetxController {
   final referenceController = TextEditingController();
   final barCodeController = TextEditingController();
 
+  var search="".obs;
 
   var isImagen=false.obs;
 
@@ -88,7 +91,10 @@ class ProductsContoller extends GetxController {
 
 
     _endpointProvider = new ProductProvider(_client.init(prefs.getString("token")));
-    getProducts();
+    getProducts(this.search);
+   // controllerCategory.getCategories();
+    
+    
 
   }
 
@@ -105,9 +111,9 @@ class ProductsContoller extends GetxController {
     barCodeController.text="${product.barCode}";
 
     if(product.divisible==1){
-      divisible.value=true;
-    }else{
       divisible.value=false;
+    }else{
+      divisible.value=true;
     }
 
 
@@ -292,7 +298,7 @@ class ProductsContoller extends GetxController {
         "color": color.value,
         "shape":  shape.value,
         "allOutlets": allOutlets.value,
-        "divisible": divisible.value ? "1" : "0",
+        "divisible": divisible.value ? "0" : "1",
         "keepCount": keepCount.value,
         "salePrice": salePrice.value,
         "primeCost": primeCost.value,
@@ -317,7 +323,7 @@ class ProductsContoller extends GetxController {
       var data=null;
 
    data = await _endpointProvider.createProduct(productObject);
-   getProducts();
+   getProducts(this.search);
 
       if (data["success"]) {
         return "ok";
@@ -357,7 +363,7 @@ class ProductsContoller extends GetxController {
         "color": color.value,
         "shape":  shape.value,
         "allOutlets": allOutlets.value,
-        "divisible": divisible.value ? "1" : "0",
+        "divisible": divisible.value ? "0" : "1",
         "keepCount": keepCount.value,
         "salePrice": salePrice.value,
         "primeCost": primeCost.value,
@@ -384,7 +390,7 @@ class ProductsContoller extends GetxController {
       var data=null;
       data = await _endpointProvider.updateProduct(productObject,item_id);
 
-      getProducts();
+      getProducts(this.search);
 
       if (data["success"]) {
         return "ok";
@@ -395,7 +401,7 @@ class ProductsContoller extends GetxController {
     }
   }
 
-  getProducts() async {
+  getProducts(search) async {
     var prefs = await SharedPreferences.getInstance();
      _endpointProvider =
     new ProductProvider(_client.init(prefs.getString("token")));
@@ -407,7 +413,7 @@ class ProductsContoller extends GetxController {
 
     controllerLoading.isLoading.value=true;
    try {
-      var data = await _endpointProvider.getProducts();
+      var data = await _endpointProvider.getProducts(search);
 
       if (data["success"]) {
         var dataJsonGeneral = (data["data"]);

@@ -9,6 +9,7 @@ import 'package:intl/intl.dart';
 import 'package:masonry_grid/masonry_grid.dart';
 import 'package:poshop/cart/controllers/CartController.dart';
 import 'package:poshop/cart/model/Cart.dart';
+import 'package:poshop/categories/controllers/CategoryController.dart';
 import 'package:poshop/checkout/checkout.dart';
 import 'package:poshop/checkout/controllers/CheckoutController.dart';
 import 'package:poshop/discounts/controllers/DiscountContoller.dart';
@@ -87,6 +88,7 @@ class Products extends StatelessWidget {
   ProductsContoller controllerProduct = Get.find();
   CartContoller controlelrCart =Get.find();
   CheckoutContoller controllerCheckout = Get.find();
+  CategoryContoller controllerCategory = Get.find();
 
 
 
@@ -161,22 +163,63 @@ class Products extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-
+    controllerCategory.getCategories();
 
     return Expanded(
         child: Stack(
       children: [
 
 
+        Column(
+          children: [
+            Container(
+              padding: EdgeInsets.only(left: 20,right: 20),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: TextFormField(
 
-        Container(
+                      onChanged: (value) {
+                        controllerProduct.search.value=value;
+                      },
+                      decoration: InputDecoration(
+                          suffixIcon: new Icon(
+                            Icons.search,
+                            color: Colors.white,
+                          ),
 
-            padding: EdgeInsets.only(left: 20, right: 20, top: 15),
-            child: Obx(() => controllerHome.itemScrollController.value!=null ? ListView.builder(
+                          hintText:
+                          "Escribe el nombre del producto"),
+                      // The validator receives the text that the user has entered.
+
+                    ),
+
+                  ),
+                  Container(
+                    padding: EdgeInsets.only(left: 10,top: 15),
+                    width: 70,
+                    child: RaisedButton(onPressed: (){
+
+                      controllerProduct.getProducts(controllerProduct.search.value);
+                    },
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30.0),
+                      ),
+                      color: Color(0xff298dcf),
+                      child: Icon(Icons.search,color: Colors.white,),
+                    ),
+                  )
+                ],
+              ),
+
+            ),
+            Expanded(child: Container(
+
+                padding: EdgeInsets.only(left: 20, right: 20, top: 15),
+                child: Obx(() => controllerHome.itemScrollController.value!=null ? ListView.builder(
 
 
-              padding: EdgeInsets.only(bottom: 100),
+                  padding: EdgeInsets.only(bottom: 100),
                   itemCount: controllerProduct.products.length,
                   itemBuilder: (context, index) {
                     Product product = controllerProduct.products[index];
@@ -305,7 +348,7 @@ class Products extends StatelessWidget {
                                                 ),
                                               ],
                                             ),
-                                            product.divisible != 0  ?  Row(
+                                            product.divisible != 1  ?  Row(
                                               mainAxisAlignment:
                                               MainAxisAlignment.end,
                                               children: [
@@ -330,8 +373,8 @@ class Products extends StatelessWidget {
                                                     children: [
                                                       InkWell(
                                                         child: Container(
-                                                          
-                                                          
+
+
                                                           child: Icon(
                                                             Icons.remove,
                                                             color: Colors.white,
@@ -385,29 +428,29 @@ class Products extends StatelessWidget {
                                                         },
                                                       ),
                                                       Container(
-                                                        padding: EdgeInsets.only(left: 5,right: 5),
+                                                          padding: EdgeInsets.only(left: 5,right: 5),
                                                           child: Obx(() {
-                                                        Cart isInCart =
-                                                        checkItemCart(product);
+                                                            Cart isInCart =
+                                                            checkItemCart(product);
 
-                                                        if (isInCart == null) {
-                                                          return Text(
-                                                            "0",
-                                                            style: TextStyle(
-                                                                fontSize: 20),
-                                                          );
-                                                        } else {
-                                                          int cartIndex =
-                                                          checkItemCartIndex(
-                                                              product);
+                                                            if (isInCart == null) {
+                                                              return Text(
+                                                                "0",
+                                                                style: TextStyle(
+                                                                    fontSize: 20),
+                                                              );
+                                                            } else {
+                                                              int cartIndex =
+                                                              checkItemCartIndex(
+                                                                  product);
 
-                                                          return Text(
-                                                            "${controlelrCart.items[cartIndex].numberItem.toInt()}",
-                                                            style: TextStyle(
-                                                                fontSize: 20),
-                                                          );
-                                                        }
-                                                      })),
+                                                              return Text(
+                                                                "${controlelrCart.items[cartIndex].numberItem.toInt()}",
+                                                                style: TextStyle(
+                                                                    fontSize: 20),
+                                                              );
+                                                            }
+                                                          })),
                                                       InkWell(
                                                         onTap: () {
                                                           controlelrCart.addItemCart(product);
@@ -450,7 +493,7 @@ class Products extends StatelessWidget {
                                                     onPressed: (){
 
                                                       TextEditingController controllerPrice= TextEditingController();
-                                                      final controller = MaskedTextController(mask: '0,000');
+                                                      final controller = MaskedTextController(mask: '000,000');
 
                                                       Alert(
                                                           context: context,
@@ -526,7 +569,11 @@ class Products extends StatelessWidget {
                           ),
                         ));
                   },
-                ): Container())),
+                ): Container())))
+          ],
+        ),
+
+
         Align(
           alignment: Alignment.bottomCenter,
           child: Container(
@@ -579,7 +626,7 @@ class Products extends StatelessWidget {
 
                                       margin: EdgeInsets.only(right: 10),
                                       child: Text(
-                                        "${items[i].product.itemNme}  x ${items[i].product.divisible == 0 ? items[i].numberItem: items[i].numberItem.toInt() }",
+                                        "${items[i].product.itemNme}  x ${items[i].product.divisible == 1 ? items[i].numberItem: items[i].numberItem.toInt() }",
                                         style: TextStyle(fontSize: 15),
                                       ),
                                     )),

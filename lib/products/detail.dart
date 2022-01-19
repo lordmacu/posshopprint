@@ -316,6 +316,7 @@ class DetailProduct extends StatelessWidget {
                                 ? Column(
                               mainAxisSize: MainAxisSize.min,
                               children: [
+
                                 TextFormField(
                                   controller:
                                   controllerHome.nameController,
