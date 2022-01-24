@@ -493,7 +493,7 @@ class Products extends StatelessWidget {
                                                     onPressed: (){
 
                                                       TextEditingController controllerPrice= TextEditingController();
-                                                      final controller = MaskedTextController(mask: '000,000');
+                                                      final controller = TextEditingController();
 
                                                       Alert(
                                                           context: context,
@@ -540,13 +540,7 @@ class Products extends StatelessWidget {
                                                                     controller.text="";
                                                                   }
                                                                 }
-
-
-
                                                                 Navigator.pop(context);
-
-
-
                                                               },
                                                               child: Text(
                                                                 "Agregar",

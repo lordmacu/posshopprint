@@ -33,7 +33,7 @@ class SingleCart extends StatelessWidget {
   DiscountContoller controllerDiscount = Get.find();
   DiscountHomeController controllerDiscountHome = Get.put(DiscountHomeController());
   CategoryContoller controllerCategory = Get.find();
-  final controllerSize = MaskedTextController(mask: '0,000');
+  final controllerSize = TextEditingController();
 
 
   formatedNumber(number) {
