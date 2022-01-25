@@ -1,60 +1,53 @@
-
 import 'dart:convert';
 
 import 'package:get/get.dart';
-import 'package:poshop/helpers/RestartWidget.dart';
-
 import 'package:poshop/service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-
-class AuthContoller extends GetxController{
-
-  var isLogin=true.obs;
-  var isLogged=false.obs;
-  var email= "".obs;
-  var password= "".obs;
-  var pin= "".obs;
-  var business= "".obs;
+class AuthContoller extends GetxController {
+  var isLogin = true.obs;
+  var isLogged = false.obs;
+  var email = "".obs;
+  var password = "".obs;
+  var pin = "".obs;
+  var business = "".obs;
 
   Client _client = new Client();
   var _endpointProvider;
-  var token="".obs;
+  var token = "".obs;
   SharedPreferences prefs;
 
   @override
   void onInit() async {
-    var  prefs = await SharedPreferences.getInstance();
+    var prefs = await SharedPreferences.getInstance();
 
-    if(prefs.getString("token") != null){
-      _endpointProvider = new AuthProvider(_client.init(prefs.getString("token")));
-
-    }else{
+    if (prefs.getString("token") != null) {
+      _endpointProvider =
+          new AuthProvider(_client.init(prefs.getString("token")));
+    } else {
       _endpointProvider = new AuthProvider(_client.init(" "));
     }
 
-     initPRefs();
+    initPRefs();
   }
 
-  initPRefs() async{
+  initPRefs() async {}
+
+  setToken() async {
+    var prefs = await SharedPreferences.getInstance();
+
+    token.value = prefs.getString("token");
   }
 
-  setToken() async{
-  var  prefs = await SharedPreferences.getInstance();
-
-     token.value= prefs.getString("token");
-
-  }
-
-  checkIfLogged() async{
+  checkIfLogged() async {
     prefs = await SharedPreferences.getInstance();
     return prefs.getBool("isLogged");
   }
 
-  logout() async{
+  logout() async {
     prefs = await SharedPreferences.getInstance();
-      prefs.setBool("isLogged",false);
-    prefs.setInt("idOrg", 0);
+    prefs.setBool("isLogged", false);
+
     prefs.setString("user", "");
 
     prefs.setInt("outletId", 0);
@@ -62,70 +55,67 @@ class AuthContoller extends GetxController{
     prefs.setInt("cashierId", 0);
 
     prefs.setString("token", "");
-    this.token.value="";
-
-
+    prefs.setInt("idOrg", 0);
+    this.token.value = "";
   }
 
-  void loginUserSystem(login,data) async{
+  void loginUserSystem(login, data) async {
     prefs = await SharedPreferences.getInstance();
 
     prefs.setBool("isLogged", login);
 
-    if(data!=null){
+    if (data != null) {
       prefs.setString("user", jsonEncode(data));
       //prefs.setInt("outletId",  data["user"]["outlet"]["id"]);
       //prefs.setInt("cashRegister",  data["user"]["cashRegister"]["id"]);
-        prefs.setInt("idOrg", data["idOrg"]);
+      prefs.setInt("idOrg", data["idOrg"]);
       prefs.setString("token", data["token"]);
-      token.value=data["token"];
+      token.value = data["token"];
       outletsAvailable();
-
     }
 
-    isLogged.value=login;
+    isLogged.value = login;
   }
 
-
-
-  login() async{
-    try{
-      var data = await _endpointProvider.login(email,password);
-       if(data["success"]){
-     //   loginUserSystem(true,data["data"]);
+  login() async {
+    try {
+      var data = await _endpointProvider.login(email, password);
+      if (data["success"]) {
+        //   loginUserSystem(true,data["data"]);
 
         return data["data"];
       }
-    }catch(e){
-      loginUserSystem(false,null);
+    } catch (e) {
+      loginUserSystem(false, null);
       return replaceExeptionText(e.message);
     }
   }
 
-
-  outletsAvailable() async{
+  outletsAvailable() async {
     prefs = await SharedPreferences.getInstance();
 
-    _endpointProvider = new AuthProvider(_client.init(prefs.getString("token")));
+    _endpointProvider =
+        new AuthProvider(_client.init(prefs.getString("token")));
 
-    try{
+    try {
       var data = await _endpointProvider.outletAvailable();
-      if(data["success"]){
-
+      if (data["success"]) {
         prefs = await SharedPreferences.getInstance();
 
-        if(data["data"]!=null){
+        if (data["data"] != null) {
           prefs.setString("outlet", jsonEncode(data["data"][0]));
           prefs.setInt("outletId", data["data"][0]["id"]);
-          prefs.setString("cashier", jsonEncode(data["data"][0]["cashregisters_inactives"][0]));
-          prefs.setInt("cashierId", data["data"][0]["cashregisters_inactives"][0]["id"]);
+          prefs.setString("cashier",
+              jsonEncode(data["data"][0]["cashregisters_inactives"][0]));
+          prefs.setInt(
+              "cashierId", data["data"][0]["cashregisters_inactives"][0]["id"]);
 
           cashRegister();
         }
 
         return true;
       }
-    }catch(e){
+    } catch (e) {
       prefs = await SharedPreferences.getInstance();
       prefs.setString("outlet", "");
       prefs.setInt("outletId", 0);
@@ -139,57 +129,54 @@ class AuthContoller extends GetxController{
     }
   }
 
-  cashRegister() async{
+  cashRegister() async {
     prefs = await SharedPreferences.getInstance();
 
-     _endpointProvider = new AuthProvider(_client.init(prefs.getString("token")));
+    _endpointProvider =
+        new AuthProvider(_client.init(prefs.getString("token")));
 
-    try{
-      var data = await _endpointProvider.cashRegister(prefs.getInt("cashierId"));
+    try {
+      var data =
+          await _endpointProvider.cashRegister(prefs.getInt("cashierId"));
 
-      if(data["success"]){
-
+      if (data["success"]) {
         return true;
       }
-    }catch(e){
-
+    } catch (e) {
       return false;
     }
   }
 
-
-  loginPin() async{
+  loginPin() async {
     prefs = await SharedPreferences.getInstance();
-    try{
-      var data = await _endpointProvider.loginPin(pin,prefs.getString("idOrg"));
-      if(data["success"]){
-        loginUserSystem(true,data["data"]);
+    try {
+      var data =
+          await _endpointProvider.loginPin(pin, prefs.getString("idOrg"));
+      if (data["success"]) {
+        loginUserSystem(true, data["data"]);
         return true;
       }
-    }catch(e){
-    //  loginUserSystem(false,null);
+    } catch (e) {
+      //  loginUserSystem(false,null);
       return false;
     }
   }
 
-  register() async{
-    try{
-      var data = await _endpointProvider.register(email,password,business);
+  register() async {
+    try {
+      var data = await _endpointProvider.register(email, password, business);
 
-      if(data["success"]){
-        loginUserSystem(true,data["data"]);
+      if (data["success"]) {
+        loginUserSystem(true, data["data"]);
         return "ok";
       }
-    }catch(e){
-
-    loginUserSystem(false,null);
-     return replaceExeptionText(e.message);
-
+    } catch (e) {
+      loginUserSystem(false, null);
+      return replaceExeptionText(e.message);
     }
   }
 
-  replaceExeptionText(String text){
-   return  jsonDecode(text.replaceAll("Exception: ", ""));
+  replaceExeptionText(String text) {
+    return jsonDecode(text.replaceAll("Exception: ", ""));
   }
-
 }
